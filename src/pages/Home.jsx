@@ -168,29 +168,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 5. Client Strip */}
-      <section className="home-clients-section">
-        <div className="container">
-          <div className="clients-header-row">
-            <p className="clients-label">Dipercaya oleh Pengembang Properti &amp; Korporasi Ternama:</p>
-            <Link to="/portofolio" className="view-portfolio-link">
-              <span>Buka Halaman Portofolio</span>
-              <ArrowRight size={14} />
-            </Link>
-          </div>
-          <div className="client-tags-row">
-            <span>Astra Toll Road</span>
-            <span>Damai Putra Group</span>
-            <span>Summarecon Serpong</span>
-            <span>Ciputra Group</span>
-            <span>Bank BTN</span>
-            <span>Bank BRI</span>
-            <span>Hotel Santika</span>
-            <span>Bebek Kaleyo</span>
-            <span>IPEKA BSD</span>
-          </div>
-        </div>
-      </section>
 
       {/* 6. Quick CTA Banner */}
       <section className="home-bottom-cta">

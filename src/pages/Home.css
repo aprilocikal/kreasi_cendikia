@@ -244,67 +244,6 @@
   max-width: 200px;
 }
 
-/* Client Strip */
-.home-clients-section {
-  padding: 50px 0;
-  background: #FFFFFF;
-  border-top: 1px solid #E2E8F0;
-  border-bottom: 1px solid #E2E8F0;
-}
-
-.clients-header-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 20px;
-  flex-wrap: wrap;
-  gap: 12px;
-}
-
-.clients-label {
-  font-size: 0.8125rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  color: #64748B;
-  letter-spacing: 0.08em;
-}
-
-.view-portfolio-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 0.86rem;
-  font-weight: 700;
-  color: #16A34A;
-  text-decoration: none;
-}
-
-.view-portfolio-link:hover {
-  color: #E8732A;
-}
-
-.client-tags-row {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-
-.client-tags-row span {
-  background: #F8FAFC;
-  border: 1px solid #E2E8F0;
-  padding: 8px 18px;
-  border-radius: 999px;
-  font-size: 0.875rem;
-  font-weight: 600;
-  color: #1E293B;
-  transition: all 0.2s ease;
-}
-
-.client-tags-row span:hover {
-  border-color: #CBD5E1;
-  background: #F1F5F9;
-}
 
 /* Bottom CTA */
 .home-bottom-cta {
