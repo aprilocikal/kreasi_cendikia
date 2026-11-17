@@ -1,169 +1,134 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import {
-  MapPin,
-  Phone,
   Mail,
-  ChevronRight,
-  ShieldCheck,
-  Trees
+  Phone,
+  MessageCircle,
+  PhoneCall
 } from 'lucide-react'
 import KciLogo from './KciLogo'
 import './Footer.css'
 
 export default function Footer() {
   return (
-    <footer className="kci-footer">
+    <footer className="footer-setinggi-style">
       <div className="container">
-        <div className="footer-top-grid">
-          {/* Brand Info */}
-          <div className="footer-brand-col">
-            <Link to="/">
-              <KciLogo size={40} showText={true} light={true} />
+        <div className="footer-main-grid">
+          {/* Kolom 1: Brand Logo & Dark Mission Card */}
+          <div className="footer-col-brand">
+            <Link to="/" className="footer-logo-wrap">
+              <KciLogo size={36} showText={true} light={false} />
             </Link>
-            
-            <p className="footer-company-desc">
-              CV. Kreasi Cendikia Indonesia adalah konsultan dan kontraktor lanskap profesional.
-              Menyediakan solusi komprehensif mulai dari desain masterplan 3D, pembangunan hardscape,
-              taman residensial &amp; komersial, vertical garden, nursery, hingga pemeliharaan kawasan terpadu.
-            </p>
 
-            <div className="footer-legal-badge">
-              <ShieldCheck size={16} />
-              <span>SK AHU-0004520-AH.01.14 Tahun 2024 &bull; NPWP: 99.973.701.8-434.000</span>
+            {/* Dark Quote Box like Setinggi Langit */}
+            <div className="footer-quote-box">
+              <p className="quote-main-text">
+                Menghadirkan karya arsitektur dan konstruksi lanskap berkualitas, asri,
+                serta ramah lingkungan untuk menciptakan ruang hidup yang harmonis di seluruh Indonesia.
+              </p>
+              <p className="quote-sub-tag">
+                : &ldquo;Konsultan &amp; Kontraktor Landscape Profesional&rdquo;
+              </p>
+            </div>
+
+            {/* Square Rounded Action Icons */}
+            <div className="footer-icon-buttons">
+              <a
+                href="https://wa.me/6281212126595"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="f-icon-btn"
+                title="Hubungi via WhatsApp"
+              >
+                <MessageCircle size={18} />
+              </a>
+
+              <a
+                href="mailto:jk.suma88@gmail.com"
+                className="f-icon-btn"
+                title="Kirim Email"
+              >
+                <Mail size={18} />
+              </a>
+
+              <a
+                href="tel:081212126595"
+                className="f-icon-btn"
+                title="Telepon Kantor"
+              >
+                <Phone size={18} />
+              </a>
             </div>
           </div>
 
-          {/* Navigasi Layanan */}
-          <div className="footer-links-col">
-            <h4 className="footer-heading">Halaman Layanan</h4>
-            <ul className="footer-links-list">
+          {/* Kolom 2: Menu Halaman */}
+          <div className="footer-col-nav">
+            <h4 className="footer-col-label">HALAMAN</h4>
+            <ul className="footer-nav-list">
               <li>
-                <Link to="/layanan">
-                  <ChevronRight size={14} />
-                  <span>Katalog Layanan Lengkap</span>
-                </Link>
+                <Link to="/">Home</Link>
               </li>
               <li>
-                <Link to="/layanan">
-                  <ChevronRight size={14} />
-                  <span>Desain Taman 2D &amp; 3D</span>
-                </Link>
+                <Link to="/tentang-kami">Tentang Kami</Link>
               </li>
               <li>
-                <Link to="/layanan">
-                  <ChevronRight size={14} />
-                  <span>Konstruksi Hardscape &amp; Gazebo</span>
-                </Link>
+                <Link to="/layanan">Layanan</Link>
               </li>
               <li>
-                <Link to="/layanan">
-                  <ChevronRight size={14} />
-                  <span>Vertical Garden &amp; Rental Tanaman</span>
-                </Link>
+                <Link to="/model-3d">Model 3D</Link>
               </li>
               <li>
-                <Link to="/layanan">
-                  <ChevronRight size={14} />
-                  <span>Taman Kering &amp; Rumput Sintetis</span>
-                </Link>
+                <Link to="/portofolio">Portofolio</Link>
               </li>
               <li>
-                <Link to="/layanan">
-                  <ChevronRight size={14} />
-                  <span>Perawatan Lanskap &amp; Bonsai</span>
-                </Link>
+                <Link to="/kontak">Kontak</Link>
               </li>
             </ul>
           </div>
 
-          {/* Navigasi Halaman Utama */}
-          <div className="footer-links-col">
-            <h4 className="footer-heading">Navigasi Halaman</h4>
-            <ul className="footer-links-list">
-              <li>
-                <Link to="/">
-                  <ChevronRight size={14} />
-                  <span>Home (Beranda)</span>
-                </Link>
-              </li>
-              <li>
-                <Link to="/tentang-kami">
-                  <ChevronRight size={14} />
-                  <span>Tentang Kami &amp; Legalitas</span>
-                </Link>
-              </li>
-              <li>
-                <Link to="/layanan">
-                  <ChevronRight size={14} />
-                  <span>Daftar Layanan</span>
-                </Link>
-              </li>
-              <li>
-                <Link to="/model-3d">
-                  <ChevronRight size={14} />
-                  <span>Fitur 3D Interaktif</span>
-                </Link>
-              </li>
-              <li>
-                <Link to="/portofolio">
-                  <ChevronRight size={14} />
-                  <span>Portofolio &amp; Klien</span>
-                </Link>
-              </li>
-              <li>
-                <Link to="/kontak">
-                  <ChevronRight size={14} />
-                  <span>Hubungi Kami / Konsultasi</span>
-                </Link>
-              </li>
-            </ul>
-          </div>
+          {/* Kolom 3: Kontak & Tombol Pesan Sekarang */}
+          <div className="footer-col-action">
+            <h4 className="footer-col-label">KONTAK &amp; LAYANAN</h4>
 
-          {/* Kontak Langsung */}
-          <div className="footer-links-col">
-            <h4 className="footer-heading">Kontak Resmi</h4>
-            <div className="footer-contact-items">
-              <div className="fc-item">
-                <Phone size={16} className="fc-icon" />
-                <div>
-                  <span className="fc-title">Telepon / WhatsApp</span>
-                  <a href="https://wa.me/6281212126595" target="_blank" rel="noopener noreferrer" className="fc-link">
-                    0812-1212-6595
-                  </a>
-                </div>
+            {/* Email Pill Card */}
+            <a
+              href="mailto:jk.suma88@gmail.com"
+              className="footer-contact-pill-card"
+            >
+              <div className="pill-card-icon">
+                <Mail size={18} />
               </div>
+              <div className="pill-card-text">
+                <span className="pill-card-sub">EMAIL RESMI</span>
+                <span className="pill-card-main">jk.suma88@gmail.com</span>
+              </div>
+            </a>
 
-              <div className="fc-item">
-                <Mail size={16} className="fc-icon" />
-                <div>
-                  <span className="fc-title">Email</span>
-                  <a href="mailto:jk.suma88@gmail.com" className="fc-link">jk.suma88@gmail.com</a>
-                </div>
-              </div>
-
-              <div className="fc-item">
-                <MapPin size={16} className="fc-icon" />
-                <div>
-                  <span className="fc-title">Alamat Kantor</span>
-                  <p className="fc-text">
-                    JL. Raya Sukabumi Km 21 RT.013 RW.004, Cigombong, Kab. Bogor, Jawa Barat
-                  </p>
-                </div>
-              </div>
-            </div>
+            {/* Big Orange Pill Button like Setinggi Langit */}
+            <a
+              href="https://wa.me/6281212126595?text=Halo%20CV%20Kreasi%20Cendikia%20Indonesia,%20saya%20ingin%20pesan%20layanan%20landscape"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="footer-orange-pill-btn"
+            >
+              <PhoneCall size={16} />
+              <span>Pesan Sekarang</span>
+            </a>
           </div>
         </div>
 
-        {/* Bottom Bar */}
-        <div className="footer-bottom-bar">
-          <p className="copy-text">
-            &copy; {new Date().getFullYear()} CV. Kreasi Cendikia Indonesia. All rights reserved.
+        {/* Bottom Sub-footer Bar */}
+        <div className="footer-bottom-divider" />
+        <div className="footer-sub-bar">
+          <p className="footer-copy">
+            &copy; {new Date().getFullYear()} CV. Kreasi Cendikia Indonesia. Dibuat dengan{' '}
+            <span style={{ color: '#E8732A' }}>&#10084;</span> untuk lanskap Indonesia.
           </p>
-          <div className="bottom-links">
-            <span>Konsultan &amp; Kontraktor Landscape</span>
-            <span>&bull;</span>
-            <span>Kabupaten Bogor, Jawa Barat</span>
+
+          <div className="footer-sub-links">
+            <Link to="/kontak">Kebijakan Privasi</Link>
+            <Link to="/kontak">Syarat &amp; Ketentuan</Link>
+            <Link to="/tentang-kami">Legalitas AHU &amp; NPWP</Link>
           </div>
         </div>
       </div>

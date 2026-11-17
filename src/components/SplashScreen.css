@@ -18,7 +18,7 @@
   align-items: center;
   gap: 6px;
   padding: 8px 16px;
-  background: rgba(249, 247, 242, 0.85);
+  background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(8px);
   border: 1.5px solid var(--sage-border);
   border-radius: 999px;
@@ -64,16 +64,17 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   text-align: center;
   padding: 24px;
-  max-width: 520px;
+  max-width: 420px;
 }
 
 /* Blooming flowers animation wrapper */
 .splash-blooming-wrapper {
   width: 100%;
-  max-width: 320px;
-  margin-bottom: 8px;
+  max-width: 280px;
+  margin-bottom: 6px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -81,7 +82,7 @@
 
 .blooming-flowers-container {
   width: 100%;
-  height: 250px;
+  height: 270px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -91,91 +92,23 @@
   width: 100%;
   height: 100%;
   overflow: visible;
-  filter: drop-shadow(0 10px 24px rgba(45, 68, 44, 0.12));
+  filter: drop-shadow(0 12px 28px rgba(225, 29, 72, 0.18));
 }
 
-.splash-brand-reveal {
+/* Clean logo mark without border box / card */
+.splash-logo-clean {
   display: flex;
-  flex-direction: column;
   align-items: center;
-}
-
-.splash-logo-mini-tag {
-  background: var(--bg-cream-card);
-  padding: 8px 16px;
-  border-radius: 14px;
-  border: 1px solid var(--sage-border);
-  box-shadow: 0 4px 14px rgba(45, 68, 44, 0.06);
-  margin-bottom: 12px;
-}
-
-.splash-company-prefix {
-  font-family: var(--font-sans);
-  font-size: 0.9rem;
-  font-weight: 800;
-  letter-spacing: 0.14em;
-  color: var(--sage-deep);
-  display: block;
-  margin-bottom: 2px;
-}
-
-.splash-company-title {
-  font-family: var(--font-serif);
-  font-size: 2.15rem;
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  color: var(--text-dark);
-  line-height: 1.1;
-  margin-bottom: 10px;
-}
-
-.splash-divider {
-  width: 40px;
-  height: 3px;
-  background: var(--accent-orange);
-  margin: 0 auto 12px;
-  border-radius: 2px;
-}
-
-.splash-tagline {
-  font-size: 0.9rem;
-  color: var(--text-muted);
-  letter-spacing: 0.02em;
-  line-height: 1.5;
-  margin-bottom: 22px;
-}
-
-.splash-progress-track {
-  width: 220px;
-  height: 4px;
-  background: var(--sage-tint);
-  border-radius: 999px;
-  overflow: hidden;
-  margin-bottom: 14px;
-}
-
-.splash-progress-bar {
-  height: 100%;
-  background: linear-gradient(90deg, var(--sage-main) 0%, var(--accent-orange) 100%);
-  border-radius: 999px;
-}
-
-.splash-location {
-  font-size: 0.72rem;
-  font-weight: 600;
-  color: var(--text-light);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  justify-content: center;
+  margin-top: 2px;
+  filter: drop-shadow(0 6px 20px rgba(14, 161, 75, 0.25));
 }
 
 @media (max-width: 600px) {
   .splash-blooming-wrapper {
-    max-width: 270px;
+    max-width: 210px;
   }
   .blooming-flowers-container {
-    height: 210px;
-  }
-  .splash-company-title {
-    font-size: 1.75rem;
+    height: 200px;
   }
 }

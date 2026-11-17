@@ -17,10 +17,10 @@
   inset: 0;
   background: linear-gradient(
     to right,
-    rgba(12, 24, 16, 0.94) 0%,
-    rgba(12, 24, 16, 0.88) 42%,
-    rgba(12, 24, 16, 0.52) 72%,
-    rgba(12, 24, 16, 0.22) 100%
+    rgba(10, 20, 14, 0.94) 0%,
+    rgba(10, 20, 14, 0.88) 42%,
+    rgba(10, 20, 14, 0.52) 72%,
+    rgba(10, 20, 14, 0.22) 100%
   );
   z-index: 1;
 }
@@ -38,37 +38,55 @@
   max-width: 620px;
 }
 
-/* Small Tagline above headline */
+/* Eyebrow Tag like Setinggi Langit */
 .hero-eyebrow-tag {
-  font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+  font-family: 'Poppins', 'Inter', sans-serif;
   font-size: 0.78rem;
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: 0.16em;
   color: #9DBE9B;
   text-transform: uppercase;
-  margin-bottom: 22px;
+  margin-bottom: 20px;
 }
 
-/* Giant Headline like Setinggi Langit */
+/* Giant Headline with Poppins like Setinggi Langit */
 .hero-giant-title {
   display: flex;
   flex-direction: column;
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: clamp(3.2rem, 6.5vw, 5.8rem);
-  font-weight: 900;
-  line-height: 1.04;
+  font-family: 'Poppins', sans-serif;
+  font-size: clamp(3.2rem, 6.4vw, 5.5rem);
+  font-weight: 800;
+  line-height: 1.06;
   letter-spacing: -0.025em;
   margin-bottom: 24px;
 }
 
 .title-line-white {
   color: #FFFFFF;
-  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+  text-shadow: 0 4px 24px rgba(0, 0, 0, 0.35);
+}
+
+.title-line-orange-wrap {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: fit-content;
 }
 
 .title-line-orange {
-  color: #E8732A;
-  text-shadow: 0 4px 24px rgba(232, 115, 42, 0.4);
+  color: #FA6E1E;
+  text-shadow: 0 4px 24px rgba(232, 115, 42, 0.35);
+}
+
+/* Subtle Curved Underline Accent like Setinggi Langit */
+.hero-brush-stroke {
+  width: 96px;
+  height: auto;
+  margin-top: 2px;
+  margin-left: 2px;
+  display: block;
+  filter: drop-shadow(0 2px 6px rgba(232, 115, 42, 0.35));
 }
 
 /* Subtitle Description */
@@ -77,8 +95,8 @@
   font-size: 1.05rem;
   line-height: 1.8;
   color: rgba(255, 255, 255, 0.88);
-  margin-bottom: 36px;
-  max-width: 540px;
+  margin-bottom: 34px;
+  max-width: 530px;
 }
 
 /* Action Buttons Row */
@@ -98,10 +116,10 @@
   background: #E8732A;
   color: #FFFFFF;
   border-radius: 999px;
-  padding: 15px 32px;
-  font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+  padding: 14px 32px;
+  font-family: 'Poppins', 'Inter', sans-serif;
   font-size: 0.95rem;
-  font-weight: 700;
+  font-weight: 600;
   text-decoration: none;
   box-shadow: 0 8px 24px rgba(232, 115, 42, 0.45);
   transition: all 0.25s ease;
@@ -126,7 +144,7 @@
   color: #FFFFFF;
   border-radius: 999px;
   padding: 14px 28px;
-  font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+  font-family: 'Poppins', 'Inter', sans-serif;
   font-size: 0.95rem;
   font-weight: 600;
   cursor: pointer;
@@ -145,12 +163,15 @@
     padding-top: 100px;
   }
   .hero-dark-overlay {
-    background: rgba(12, 24, 16, 0.88);
+    background: rgba(10, 20, 14, 0.9);
   }
   .hero-inner-container {
     padding: 0 24px;
   }
   .hero-giant-title {
     font-size: 3rem;
+  }
+  .hero-brush-stroke {
+    width: 80px;
   }
 }

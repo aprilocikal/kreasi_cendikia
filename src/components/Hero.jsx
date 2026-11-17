@@ -12,15 +12,31 @@ export default function Hero() {
 
       <div className="hero-inner-container">
         <div className="hero-text-content">
-          {/* Small Top Tagline */}
+          {/* Eyebrow Tag like Setinggi Langit */}
           <p className="hero-eyebrow-tag">
             KONSULTAN &amp; KONTRAKTOR LANDSCAPE PROFESIONAL
           </p>
 
-          {/* Giant Display Headline like Setinggi Langit */}
+          {/* Giant Display Headline in Poppins like Setinggi Langit */}
           <h1 className="hero-giant-title">
             <span className="title-line-white">Harmoni</span>
-            <span className="title-line-orange">Lanskap</span>
+            <span className="title-line-orange-wrap">
+              <span className="title-line-orange">Lanskap</span>
+              {/* Subtle curved underline accent like Setinggi Langit */}
+              <svg
+                className="hero-brush-stroke"
+                viewBox="0 0 130 12"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M2 7C25 3 68 3 126 6"
+                  stroke="#E8732A"
+                  strokeWidth="4.5"
+                  strokeLinecap="round"
+                />
+              </svg>
+            </span>
           </h1>
 
           {/* Subtitle Description */}

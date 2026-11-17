@@ -1,139 +1,263 @@
-.kci-footer {
-  background: var(--sage-dark);
-  color: var(--bg-cream);
-  padding-top: 80px;
-  padding-bottom: 30px;
+/* Footer - Clean Bone White / Putih Tulang like Setinggi Langit */
+.footer-setinggi-style {
+  background-color: #FAF9F6;
+  border-top: 1px solid #ECE7DE;
+  padding-top: 68px;
+  padding-bottom: 28px;
+  color: #1E293B;
 }
 
-.footer-top-grid {
+.footer-main-grid {
   display: grid;
-  grid-template-columns: 1.4fr 0.9fr 0.9fr 1fr;
-  gap: 40px;
-  padding-bottom: 50px;
-  border-bottom: 1px solid rgba(214, 230, 212, 0.15);
+  grid-template-columns: 1.4fr 0.8fr 1fr;
+  gap: 48px;
+  align-items: start;
 }
 
-.footer-company-desc {
-  font-size: 0.88rem;
-  color: #C1D7BE;
-  line-height: 1.7;
-  margin-top: 20px;
-  margin-bottom: 24px;
-  max-width: 380px;
-}
-
-.footer-legal-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: rgba(214, 230, 212, 0.1);
-  border: 1px solid rgba(214, 230, 212, 0.2);
-  padding: 8px 14px;
-  border-radius: 8px;
-  font-size: 0.75rem;
-  color: #D6E6D4;
-}
-
-.footer-heading {
-  font-family: var(--font-sans);
-  font-size: 0.95rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--white);
-  margin-bottom: 22px;
-}
-
-.footer-links-list {
+/* Kolom 1: Brand & Dark Mission Box */
+.footer-col-brand {
   display: flex;
   flex-direction: column;
-  gap: 12px;
 }
 
-.footer-links-list a {
+.footer-logo-wrap {
   display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 0.86rem;
-  color: #C1D7BE;
-  transition: all var(--transition-fast);
+  margin-bottom: 22px;
+  text-decoration: none;
 }
 
-.footer-links-list a:hover {
-  color: var(--white);
+/* Dark Charcoal Quote Box with Signature Orange Left Bar like Setinggi Langit */
+.footer-quote-box {
+  background-color: #1C1917;
+  border-left: 4px solid #e8732a;
+  border-radius: 16px;
+  padding: 22px 24px;
+  margin-bottom: 20px;
+  max-width: 430px;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
+}
+
+.quote-main-text {
+  font-family: "Inter", sans-serif;
+  font-size: 0.9rem;
+  line-height: 1.68;
+  color: #F8FAFC;
+  margin-bottom: 12px;
+  font-weight: 400;
+}
+
+.quote-sub-tag {
+  font-family: "Inter", sans-serif;
+  font-size: 0.82rem;
+  font-style: italic;
+  font-weight: 700;
+  color: #E8732A;
+}
+
+/* Square Icon Buttons */
+.footer-icon-buttons {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.f-icon-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background-color: #FFFFFF;
+  border: 1.5px solid #E2E8F0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #64748B;
+  transition: all 0.25s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.03);
+}
+
+.f-icon-btn:hover {
+  background-color: #FFFFFF;
+  border-color: #CBD5E1;
+  color: #E8732A;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(232, 115, 42, 0.2);
+}
+
+/* Kolom 2: Menu Halaman */
+.footer-col-nav {
+  display: flex;
+  flex-direction: column;
+}
+
+.footer-col-label {
+  font-family: 'Plus Jakarta Sans', 'Poppins', sans-serif;
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  color: #94A3B8;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+
+.footer-nav-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.footer-nav-list a {
+  font-family: "Inter", sans-serif;
+  font-size: 0.94rem;
+  font-weight: 600;
+  color: #334155;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.footer-nav-list a:hover {
+  color: #E8732A;
   transform: translateX(4px);
 }
 
-.footer-contact-items {
+/* Kolom 3: Kontak & Tombol Aksi */
+.footer-col-action {
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 14px;
+  max-width: 330px;
 }
 
-.fc-item {
+/* Contact Pill Card like Setinggi Langit */
+.footer-contact-pill-card {
+  background-color: #FFFFFF;
+  border: 1.5px solid #EFE4D6;
+  border-radius: 16px;
+  padding: 12px 18px;
   display: flex;
-  align-items: flex-start;
-  gap: 12px;
+  align-items: center;
+  gap: 14px;
+  text-decoration: none;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04);
+  transition: all 0.25s ease;
 }
 
-.fc-icon {
-  color: var(--accent-orange);
+.footer-contact-pill-card:hover {
+  border-color: #E8732A;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(232, 115, 42, 0.16);
+}
+
+.pill-card-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  background-color: #e8732a;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   flex-shrink: 0;
-  margin-top: 3px;
+  box-shadow: 0 4px 10px rgba(232, 115, 42, 0.3);
 }
 
-.fc-title {
-  display: block;
-  font-size: 0.72rem;
-  font-weight: 700;
+.pill-card-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.pill-card-sub {
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: #94A3B8;
   text-transform: uppercase;
-  color: #A4C2A5;
-  letter-spacing: 0.05em;
   margin-bottom: 2px;
 }
 
-.fc-link {
-  font-size: 0.88rem;
-  font-weight: 600;
-  color: var(--white);
-  transition: color var(--transition-fast);
+.pill-card-main {
+  font-family: "Inter", sans-serif;
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: #0F172A;
 }
 
-.fc-link:hover {
-  color: var(--accent-orange);
+/* Big Orange Pill Button like Setinggi Langit */
+.footer-orange-pill-btn {
+  background-color: #e8732a;
+  color: #ffffff;
+  border-radius: 999px;
+  padding: 14px 24px;
+  font-family: 'Plus Jakarta Sans', 'Poppins', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  text-decoration: none;
+  box-shadow: 0 8px 22px rgba(232, 115, 42, 0.35);
+  transition: all 0.25s ease;
+  width: 100%;
 }
 
-.fc-text {
-  font-size: 0.85rem;
-  color: #C1D7BE;
-  line-height: 1.5;
+.footer-orange-pill-btn:hover {
+  background-color: #d8631a;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(232, 115, 42, 0.55);
 }
 
-.footer-bottom-bar {
+/* Bottom Bar */
+.footer-bottom-divider {
+  width: 100%;
+  height: 1px;
+  background-color: #E8E5DF;
+  margin-top: 50px;
+  margin-bottom: 22px;
+}
+
+.footer-sub-bar {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-top: 30px;
-  font-size: 0.8125rem;
-  color: #9DBE9B;
+  font-size: 0.82rem;
+  color: #64748B;
   flex-wrap: wrap;
   gap: 16px;
 }
 
-.bottom-links {
+.footer-copy {
+  font-family: "Inter", sans-serif;
+}
+
+.footer-sub-links {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 20px;
+  flex-wrap: wrap;
 }
 
-@media (max-width: 1040px) {
-  .footer-top-grid {
-    grid-template-columns: 1fr 1fr;
-  }
+.footer-sub-links a {
+  color: #64748B;
+  text-decoration: none;
+  font-size: 0.82rem;
+  font-weight: 600;
+  transition: color 0.2s ease;
 }
 
-@media (max-width: 640px) {
-  .footer-top-grid {
+.footer-sub-links a:hover {
+  color: #0F172A;
+}
+
+@media (max-width: 980px) {
+  .footer-main-grid {
     grid-template-columns: 1fr;
+    gap: 36px;
+  }
+  .footer-quote-box {
+    max-width: 100%;
+  }
+  .footer-col-action {
+    max-width: 100%;
   }
 }

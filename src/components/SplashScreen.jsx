@@ -2,12 +2,12 @@ import { useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import BloomingFlowers from './BloomingFlowers'
 import KciLogo from './KciLogo'
-import { Sparkles, ArrowRight } from 'lucide-react'
+import { ArrowRight } from 'lucide-react'
 import './SplashScreen.css'
 
 export default function SplashScreen({ onDone }) {
   useEffect(() => {
-    // Memberi waktu yang pas agar animasi bunga mekar sempurna dinikmati (3.6 detik)
+    // Durasi pas untuk menikmati bunga mekar dan logo (3.6 detik)
     const timer = setTimeout(() => {
       onDone()
     }, 3600)
@@ -52,45 +52,15 @@ export default function SplashScreen({ onDone }) {
             <BloomingFlowers />
           </div>
 
-          {/* KCI Logo Mark & Typography Reveal */}
+          {/* Clean KCI Logo Mark (Tanpa Border / Card Box & Tanpa Teks) */}
           <motion.div
-            className="splash-brand-reveal"
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.75, delay: 0.7, ease: [0.16, 1, 0.3, 1] }}
+            className="splash-logo-clean"
+            initial={{ opacity: 0, scale: 0.85, y: 10 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 1.1, ease: [0.16, 1, 0.3, 1] }}
           >
-            <div className="splash-logo-mini-tag">
-              <KciLogo size={42} showText={false} />
-            </div>
-
-            <span className="splash-company-prefix">CV. KREASI CENDIKIA</span>
-            <h1 className="splash-company-title">INDONESIA</h1>
-
-            <div className="splash-divider" />
-
-            <p className="splash-tagline">
-              Konsultan &amp; Kontraktor Landscape Profesional
-            </p>
+            <KciLogo size={58} showText={false} />
           </motion.div>
-
-          {/* Elegant Progress Line */}
-          <div className="splash-progress-track">
-            <motion.div
-              className="splash-progress-bar"
-              initial={{ width: '0%' }}
-              animate={{ width: '100%' }}
-              transition={{ duration: 2.6, delay: 0.4, ease: 'easeInOut' }}
-            />
-          </div>
-
-          <motion.span
-            className="splash-location"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1.1, duration: 0.6 }}
-          >
-            Cigombong, Kabupaten Bogor &bull; Jawa Barat
-          </motion.span>
         </div>
       </motion.div>
     </AnimatePresence>

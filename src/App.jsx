@@ -16,7 +16,23 @@ import ContactPage from './pages/ContactPage'
 import './App.css'
 
 function App() {
-  const [splashDone, setSplashDone] = useState(false)
+  // Hanya jalankan animasi 1 kali; jika di-refresh tidak akan muncul lagi
+  const [splashDone, setSplashDone] = useState(() => {
+    try {
+      return sessionStorage.getItem('kci_splash_shown') === 'true'
+    } catch {
+      return false
+    }
+  })
+
+  const handleSplashDone = () => {
+    try {
+      sessionStorage.setItem('kci_splash_shown', 'true')
+    } catch {
+      // Ignore sessionStorage errors
+    }
+    setSplashDone(true)
+  }
 
   useEffect(() => {
     if (!splashDone) {
@@ -31,8 +47,8 @@ function App() {
 
   return (
     <>
-      {/* Animasi Bunga Mekar Pembuka */}
-      {!splashDone && <SplashScreen onDone={() => setSplashDone(true)} />}
+      {/* Animasi Bunga Mekar Pembuka (Hanya berjalan 1x per sesi) */}
+      {!splashDone && <SplashScreen onDone={handleSplashDone} />}
 
       <div className={`main-site ${splashDone ? 'visible' : 'hidden'}`}>
         <ScrollToTop />
