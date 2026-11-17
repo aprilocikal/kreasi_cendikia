@@ -1,0 +1,168 @@
+.navbar-wrapper {
+  position: fixed;
+  top: 18px;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  pointer-events: none;
+  padding: 0 20px;
+}
+
+/* Floating Pill Navbar */
+.navbar-floating-pill {
+  pointer-events: auto;
+  background: #FFFFFF;
+  max-width: 980px;
+  width: 100%;
+  border-radius: 999px;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.18), 0 2px 8px rgba(0, 0, 0, 0.06);
+  padding: 7px 10px 7px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+}
+
+/* Sisi Kiri: Hanya Logo Saja */
+.navbar-brand-logo-only {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  flex-shrink: 0;
+  padding: 2px 4px;
+  transition: transform 0.2s ease;
+}
+
+.navbar-brand-logo-only:hover {
+  transform: scale(1.05);
+}
+
+/* Navigation Links (Center) */
+.navbar-links-center {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  margin: 0 auto;
+}
+
+.nav-item-link {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.86rem;
+  font-weight: 500;
+  color: #64748B;
+  text-decoration: none;
+  padding: 7px 14px;
+  border-radius: 999px;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.nav-item-link:hover {
+  color: #0F172A;
+  background: #F8FAFC;
+}
+
+/* Active Highlight Pill */
+.nav-item-link.active {
+  color: #0F172A;
+  font-weight: 700;
+  background: #F1F5F9;
+}
+
+/* Sisi Kanan: Rapih & Proporsional */
+.navbar-action-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.navbar-orange-btn {
+  background: #E8732A;
+  color: #FFFFFF;
+  border-radius: 999px;
+  padding: 9px 22px;
+  font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+  font-size: 0.86rem;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  box-shadow: 0 4px 14px rgba(232, 115, 42, 0.35);
+  transition: all 0.25s ease;
+  white-space: nowrap;
+}
+
+.navbar-orange-btn:hover {
+  background: #D8631A;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(232, 115, 42, 0.45);
+}
+
+.navbar-mobile-btn {
+  display: none;
+  background: none;
+  border: none;
+  color: #1E293B;
+  padding: 6px;
+  cursor: pointer;
+}
+
+/* Mobile Dropdown */
+.mobile-curved-dropdown {
+  pointer-events: auto;
+  margin-top: 10px;
+  width: 100%;
+  max-width: 420px;
+  background: #FFFFFF;
+  border-radius: 24px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.22);
+  padding: 20px 24px;
+}
+
+.mobile-links-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+
+.mobile-item {
+  padding: 10px 14px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #334155;
+  text-decoration: none;
+  border-radius: 12px;
+  transition: background 0.2s;
+}
+
+.mobile-item:hover {
+  background: #F1F5F9;
+  color: #0F172A;
+}
+
+.mobile-cta-full {
+  width: 100%;
+  justify-content: center;
+  padding: 12px;
+}
+
+@media (max-width: 1024px) {
+  .navbar-links-center {
+    display: none;
+  }
+  .navbar-mobile-btn {
+    display: flex;
+  }
+  .navbar-floating-pill {
+    padding: 7px 12px 7px 16px;
+  }
+}

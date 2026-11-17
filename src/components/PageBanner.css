@@ -1,0 +1,46 @@
+.subpage-banner {
+  position: relative;
+  background: linear-gradient(135deg, #15271A 0%, #233D29 60%, #15271A 100%);
+  padding-top: 130px;
+  padding-bottom: 60px;
+  text-align: center;
+  overflow: hidden;
+  border-bottom: 1px solid var(--sage-border);
+}
+
+.subpage-banner-overlay {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 20%, rgba(139, 168, 136, 0.25) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.subpage-banner-content {
+  position: relative;
+  z-index: 2;
+  max-width: 760px;
+}
+
+.subpage-badge {
+  background: rgba(214, 230, 212, 0.15);
+  color: #D6E6D4;
+  border-color: rgba(214, 230, 212, 0.3);
+  margin-bottom: 14px;
+}
+
+.subpage-title {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: clamp(2.2rem, 4vw, 3.2rem);
+  font-weight: 800;
+  color: #FFFFFF;
+  line-height: 1.15;
+  margin-bottom: 14px;
+}
+
+.subpage-subtitle {
+  font-size: 1.05rem;
+  color: #C1D7BE;
+  line-height: 1.7;
+  max-width: 620px;
+  margin: 0 auto;
+}

@@ -1,0 +1,19 @@
+.main-site {
+  transition: opacity 0.5s ease;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.main-site.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.main-site.visible {
+  opacity: 1;
+}
+
+.main-content-area {
+  flex-grow: 1;
+}

@@ -1,0 +1,164 @@
+.about-section {
+  padding: 100px 0;
+  background-color: var(--bg-cream-soft);
+}
+
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: start;
+}
+
+.about-lead {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--sage-deep);
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+
+.about-text {
+  font-size: 0.975rem;
+  color: var(--text-body);
+  line-height: 1.8;
+  margin-bottom: 28px;
+}
+
+.about-legal-card {
+  background: var(--bg-cream-card);
+  border: 1.5px solid var(--sage-border);
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: 0 4px 18px rgba(45, 68, 44, 0.05);
+}
+
+.legal-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--sage-tint);
+}
+
+.legal-icon {
+  color: var(--sage-deep);
+}
+
+.legal-header h4 {
+  font-size: 1.05rem;
+  color: var(--sage-dark);
+}
+
+.legal-items {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.legal-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.legal-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.legal-val {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+/* Right Column (Visi & Misi) */
+.about-right {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.visi-card {
+  background: var(--bg-cream-card);
+  border: 1.5px solid var(--sage-border);
+  border-radius: 22px;
+  padding: 30px;
+  box-shadow: 0 8px 24px rgba(45, 68, 44, 0.06);
+  border-left: 5px solid var(--sage-deep);
+}
+
+.vm-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: var(--sage-deep);
+  background: var(--sage-tint);
+  padding: 4px 14px;
+  border-radius: 999px;
+  margin-bottom: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.vm-badge.orange {
+  color: var(--accent-orange);
+  background: var(--accent-orange-light);
+}
+
+.vm-title {
+  font-size: 1.25rem;
+  color: var(--sage-dark);
+  margin-bottom: 10px;
+}
+
+.vm-text {
+  font-size: 0.95rem;
+  font-style: italic;
+  color: var(--text-body);
+  line-height: 1.7;
+}
+
+.misi-card {
+  background: var(--bg-cream-card);
+  border: 1.5px solid var(--sage-border);
+  border-radius: 22px;
+  padding: 30px;
+  box-shadow: 0 8px 24px rgba(45, 68, 44, 0.06);
+  border-left: 5px solid var(--accent-orange);
+}
+
+.misi-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.misi-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-size: 0.875rem;
+  color: var(--text-body);
+  line-height: 1.6;
+}
+
+.misi-icon {
+  color: var(--sage-deep);
+  flex-shrink: 0;
+  margin-top: 3px;
+}
+
+@media (max-width: 900px) {
+  .about-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+}
