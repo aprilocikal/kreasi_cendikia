@@ -47,13 +47,13 @@ export function HeroSection() {
                 <ArrowUpRight className="h-4 w-4" strokeWidth={2} />
               </a>
 
-              <a
-                href="#portofolio"
+              <Link
+                to="/portofolio"
                 className="inline-flex items-center gap-1.5 rounded-lg border border-[var(--border-hairline)] bg-[var(--bg-elevated)] px-5 py-3.5 text-sm font-medium text-[var(--ink-primary)] whitespace-nowrap shrink-0 transition-colors duration-150 hover:bg-[var(--bg-sage-soft)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent-cta)]"
               >
                 <span>Lihat Portofolio</span>
-                <ArrowDownRight className="h-4 w-4 text-[var(--ink-muted)]" />
-              </a>
+                <ArrowRight className="h-4 w-4 text-[var(--ink-muted)]" />
+              </Link>
 
               <Link
                 to="/model-3d"

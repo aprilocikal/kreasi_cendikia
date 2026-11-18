@@ -4,12 +4,13 @@ import TopBar from './components/TopBar'
 import ConversionFooter from './components/ConversionFooter'
 import ScrollToTop from './components/ScrollToTop'
 
-// Pages
+// Distinct Pages
 import Home from './pages/Home'
 import AboutPage from './pages/AboutPage'
 import ServicesPage from './pages/ServicesPage'
 import Model3DPage from './pages/Model3DPage'
 import PortfolioPage from './pages/PortfolioPage'
+import LegalityPage from './pages/LegalityPage'
 import ContactPage from './pages/ContactPage'
 
 export default function App() {
@@ -25,6 +26,7 @@ export default function App() {
           <Route path="/layanan" element={<ServicesPage />} />
           <Route path="/model-3d" element={<Model3DPage />} />
           <Route path="/portofolio" element={<PortfolioPage />} />
+          <Route path="/legalitas" element={<LegalityPage />} />
           <Route path="/kontak" element={<ContactPage />} />
         </Routes>
       </main>

@@ -95,7 +95,7 @@ export function ConversionFooter() {
               <ul className="space-y-2 text-[var(--ink-secondary)]">
                 <li>
                   <Link
-                    to={isHomePage ? "#tentang" : "/tentang-kami"}
+                    to="/tentang-kami"
                     className="hover:text-[var(--brand-primary)] hover:underline"
                   >
                     Tentang &amp; Visi Misi
@@ -103,7 +103,7 @@ export function ConversionFooter() {
                 </li>
                 <li>
                   <Link
-                    to={isHomePage ? "#layanan" : "/layanan"}
+                    to="/layanan"
                     className="hover:text-[var(--brand-primary)] hover:underline"
                   >
                     Katalog Layanan
@@ -111,7 +111,7 @@ export function ConversionFooter() {
                 </li>
                 <li>
                   <Link
-                    to={isHomePage ? "#portofolio" : "/portofolio"}
+                    to="/portofolio"
                     className="hover:text-[var(--brand-primary)] hover:underline"
                   >
                     Portofolio Proyek
@@ -127,7 +127,7 @@ export function ConversionFooter() {
                 </li>
                 <li>
                   <Link
-                    to={isHomePage ? "#legalitas" : "/#legalitas"}
+                    to="/legalitas"
                     className="hover:text-[var(--brand-primary)] hover:underline"
                   >
                     Legalitas Resmi

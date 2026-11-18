@@ -1,22 +1,21 @@
 import React, { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { Menu, X, ArrowUpRight } from "lucide-react";
 import { COMPANY_PROFILE, buildWhatsAppUrl } from "../data/kciData";
 import KciLogo from "./KciLogo";
 
 const NAV_LINKS = [
-  { label: "Tentang", path: "/tentang-kami", hash: "#tentang" },
-  { label: "Layanan", path: "/layanan", hash: "#layanan" },
-  { label: "Portofolio", path: "/portofolio", hash: "#portofolio" },
-  { label: "Model 3D", path: "/model-3d", hash: "#model-3d", badge: "3D" },
-  { label: "Legalitas", path: "/#legalitas", hash: "#legalitas" },
-  { label: "Kontak", path: "/kontak", hash: "#kontak" },
+  { label: "Beranda", path: "/" },
+  { label: "Tentang Kami", path: "/tentang-kami" },
+  { label: "Layanan", path: "/layanan" },
+  { label: "Portofolio", path: "/portofolio" },
+  { label: "Model 3D", path: "/model-3d", badge: "3D" },
+  { label: "Legalitas", path: "/legalitas" },
+  { label: "Kontak", path: "/kontak" },
 ];
 
 export function TopBar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const location = useLocation();
-  const isHomePage = location.pathname === "/";
 
   const primaryWhatsAppHref = buildWhatsAppUrl(
     "Halo CV. Kreasi Cendekia Indonesia, saya ingin berkonsultasi dan memesan layanan lanskap."
@@ -34,37 +33,39 @@ export function TopBar() {
           <KciLogo width={52} showText={true} />
         </Link>
 
-        {/* Navigation links */}
+        {/* Desktop Navigation Links */}
         <nav
           aria-label="Navigasi Utama"
-          className="hidden lg:flex items-center gap-6 text-sm font-medium text-[var(--ink-secondary)]"
+          className="hidden xl:flex items-center gap-6 text-sm font-medium text-[var(--ink-secondary)]"
         >
-          {NAV_LINKS.map((link) => {
-            const targetHref = isHomePage ? link.hash : link.path;
-            const isActive = location.pathname === link.path;
-
-            return (
-              <Link
-                key={link.label}
-                to={targetHref}
-                className={`relative whitespace-nowrap shrink-0 py-1 transition-colors duration-150 hover:text-[var(--brand-primary)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--accent-cta)] ${
+          {NAV_LINKS.map((link) => (
+            <NavLink
+              key={link.path}
+              to={link.path}
+              end={link.path === "/"}
+              className={({ isActive }) =>
+                `relative whitespace-nowrap shrink-0 py-1 transition-colors duration-150 hover:text-[var(--brand-primary)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--accent-cta)] ${
                   isActive
                     ? "font-semibold text-[var(--ink-primary)]"
                     : "text-[var(--ink-secondary)]"
-                }`}
-              >
-                <span>{link.label}</span>
-                {link.badge && (
-                  <span className="ml-1.5 inline-flex items-center rounded-md bg-[var(--brand-tint-deep)] px-1.5 py-0.5 text-[10px] font-bold text-[var(--brand-primary)] uppercase">
-                    {link.badge}
-                  </span>
-                )}
-                {isActive && (
-                  <span className="absolute inset-x-0 -bottom-1 h-0.5 rounded-full bg-[var(--brand-primary)]" />
-                )}
-              </Link>
-            );
-          })}
+                }`
+              }
+            >
+              {({ isActive }) => (
+                <>
+                  <span>{link.label}</span>
+                  {link.badge && (
+                    <span className="ml-1.5 inline-flex items-center rounded-md bg-[var(--brand-tint-deep)] px-1.5 py-0.5 text-[10px] font-bold text-[var(--brand-primary)] uppercase">
+                      {link.badge}
+                    </span>
+                  )}
+                  {isActive && (
+                    <span className="absolute inset-x-0 -bottom-1 h-0.5 rounded-full bg-[var(--brand-primary)]" />
+                  )}
+                </>
+              )}
+            </NavLink>
+          ))}
         </nav>
 
         {/* Primary CTA + mobile toggle */}
@@ -84,7 +85,7 @@ export function TopBar() {
             onClick={() => setMobileMenuOpen((prev) => !prev)}
             aria-expanded={mobileMenuOpen}
             aria-label={mobileMenuOpen ? "Tutup menu navigasi" : "Buka menu navigasi"}
-            className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-[var(--border-warm)] text-[var(--ink-primary)] lg:hidden transition-colors duration-150 hover:bg-[var(--bg-sage-soft)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent-cta)]"
+            className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-[var(--border-warm)] text-[var(--ink-primary)] xl:hidden transition-colors duration-150 hover:bg-[var(--bg-sage-soft)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent-cta)]"
           >
             {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>
@@ -95,27 +96,31 @@ export function TopBar() {
       {mobileMenuOpen && (
         <nav
           aria-label="Navigasi Mobile"
-          className="border-t border-[var(--border-warm)] bg-[var(--bg-elevated)] px-6 py-4 lg:hidden shadow-lg"
+          className="border-t border-[var(--border-warm)] bg-[var(--bg-elevated)] px-6 py-4 xl:hidden shadow-lg"
         >
           <div className="flex flex-col gap-1">
-            {NAV_LINKS.map((link) => {
-              const targetHref = isHomePage ? link.hash : link.path;
-              return (
-                <Link
-                  key={link.label}
-                  to={targetHref}
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="flex items-center justify-between rounded-lg px-3 py-2.5 text-sm font-medium text-[var(--ink-primary)] transition-colors hover:bg-[var(--bg-sage-soft)]"
-                >
-                  <span>{link.label}</span>
-                  {link.badge && (
-                    <span className="rounded-md bg-[var(--brand-tint-deep)] px-1.5 py-0.5 text-[10px] font-bold text-[var(--brand-primary)]">
-                      {link.badge}
-                    </span>
-                  )}
-                </Link>
-              );
-            })}
+            {NAV_LINKS.map((link) => (
+              <NavLink
+                key={link.path}
+                to={link.path}
+                end={link.path === "/"}
+                onClick={() => setMobileMenuOpen(false)}
+                className={({ isActive }) =>
+                  `flex items-center justify-between rounded-lg px-3 py-2.5 text-sm font-medium transition-colors ${
+                    isActive
+                      ? "bg-[var(--brand-tint)] font-semibold text-[var(--brand-primary)]"
+                      : "text-[var(--ink-primary)] hover:bg-[var(--bg-sage-soft)]"
+                  }`
+                }
+              >
+                <span>{link.label}</span>
+                {link.badge && (
+                  <span className="rounded-md bg-[var(--brand-tint-deep)] px-1.5 py-0.5 text-[10px] font-bold text-[var(--brand-primary)]">
+                    {link.badge}
+                  </span>
+                )}
+              </NavLink>
+            ))}
           </div>
         </nav>
       )}
