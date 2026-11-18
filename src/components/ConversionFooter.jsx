@@ -2,6 +2,7 @@ import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import { ArrowUpRight, Mail, MapPin, Phone } from "lucide-react";
 import { COMPANY_PROFILE, buildWhatsAppUrl } from "../data/kciData";
+import KciLogo from "./KciLogo";
 
 export function ConversionFooter() {
   const location = useLocation();
@@ -18,7 +19,7 @@ export function ConversionFooter() {
         <div className="mx-auto max-w-[1240px] px-6">
           <div className="flex flex-col items-start justify-between gap-8 rounded-2xl border border-[var(--border-hairline)] bg-[var(--bg-sage)] p-8 sm:p-12 lg:flex-row lg:items-center shadow-xs">
             <div className="max-w-2xl">
-              <p className="text-xs font-semibold tracking-wide text-[var(--ink-secondary)] uppercase">
+              <p className="text-xs font-semibold tracking-wide text-[var(--brand-primary)] uppercase">
                 Konsultasi &amp; Survei Lokasi
               </p>
               <h2 className="mt-2 font-display text-[clamp(1.75rem,3vw,2.5rem)] font-semibold leading-tight tracking-tight text-[var(--ink-primary)] text-balance">
@@ -43,15 +44,15 @@ export function ConversionFooter() {
         </div>
       </section>
 
-      {/* Quiet Architectural Footer on Cream Canvas */}
+      {/* Quiet Architectural Footer on Clean Canvas */}
       <footer className="border-t border-[var(--border-warm)] bg-[var(--bg-canvas)] py-12">
         <div className="mx-auto max-w-[1240px] px-6">
           <div className="grid grid-cols-1 gap-10 md:grid-cols-12">
             <div className="md:col-span-5">
-              <p className="font-display text-xl font-semibold text-[var(--ink-primary)]">
-                {COMPANY_PROFILE.legalName}
-              </p>
-              <p className="mt-2 max-w-sm text-sm leading-relaxed text-[var(--ink-secondary)]">
+              <Link to="/" className="inline-block" title="CV. Kreasi Cendekia Indonesia">
+                <KciLogo width={58} showText={true} />
+              </Link>
+              <p className="mt-3 max-w-sm text-sm leading-relaxed text-[var(--ink-secondary)]">
                 {COMPANY_PROFILE.tagline}. Melayani desain taman, konstruksi lanskap,
                 hardscape, vertical garden, perawatan berkala, simulasi 3D, dan penyediaan bibit nursery.
               </p>
@@ -62,11 +63,11 @@ export function ConversionFooter() {
                 Kantor &amp; Nursery
               </p>
               <div className="flex items-start gap-2.5">
-                <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-[var(--ink-muted)]" />
+                <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-[var(--brand-primary)]" />
                 <span>{COMPANY_PROFILE.address}</span>
               </div>
               <div className="flex items-center gap-2.5">
-                <Phone className="h-4 w-4 shrink-0 text-[var(--ink-muted)]" />
+                <Phone className="h-4 w-4 shrink-0 text-[var(--brand-primary)]" />
                 <a
                   href={ctaHref}
                   target="_blank"
@@ -77,7 +78,7 @@ export function ConversionFooter() {
                 </a>
               </div>
               <div className="flex items-center gap-2.5">
-                <Mail className="h-4 w-4 shrink-0 text-[var(--ink-muted)]" />
+                <Mail className="h-4 w-4 shrink-0 text-[var(--brand-primary)]" />
                 <a
                   href={`mailto:${COMPANY_PROFILE.email}`}
                   className="font-medium text-[var(--ink-primary)] hover:underline"
@@ -95,7 +96,7 @@ export function ConversionFooter() {
                 <li>
                   <Link
                     to={isHomePage ? "#tentang" : "/tentang-kami"}
-                    className="hover:text-[var(--ink-primary)] hover:underline"
+                    className="hover:text-[var(--brand-primary)] hover:underline"
                   >
                     Tentang &amp; Visi Misi
                   </Link>
@@ -103,7 +104,7 @@ export function ConversionFooter() {
                 <li>
                   <Link
                     to={isHomePage ? "#layanan" : "/layanan"}
-                    className="hover:text-[var(--ink-primary)] hover:underline"
+                    className="hover:text-[var(--brand-primary)] hover:underline"
                   >
                     Katalog Layanan
                   </Link>
@@ -111,7 +112,7 @@ export function ConversionFooter() {
                 <li>
                   <Link
                     to={isHomePage ? "#portofolio" : "/portofolio"}
-                    className="hover:text-[var(--ink-primary)] hover:underline"
+                    className="hover:text-[var(--brand-primary)] hover:underline"
                   >
                     Portofolio Proyek
                   </Link>
@@ -119,7 +120,7 @@ export function ConversionFooter() {
                 <li>
                   <Link
                     to="/model-3d"
-                    className="hover:text-[var(--ink-primary)] hover:underline"
+                    className="hover:text-[var(--brand-primary)] hover:underline"
                   >
                     Simulasi 3D Interaktif
                   </Link>
@@ -127,7 +128,7 @@ export function ConversionFooter() {
                 <li>
                   <Link
                     to={isHomePage ? "#legalitas" : "/#legalitas"}
-                    className="hover:text-[var(--ink-primary)] hover:underline"
+                    className="hover:text-[var(--brand-primary)] hover:underline"
                   >
                     Legalitas Resmi
                   </Link>
@@ -135,7 +136,7 @@ export function ConversionFooter() {
                 <li>
                   <Link
                     to="/kontak"
-                    className="hover:text-[var(--ink-primary)] hover:underline"
+                    className="hover:text-[var(--brand-primary)] hover:underline"
                   >
                     Kontak &amp; Lokasi
                   </Link>

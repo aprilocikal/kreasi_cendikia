@@ -5,6 +5,7 @@ import { COMPANY_PROFILE, buildWhatsAppUrl } from "../data/kciData";
 import AboutVisionSection from "../components/AboutVisionSection";
 import LegalityTrustSection from "../components/LegalityTrustSection";
 import ResilientImage from "../components/ResilientImage";
+import KciLogo from "../components/KciLogo";
 
 export default function AboutPage() {
   const whatsappHref = buildWhatsAppUrl(
@@ -17,9 +18,12 @@ export default function AboutPage() {
       <section className="border-b border-[var(--border-warm)] bg-[var(--bg-sage-soft)] py-14 lg:py-18">
         <div className="mx-auto max-w-[1240px] px-6">
           <div className="max-w-3xl">
-            <div className="inline-flex items-center gap-2 rounded-full border border-[var(--border-hairline)] bg-[var(--bg-canvas)] px-3.5 py-1 text-xs font-semibold text-[var(--ink-secondary)] uppercase">
-              <ShieldCheck size={14} className="text-[var(--accent-cta)]" />
-              <span>Profil Resmi Perusahaan</span>
+            <div className="flex items-center gap-3 mb-4">
+              <KciLogo width={40} />
+              <div className="inline-flex items-center gap-2 rounded-full border border-[var(--border-hairline)] bg-[var(--bg-canvas)] px-3.5 py-1 text-xs font-semibold text-[var(--ink-secondary)] uppercase">
+                <ShieldCheck size={14} className="text-[var(--accent-cta)]" />
+                <span>Profil Resmi Perusahaan</span>
+              </div>
             </div>
             <h1 className="mt-4 font-display text-[clamp(2rem,3.5vw,3rem)] font-semibold leading-tight tracking-tight text-[var(--ink-primary)]">
               Mengenal CV. Kreasi Cendekia Indonesia

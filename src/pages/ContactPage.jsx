@@ -10,6 +10,7 @@ import {
   MessageSquare,
 } from "lucide-react";
 import { COMPANY_PROFILE, buildWhatsAppUrl } from "../data/kciData";
+import KciLogo from "../components/KciLogo";
 
 export default function ContactPage() {
   const [formState, setFormState] = useState({
@@ -52,6 +53,7 @@ export default function ContactPage() {
             {/* Left Column: Direct Info Cards */}
             <div className="space-y-6 lg:col-span-5">
               <div className="rounded-2xl border border-[var(--border-warm)] bg-[var(--bg-elevated)] p-7 shadow-xs">
+                <KciLogo width={48} className="mb-4" />
                 <h3 className="font-display text-xl font-semibold text-[var(--ink-primary)]">
                   Kantor &amp; Kebun Pembibitan
                 </h3>

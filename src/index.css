@@ -1,20 +1,42 @@
 @import "tailwindcss";
 
 :root {
-  --bg-canvas: #faf7f0;
-  --bg-elevated: #fffdf8;
-  --bg-sage: #e6efe4;
-  --bg-sage-soft: #eef4ec;
-  --bg-sage-deep: #d8e5d5;
-  --ink-primary: #1b2a20;
-  --ink-secondary: #415346;
-  --ink-muted: #647568;
-  --border-hairline: #cbd9cb;
-  --border-warm: #e4ded0;
-  --accent-cta: #e8824a;
-  --accent-cta-hover: #d46e36;
-  --accent-cta-soft: #fdf0e6;
+  /* Brand Green Spectrum from Official Logo */
+  --brand-primary: #0ca74b;
+  --brand-primary-hover: #0a8f40;
+  --brand-mid: #2eb556;
+  --brand-lime: #75dc66;
+  --brand-tint: #eaf8ee;
+  --brand-tint-soft: #f3faf5;
+  --brand-tint-deep: #d5f0de;
+
+  /* Surfaces & Backgrounds */
+  --bg-canvas: #fbfcfb;
+  --bg-elevated: #ffffff;
+  --bg-sage: #e8f5ec;
+  --bg-sage-soft: #f1f9f4;
+  --bg-sage-deep: #d7eedf;
+
+  /* Typography Inks */
+  --ink-primary: #0d2315;
+  --ink-secondary: #334d3c;
+  --ink-muted: #5a7663;
+
+  /* Architectural Hairline Borders */
+  --border-hairline: #cee4d4;
+  --border-warm: #e1ede5;
+
+  /* CTA Primary (Emerald Green Matching Logo) */
+  --accent-cta: #0ca74b;
+  --accent-cta-hover: #098e3f;
+  --accent-cta-soft: #eaf8ee;
   --accent-cta-ink: #ffffff;
+
+  /* Secondary Accents */
+  --accent-highlight: #75dc66;
+  --accent-mid: #2eb556;
+
+  /* Editorial Fonts */
   --font-display: "Fraunces", Georgia, serif;
   --font-sans: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
 }

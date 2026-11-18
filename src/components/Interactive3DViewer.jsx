@@ -216,7 +216,7 @@ export default function Interactive3DViewer() {
               castShadow
             />
             {nightMode && (
-              <pointLight position={[0, 4, 0]} intensity={1.8} color="#e8824a" distance={8} />
+              <pointLight position={[0, 4, 0]} intensity={1.8} color="#75dc66" distance={8} />
             )}
 
             <Suspense fallback={null}>

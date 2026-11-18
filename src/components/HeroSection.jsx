@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { ArrowUpRight, ArrowDownRight, Box } from "lucide-react";
 import { COMPANY_PROFILE, buildWhatsAppUrl } from "../data/kciData";
 import { ResilientImage } from "./ResilientImage";
+import KciLogo from "./KciLogo";
 
 export function HeroSection() {
   const heroWhatsAppHref = buildWhatsAppUrl(
@@ -17,10 +18,10 @@ export function HeroSection() {
           {/* Left column: Typographic hierarchy */}
           <div className="flex flex-col justify-between lg:col-span-6">
             <div>
-              <div className="inline-flex items-center gap-2 rounded-full border border-[var(--border-hairline)] bg-[var(--bg-sage-soft)] px-3.5 py-1 text-xs font-semibold text-[var(--ink-secondary)]">
-                <span className="h-1.5 w-1.5 rounded-full bg-[var(--accent-cta)]" />
+              <div className="inline-flex items-center gap-2.5 rounded-full border border-[var(--border-hairline)] bg-[var(--brand-tint-soft)] px-3 py-1.5 text-xs font-semibold text-[var(--ink-secondary)]">
+                <KciLogo width={26} />
                 <span>{COMPANY_PROFILE.legalName}</span>
-                <span aria-hidden="true">·</span>
+                <span aria-hidden="true" className="text-[var(--brand-primary)]">·</span>
                 <span>Cigombong, Kab. Bogor</span>
               </div>
 

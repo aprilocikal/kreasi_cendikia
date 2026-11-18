@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, ArrowUpRight, Box } from "lucide-react";
+import { Menu, X, ArrowUpRight } from "lucide-react";
 import { COMPANY_PROFILE, buildWhatsAppUrl } from "../data/kciData";
+import KciLogo from "./KciLogo";
 
 const NAV_LINKS = [
   { label: "Tentang", path: "/tentang-kami", hash: "#tentang" },
@@ -23,26 +24,14 @@ export function TopBar() {
 
   return (
     <header className="sticky top-0 z-40 border-b border-[var(--border-warm)] bg-[var(--bg-canvas)]/95 backdrop-blur-md">
-      <div className="mx-auto flex max-w-[1240px] items-center justify-between gap-6 px-6 py-4">
-        {/* Brand wordmark & Logo */}
+      <div className="mx-auto flex max-w-[1240px] items-center justify-between gap-6 px-6 py-3.5">
+        {/* Brand with Official Vector Logo & Wordmark */}
         <Link
           to="/"
-          className="group flex items-center gap-3 font-display text-xl font-semibold tracking-tight text-[var(--ink-primary)] whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--accent-cta)]"
+          className="group flex items-center gap-3 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--accent-cta)]"
+          title="CV. Kreasi Cendekia Indonesia"
         >
-          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-[var(--bg-sage-deep)] text-[var(--ink-primary)] border border-[var(--border-hairline)] transition-transform group-hover:scale-105">
-            <svg viewBox="0 0 40 40" className="h-5 w-5 fill-current">
-              <path d="M20 5C20 5 12 14 12 21C12 25.4 15.6 29 20 29C24.4 29 28 25.4 28 21C28 14 20 5 20 5Z" opacity="0.85" />
-              <path d="M20 12V34M16 23L20 20M24 23L20 20" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
-            </svg>
-          </div>
-          <div className="flex flex-col">
-            <span className="font-display text-lg font-bold leading-tight text-[var(--ink-primary)]">
-              {COMPANY_PROFILE.shortName}
-            </span>
-            <span className="text-[10px] font-medium tracking-wider text-[var(--ink-muted)] uppercase">
-              Landscape Consultant
-            </span>
-          </div>
+          <KciLogo width={52} showText={true} />
         </Link>
 
         {/* Navigation links */}
@@ -58,7 +47,7 @@ export function TopBar() {
               <Link
                 key={link.label}
                 to={targetHref}
-                className={`relative whitespace-nowrap shrink-0 py-1 transition-colors duration-150 hover:text-[var(--ink-primary)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--accent-cta)] ${
+                className={`relative whitespace-nowrap shrink-0 py-1 transition-colors duration-150 hover:text-[var(--brand-primary)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--accent-cta)] ${
                   isActive
                     ? "font-semibold text-[var(--ink-primary)]"
                     : "text-[var(--ink-secondary)]"
@@ -66,12 +55,12 @@ export function TopBar() {
               >
                 <span>{link.label}</span>
                 {link.badge && (
-                  <span className="ml-1.5 inline-flex items-center rounded-md bg-[var(--bg-sage-deep)] px-1.5 py-0.5 text-[10px] font-bold text-[var(--ink-primary)] uppercase">
+                  <span className="ml-1.5 inline-flex items-center rounded-md bg-[var(--brand-tint-deep)] px-1.5 py-0.5 text-[10px] font-bold text-[var(--brand-primary)] uppercase">
                     {link.badge}
                   </span>
                 )}
                 {isActive && (
-                  <span className="absolute inset-x-0 -bottom-1 h-0.5 rounded-full bg-[var(--accent-cta)]" />
+                  <span className="absolute inset-x-0 -bottom-1 h-0.5 rounded-full bg-[var(--brand-primary)]" />
                 )}
               </Link>
             );
@@ -120,7 +109,7 @@ export function TopBar() {
                 >
                   <span>{link.label}</span>
                   {link.badge && (
-                    <span className="rounded-md bg-[var(--bg-sage-deep)] px-1.5 py-0.5 text-[10px] font-bold text-[var(--ink-primary)]">
+                    <span className="rounded-md bg-[var(--brand-tint-deep)] px-1.5 py-0.5 text-[10px] font-bold text-[var(--brand-primary)]">
                       {link.badge}
                     </span>
                   )}
