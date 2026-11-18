@@ -46,23 +46,16 @@ export function TopBar() {
               className={({ isActive }) =>
                 `relative whitespace-nowrap shrink-0 py-1 transition-colors duration-150 hover:text-[var(--brand-primary)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--accent-cta)] ${
                   isActive
-                    ? "font-semibold text-[var(--ink-primary)]"
+                    ? "font-semibold text-[var(--ink-primary)] after:absolute after:inset-x-0 after:-bottom-1 after:h-0.5 after:rounded-full after:bg-[var(--brand-primary)]"
                     : "text-[var(--ink-secondary)]"
                 }`
               }
             >
-              {({ isActive }) => (
-                <>
-                  <span>{link.label}</span>
-                  {link.badge && (
-                    <span className="ml-1.5 inline-flex items-center rounded-md bg-[var(--brand-tint-deep)] px-1.5 py-0.5 text-[10px] font-bold text-[var(--brand-primary)] uppercase">
-                      {link.badge}
-                    </span>
-                  )}
-                  {isActive && (
-                    <span className="absolute inset-x-0 -bottom-1 h-0.5 rounded-full bg-[var(--brand-primary)]" />
-                  )}
-                </>
+              <span>{link.label}</span>
+              {link.badge && (
+                <span className="ml-1.5 inline-flex items-center rounded-md bg-[var(--brand-tint-deep)] px-1.5 py-0.5 text-[10px] font-bold text-[var(--brand-primary)] uppercase">
+                  {link.badge}
+                </span>
               )}
             </NavLink>
           ))}
