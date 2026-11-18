@@ -95,23 +95,6 @@ export function HeroSection() {
             </div>
           </div>
         </div>
-
-        {/* Full-width 4-column KPI strip below hero split */}
-        <div className="mt-12 grid grid-cols-1 divide-y divide-[var(--border-hairline)] rounded-2xl border border-[var(--border-hairline)] bg-[var(--bg-sage-soft)] sm:grid-cols-2 sm:divide-y-0 lg:grid-cols-4 lg:divide-x">
-          {COMPANY_PROFILE.stats.map((stat) => (
-            <div key={stat.label} className="px-6 py-5">
-              <div className="font-display text-2xl font-bold text-[var(--ink-primary)] tabular-nums">
-                {stat.value}
-              </div>
-              <div className="mt-1 text-sm font-semibold text-[var(--ink-primary)]">
-                {stat.label}
-              </div>
-              <p className="mt-1 text-xs leading-relaxed text-[var(--ink-secondary)]">
-                {stat.detail}
-              </p>
-            </div>
-          ))}
-        </div>
       </div>
     </section>
   );

@@ -10,6 +10,7 @@ import {
   MessageSquare,
 } from "lucide-react";
 import { COMPANY_PROFILE, buildWhatsAppUrl } from "../data/kciData";
+import PageHeader from "../components/PageHeader";
 import KciLogo from "../components/KciLogo";
 
 export default function ContactPage() {
@@ -28,23 +29,14 @@ export default function ContactPage() {
 
   return (
     <div className="bg-[var(--bg-canvas)]">
-      {/* Header Banner */}
-      <section className="border-b border-[var(--border-warm)] bg-[var(--bg-sage-soft)] py-14 lg:py-18">
-        <div className="mx-auto max-w-[1240px] px-6">
-          <div className="max-w-3xl">
-            <div className="inline-flex items-center gap-2 rounded-full border border-[var(--border-hairline)] bg-[var(--bg-canvas)] px-3.5 py-1 text-xs font-semibold text-[var(--ink-secondary)] uppercase">
-              <MessageSquare size={14} className="text-[var(--accent-cta)]" />
-              <span>Kontak &amp; Penawaran</span>
-            </div>
-            <h1 className="mt-4 font-display text-[clamp(2rem,3.5vw,3rem)] font-semibold leading-tight tracking-tight text-[var(--ink-primary)]">
-              Hubungi Konsultan Kami
-            </h1>
-            <p className="mt-4 text-base leading-relaxed text-[var(--ink-secondary)]">
-              Jadwalkan survei peninjauan lokasi, konsultasikan estimasi anggaran, atau pesan suplai tanaman langsung dari nursery kami di Cigombong, Bogor.
-            </p>
-          </div>
-        </div>
-      </section>
+      {/* Header Banner with Photography Background */}
+      <PageHeader
+        bgImage="/assets/kci/dekorasi_indoor.jpg"
+        badgeIcon={<MessageSquare size={14} className="text-[#75dc66]" />}
+        badgeText="Kontak & Penawaran"
+        title="Hubungi Konsultan Kami"
+        subtitle="Jadwalkan survei peninjauan lokasi, konsultasikan estimasi anggaran, atau pesan suplai tanaman langsung dari nursery kami di Cigombong, Bogor."
+      />
 
       {/* Main Contact Grid */}
       <section className="py-16 lg:py-24">

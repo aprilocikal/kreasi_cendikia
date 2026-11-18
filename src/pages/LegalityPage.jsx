@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { ShieldCheck, FileText, CheckCircle2, ArrowUpRight } from "lucide-react";
 import { COMPANY_PROFILE, buildWhatsAppUrl } from "../data/kciData";
+import PageHeader from "../components/PageHeader";
 import LegalityTrustSection from "../components/LegalityTrustSection";
 
 export default function LegalityPage() {
@@ -11,23 +12,14 @@ export default function LegalityPage() {
 
   return (
     <div className="bg-[var(--bg-canvas)]">
-      {/* Header Banner */}
-      <section className="border-b border-[var(--border-warm)] bg-[var(--bg-sage-soft)] py-14 lg:py-18">
-        <div className="mx-auto max-w-[1240px] px-6">
-          <div className="max-w-3xl">
-            <div className="inline-flex items-center gap-2 rounded-full border border-[var(--border-hairline)] bg-[var(--bg-canvas)] px-3.5 py-1 text-xs font-semibold text-[var(--brand-primary)] uppercase">
-              <ShieldCheck size={14} className="text-[var(--brand-primary)]" />
-              <span>Legalitas &amp; Akuntabilitas</span>
-            </div>
-            <h1 className="mt-4 font-display text-[clamp(2rem,3.5vw,3rem)] font-semibold leading-tight tracking-tight text-[var(--ink-primary)]">
-              Legalitas Resmi Badan Usaha
-            </h1>
-            <p className="mt-4 text-base leading-relaxed text-[var(--ink-secondary)]">
-              CV. Kreasi Cendekia Indonesia adalah badan usaha yang terdaftar secara sah di Kementerian Hukum dan HAM Republik Indonesia serta Direktorat Jenderal Pajak untuk memberikan jaminan keamanan administratif dalam setiap kontrak kerja sama.
-            </p>
-          </div>
-        </div>
-      </section>
+      {/* Header Banner with Real Project Background */}
+      <PageHeader
+        bgImage="/assets/kci/komersial_merak_siteplan.jpg"
+        badgeIcon={<ShieldCheck size={14} className="text-[#75dc66]" />}
+        badgeText="Legalitas & Akuntabilitas"
+        title="Legalitas Resmi Badan Usaha"
+        subtitle="CV. Kreasi Cendekia Indonesia adalah badan usaha yang terdaftar secara sah di Kementerian Hukum dan HAM Republik Indonesia serta Direktorat Jenderal Pajak untuk memberikan jaminan keamanan administratif dalam setiap kontrak kerja sama."
+      />
 
       {/* Main Legality Section with Expandable Scan Viewers */}
       <LegalityTrustSection />
