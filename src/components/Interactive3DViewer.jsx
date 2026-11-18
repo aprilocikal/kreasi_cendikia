@@ -182,41 +182,41 @@ export default function Interactive3DViewer() {
   }
 
   return (
-    <section id="interactive-3d" className="model3d-section">
-      <div className="container">
+    <section id="model-3d" className="border-t border-[var(--border-warm)] bg-[var(--bg-canvas)] py-16 lg:py-24">
+      <div className="mx-auto max-w-[1240px] px-6">
         {/* Header */}
-        <div className="model3d-header">
-          <div className="section-badge">
-            <Box size={14} />
-            <span>Fitur Interaktif 3 Dimensi</span>
+        <div className="mx-auto max-w-3xl text-center">
+          <div className="inline-flex items-center gap-2 rounded-full border border-[var(--border-hairline)] bg-[var(--bg-sage-soft)] px-3.5 py-1 text-xs font-semibold text-[var(--ink-secondary)] uppercase">
+            <Box size={14} className="text-[var(--accent-cta)]" />
+            <span>Simulasi 3 Dimensi Interaktif</span>
           </div>
-          <h2 className="section-title">
+          <h2 className="mt-3 font-display text-[clamp(1.75rem,3vw,2.5rem)] font-semibold leading-tight tracking-tight text-[var(--ink-primary)] text-balance">
             Visualisasi Desain 3D: Pavilion &amp; Landscape Rest Area
           </h2>
-          <p className="section-desc">
-            Sesuai portofolio dokumentasi desain di Rest Area KM 130 Merak &amp; KM 68 Cipali (Astra Toll Road),
-            kami merancang setiap detail lanskap dengan simulasi 3D presisi tinggi sebelum tahap konstruksi fisik dimulai.
+          <p className="mt-3 text-sm leading-relaxed text-[var(--ink-secondary)]">
+            Diadaptasi dari pengalaman perencanaan Rest Area KM 130 Merak &amp; KM 68 Cipali (Astra Toll Road),
+            kami memodelkan setiap detail tata ruang, hardscape, kolam, dan vegetasi secara 3D presisi tinggi sebelum proses konstruksi fisik dimulai.
           </p>
         </div>
 
         {/* 3D Canvas Box */}
-        <div className="model3d-canvas-wrapper">
+        <div className={`mt-10 model3d-canvas-wrapper ${nightMode ? 'night' : ''}`}>
           <Canvas
             shadows
             camera={{ position: [4, 3.2, 4.8], fov: 45 }}
             style={{ width: '100%', height: '100%' }}
           >
-            <color attach="background" args={[nightMode ? '#0F172A' : '#F8FAFC']} />
+            <color attach="background" args={[nightMode ? '#101913' : '#faf7f0']} />
             
-            <ambientLight intensity={nightMode ? 0.25 : 0.9} />
+            <ambientLight intensity={nightMode ? 0.35 : 0.95} />
             <directionalLight
               position={nightMode ? [3, 8, 2] : [6, 9, 5]}
-              intensity={nightMode ? 0.4 : 1.3}
+              intensity={nightMode ? 0.45 : 1.3}
               color={nightMode ? '#A9C2D4' : '#FFF9EB'}
               castShadow
             />
             {nightMode && (
-              <pointLight position={[0, 4, 0]} intensity={1.5} color="#457B9D" distance={8} />
+              <pointLight position={[0, 4, 0]} intensity={1.8} color="#75dc66" distance={8} />
             )}
 
             <Suspense fallback={null}>
@@ -260,11 +260,11 @@ export default function Interactive3DViewer() {
 
             <div className="mode-switch-group">
               <button
-                className="mode-btn"
+                className={`mode-btn ${nightMode ? 'active' : ''}`}
                 onClick={() => setNightMode(!nightMode)}
                 title="Ganti Mode Pencahayaan Siang / Malam"
               >
-                {nightMode ? <Sun size={16} /> : <Moon size={16} />}
+                {nightMode ? <Sun size={15} /> : <Moon size={15} />}
                 <span>{nightMode ? 'Siang' : 'Malam'}</span>
               </button>
               <button
@@ -272,61 +272,60 @@ export default function Interactive3DViewer() {
                 onClick={() => setView('perspektif')}
                 title="Reset Sudut Pandang"
               >
-                <RotateCcw size={16} />
+                <RotateCcw size={15} />
               </button>
             </div>
           </div>
 
-          <div className="model3d-hint">
-            <Sparkles size={14} />
-            <span>Klik &amp; geser kursor untuk memutar model 360&deg; | Scroll untuk zoom</span>
+          <div className="model3d-hint-badge">
+            <Sparkles size={13} className="text-[var(--accent-cta)]" />
+            <span>Klik &amp; geser kursor untuk memutar model 360&deg; · Scroll untuk zoom</span>
           </div>
         </div>
 
         {/* Features breakdown grid */}
-        <div className="model3d-features-grid">
-          <div className="m3d-feature-card">
-            <CheckCircle2 size={22} className="feature-icon" />
-            <div>
-              <h4>Simulasi Skala Nyata</h4>
-              <p>Memastikan tata letak kanopi, jalur pejalan kaki, dan drainase air terukur akurat.</p>
+        <div className="mt-8 grid grid-cols-1 gap-5 md:grid-cols-3">
+          <div className="rounded-xl border border-[var(--border-hairline)] bg-[var(--bg-elevated)] p-6 shadow-xs">
+            <div className="flex items-center gap-3">
+              <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-[var(--bg-sage-soft)] text-[var(--accent-cta)]">
+                <CheckCircle2 size={18} />
+              </div>
+              <h4 className="font-display text-base font-semibold text-[var(--ink-primary)]">
+                Simulasi Skala Nyata
+              </h4>
             </div>
-          </div>
-
-          <div className="m3d-feature-card">
-            <CheckCircle2 size={22} className="feature-icon" />
-            <div>
-              <h4>Harmonisasi Hardscape &amp; Softscape</h4>
-              <p>Perpaduan material kayu, baja, batu alam dengan tanaman nursery hidup berkualitas.</p>
-            </div>
-          </div>
-
-          <div className="m3d-feature-card">
-            <CheckCircle2 size={22} className="feature-icon" />
-            <div>
-              <h4>Kesiapan Eksekusi Lapangan</h4>
-              <p>Gambar kerja 3D langsung menjadi acuan tim kontraktor saat proses konstruksi fisik.</p>
-            </div>
-          </div>
-        </div>
-
-        {/* CTA Banner (10% Soft Orange) */}
-        <div className="model3d-cta-strip">
-          <div>
-            <h3 className="cta-strip-title">Ingin Membuat Desain 3D untuk Proyek Lanskap Anda?</h3>
-            <p className="cta-strip-sub">
-              Konsultasikan ide taman rumah pribadi, kantor, atau kawasan komersial Anda bersama tim arsitek lanskap kami.
+            <p className="mt-3 text-xs leading-relaxed text-[var(--ink-secondary)]">
+              Memastikan proporsi kanopi arsitektural, jalur sirkulasi pejalan kaki, dan drainase air terencana dengan akurasi tinggi.
             </p>
           </div>
-          <a
-            href="https://wa.me/6281212126595?text=Halo%20CV%20Kreasi%20Cendikia%20Indonesia,%20saya%20ingin%20konsultasi%20desain%203D%20landscape"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn-accent"
-          >
-            <PhoneCall size={18} />
-            <span>Pesan Sekarang (WhatsApp)</span>
-          </a>
+
+          <div className="rounded-xl border border-[var(--border-hairline)] bg-[var(--bg-elevated)] p-6 shadow-xs">
+            <div className="flex items-center gap-3">
+              <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-[var(--bg-sage-soft)] text-[var(--accent-cta)]">
+                <CheckCircle2 size={18} />
+              </div>
+              <h4 className="font-display text-base font-semibold text-[var(--ink-primary)]">
+                Harmonisasi Material
+              </h4>
+            </div>
+            <p className="mt-3 text-xs leading-relaxed text-[var(--ink-secondary)]">
+              Perpaduan elemen kayu, struktur baja, batu alam, serta seleksi vegetasi tropis segar langsung dari nursery Cigombong.
+            </p>
+          </div>
+
+          <div className="rounded-xl border border-[var(--border-hairline)] bg-[var(--bg-elevated)] p-6 shadow-xs">
+            <div className="flex items-center gap-3">
+              <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-[var(--bg-sage-soft)] text-[var(--accent-cta)]">
+                <CheckCircle2 size={18} />
+              </div>
+              <h4 className="font-display text-base font-semibold text-[var(--ink-primary)]">
+                Kesiapan Eksekusi Fisik
+              </h4>
+            </div>
+            <p className="mt-3 text-xs leading-relaxed text-[var(--ink-secondary)]">
+              Model 3D langsung menjadi acuan teknis tim pelaksana lapangan untuk menjamin hasil konstruksi identik dengan konsep.
+            </p>
+          </div>
         </div>
       </div>
     </section>
