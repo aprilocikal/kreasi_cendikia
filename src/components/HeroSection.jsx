@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { ArrowUpRight, ArrowDownRight, Box } from "lucide-react";
+import { ArrowUpRight, ArrowRight, Box } from "lucide-react";
 import { COMPANY_PROFILE, buildWhatsAppUrl } from "../data/kciData";
 import { ResilientImage } from "./ResilientImage";
 import KciLogo from "./KciLogo";
