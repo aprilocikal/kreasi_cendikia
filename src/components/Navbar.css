@@ -84,26 +84,26 @@
 }
 
 .navbar-orange-btn {
-  background: #E8732A;
+  background: #0ca74b;
   color: #FFFFFF;
   border-radius: 999px;
   padding: 9px 22px;
-  font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
   font-size: 0.86rem;
   font-weight: 700;
   display: inline-flex;
   align-items: center;
   gap: 8px;
   text-decoration: none;
-  box-shadow: 0 4px 14px rgba(232, 115, 42, 0.35);
+  box-shadow: 0 4px 14px rgba(12, 167, 75, 0.35);
   transition: all 0.25s ease;
   white-space: nowrap;
 }
 
 .navbar-orange-btn:hover {
-  background: #D8631A;
+  background: #098e3f;
   transform: translateY(-1px);
-  box-shadow: 0 6px 18px rgba(232, 115, 42, 0.45);
+  box-shadow: 0 6px 18px rgba(12, 167, 75, 0.45);
 }
 
 .navbar-mobile-btn {

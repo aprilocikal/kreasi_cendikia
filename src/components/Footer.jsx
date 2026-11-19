@@ -122,7 +122,7 @@ export default function Footer() {
         <div className="footer-sub-bar">
           <p className="footer-copy">
             &copy; {new Date().getFullYear()} CV. Kreasi Cendikia Indonesia. Dibuat dengan{' '}
-            <span style={{ color: '#E8732A' }}>&#10084;</span> untuk lanskap Indonesia.
+            <span style={{ color: '#0ca74b' }}>&#10084;</span> untuk lanskap Indonesia.
           </p>
 
           <div className="footer-sub-links">

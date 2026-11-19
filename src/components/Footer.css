@@ -29,7 +29,7 @@
 /* Dark Charcoal Quote Box with Signature Orange Left Bar like Setinggi Langit */
 .footer-quote-box {
   background-color: #1C1917;
-  border-left: 4px solid #e8732a;
+  border-left: 4px solid #0ca74b;
   border-radius: 16px;
   padding: 22px 24px;
   margin-bottom: 20px;
@@ -51,7 +51,7 @@
   font-size: 0.82rem;
   font-style: italic;
   font-weight: 700;
-  color: #E8732A;
+  color: #75dc66;
 }
 
 /* Square Icon Buttons */
@@ -142,22 +142,22 @@
 }
 
 .footer-contact-pill-card:hover {
-  border-color: #E8732A;
+  border-color: #0ca74b;
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(232, 115, 42, 0.16);
+  box-shadow: 0 8px 20px rgba(12, 167, 75, 0.16);
 }
 
 .pill-card-icon {
   width: 42px;
   height: 42px;
   border-radius: 10px;
-  background-color: #e8732a;
+  background-color: #0ca74b;
   color: #ffffff;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  box-shadow: 0 4px 10px rgba(232, 115, 42, 0.3);
+  box-shadow: 0 4px 10px rgba(12, 167, 75, 0.3);
 }
 
 .pill-card-text {
@@ -182,9 +182,9 @@
   color: #0F172A;
 }
 
-/* Big Orange Pill Button like Setinggi Langit */
+/* Big Green Pill Button */
 .footer-orange-pill-btn {
-  background-color: #e8732a;
+  background-color: #0ca74b;
   color: #ffffff;
   border-radius: 999px;
   padding: 14px 24px;
@@ -196,15 +196,15 @@
   justify-content: center;
   gap: 8px;
   text-decoration: none;
-  box-shadow: 0 8px 22px rgba(232, 115, 42, 0.35);
+  box-shadow: 0 8px 22px rgba(12, 167, 75, 0.35);
   transition: all 0.25s ease;
   width: 100%;
 }
 
 .footer-orange-pill-btn:hover {
-  background-color: #d8631a;
+  background-color: #098e3f;
   transform: translateY(-2px);
-  box-shadow: 0 12px 28px rgba(232, 115, 42, 0.55);
+  box-shadow: 0 12px 28px rgba(12, 167, 75, 0.55);
 }
 
 /* Bottom Bar */
