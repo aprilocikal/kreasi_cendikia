@@ -3,8 +3,6 @@ import { Link } from "react-router-dom";
 import {
   ArrowRight,
   ArrowUpRight,
-  Box,
-  CheckCircle2,
   Compass,
   FileCheck2,
   Layers,
@@ -158,65 +156,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 4. Fitur Simulasi 3D Teaser -> Menuju /model-3d */}
-      <section className="border-t border-[var(--border-warm)] bg-[var(--bg-canvas)] py-16 lg:py-20">
-        <div className="mx-auto max-w-[1240px] px-6">
-          <div className="rounded-3xl border border-[var(--border-hairline)] bg-gradient-to-br from-[#0d2315] via-[#152e1c] to-[#0c1f13] p-8 sm:p-12 text-white shadow-xl">
-            <div className="grid grid-cols-1 items-center gap-8 lg:grid-cols-12 lg:gap-12">
-              <div className="lg:col-span-7">
-                <div className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3.5 py-1 text-xs font-semibold text-[#75dc66] uppercase backdrop-blur-sm">
-                  <Box size={14} />
-                  <span>Teknologi Simulasi 3D Interaktif</span>
-                </div>
-                <h2 className="mt-4 font-display text-[clamp(1.75rem,3.2vw,2.75rem)] font-semibold leading-tight tracking-tight text-white">
-                  Visualisasi Lanskap 360° Sebelum Realisasi Konstruksi.
-                </h2>
-                <p className="mt-4 text-sm leading-relaxed text-white/80">
-                  Hindari kesalahan pembangunan fisik. Jelajahi simulasi interaktif kanopi pavilion rest area jalan tol (Astra Toll Road), atur pencahayaan siang/malam, dan evaluasi sirkulasi ruang langsung di peramban Anda.
-                </p>
-
-                <div className="mt-8 flex flex-wrap items-center gap-4">
-                  <Link
-                    to="/model-3d"
-                    className="inline-flex items-center gap-2 rounded-lg bg-[var(--brand-primary)] px-6 py-3.5 text-sm font-semibold text-white hover:bg-[var(--brand-primary-hover)] shadow-md transition-all"
-                  >
-                    <Box className="h-4 w-4" />
-                    <span>Buka Halaman Simulator 3D Lengkap</span>
-                  </Link>
-                </div>
-              </div>
-
-              <div className="lg:col-span-5">
-                <div className="rounded-2xl border border-white/15 bg-white/5 p-6 backdrop-blur-sm space-y-4">
-                  <div className="flex items-start gap-3">
-                    <CheckCircle2 className="h-5 w-5 text-[#75dc66] shrink-0 mt-0.5" />
-                    <div>
-                      <h4 className="font-display text-sm font-semibold text-white">Mode Siang &amp; Malam</h4>
-                      <p className="text-xs text-white/70 mt-0.5">Simulasi tata lampu lanskap dan pencahayaan outdoor.</p>
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-3">
-                    <CheckCircle2 className="h-5 w-5 text-[#75dc66] shrink-0 mt-0.5" />
-                    <div>
-                      <h4 className="font-display text-sm font-semibold text-white">3 Sudut Pandang Kamera</h4>
-                      <p className="text-xs text-white/70 mt-0.5">Perspektif manusia, Site Plan dari atas, dan area kolam.</p>
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-3">
-                    <CheckCircle2 className="h-5 w-5 text-[#75dc66] shrink-0 mt-0.5" />
-                    <div>
-                      <h4 className="font-display text-sm font-semibold text-white">Akurasi Skala Teknik</h4>
-                      <p className="text-xs text-white/70 mt-0.5">Memastikan kanopi, decking, dan jalur drainase terukur presisi.</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 5. Sorotan Portofolio Nyata -> Menuju /portofolio */}
+      {/* 4. Sorotan Portofolio Nyata -> Menuju /portofolio */}
       <section className="border-t border-[var(--border-warm)] bg-[var(--bg-canvas)] py-16 lg:py-20">
         <div className="mx-auto max-w-[1240px] px-6">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
