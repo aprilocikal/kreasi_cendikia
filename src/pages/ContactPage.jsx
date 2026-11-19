@@ -38,7 +38,7 @@ export default function ContactPage() {
     <div className="bg-[var(--bg-canvas)]">
       {/* Header Banner with Photography Background */}
       <PageHeader
-        bgImage="/assets/kci/dekorasi_indoor.jpg"
+        bgImage="/assets/kci/dekorasi_indoor.webp"
         badgeIcon={<MessageSquare size={14} className="text-[#75dc66]" />}
         badgeText="Kontak & Penawaran"
         title="Hubungi Konsultan Kami"

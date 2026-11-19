@@ -15,7 +15,7 @@ export default function AboutPage() {
     <div className="bg-[var(--bg-canvas)]">
       {/* Header Banner with Real Nursery Photography Background */}
       <PageHeader
-        bgImage="/assets/kci/nursery_cigombong.jpg"
+        bgImage="/assets/kci/nursery_cigombong.webp"
         title="Mengenal CV. Kreasi Cendekia Indonesia"
       />
 
@@ -30,7 +30,7 @@ export default function AboutPage() {
               <div className="relative overflow-hidden rounded-2xl border border-[var(--border-warm)] shadow-sm">
                 <div className="aspect-[16/11] w-full">
                   <ResilientImage
-                    src="/assets/kci/nursery_cigombong.jpg"
+                    src="/assets/kci/nursery_cigombong.webp"
                     alt="Lahan Pembibitan Nursery CV. Kreasi Cendekia Indonesia di Cigombong Bogor"
                     className="h-full w-full object-cover"
                     containerClassName="h-full w-full"

@@ -8,7 +8,7 @@ export default function Model3DPage() {
     <div className="bg-[var(--bg-canvas)]">
       {/* Header Banner with Real 3D Project Background */}
       <PageHeader
-        bgImage="/assets/kci/komersial_cipali_restarea.jpg"
+        bgImage="/assets/kci/komersial_cipali_restarea.webp"
         badgeIcon={<Box size={14} className="text-[#75dc66]" />}
         badgeText="Simulasi 3 Dimensi"
         title="Visualisasi Desain 3D Interaktif"

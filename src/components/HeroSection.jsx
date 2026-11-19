@@ -69,7 +69,7 @@ export function HeroSection() {
           <div className="lg:col-span-6">
             <div className="relative h-full min-h-[320px] overflow-hidden rounded-2xl border border-[var(--border-warm)] bg-[var(--bg-sage-soft)] shadow-sm lg:min-h-[440px]">
               <ResilientImage
-                src="/assets/kci/hero_karawaci.jpg"
+                src="/assets/kci/hero_karawaci.webp"
                 alt="Konstruksi dan perawatan taman tepi danau di Taman Golf Karawaci oleh CV. Kreasi Cendekia Indonesia"
                 className="h-full w-full object-cover"
                 containerClassName="h-full min-h-[320px] w-full"

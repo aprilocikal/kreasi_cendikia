@@ -14,7 +14,7 @@ export default function LegalityPage() {
     <div className="bg-[var(--bg-canvas)]">
       {/* Header Banner with Real Project Background */}
       <PageHeader
-        bgImage="/assets/kci/komersial_merak_siteplan.jpg"
+        bgImage="/assets/kci/komersial_merak_siteplan.webp"
         badgeIcon={<ShieldCheck size={14} className="text-[#75dc66]" />}
         badgeText="Legalitas & Akuntabilitas"
         title="Legalitas Resmi Badan Usaha"

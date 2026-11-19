@@ -14,7 +14,7 @@ export default function ServicesPage() {
     <div className="bg-[var(--bg-canvas)]">
       {/* Header Banner with Photography Background */}
       <PageHeader
-        bgImage="/assets/kci/hardscape_planter_bench.jpg"
+        bgImage="/assets/kci/hardscape_planter_bench.webp"
         badgeIcon={<Layers size={14} className="text-[#75dc66]" />}
         badgeText="Layanan Terpadu"
         title="Katalog Solusi Lanskap & Nursery"

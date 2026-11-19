@@ -8,7 +8,7 @@ export default function PortfolioPage() {
     <div className="bg-[var(--bg-canvas)]">
       {/* Header Banner with Real Project Photography Background */}
       <PageHeader
-        bgImage="/assets/kci/kawasan_segara_city.jpg"
+        bgImage="/assets/kci/kawasan_segara_city.webp"
         badgeIcon={<Trees size={14} className="text-[#75dc66]" />}
         badgeText="Dokumentasi Nyata"
         title="Portofolio & Rekam Jejak Lapangan"

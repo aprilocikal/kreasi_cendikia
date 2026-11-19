@@ -103,7 +103,7 @@ export const SERVICES = [
       "Penataan kontur tanah, sistem resapan & saluran",
     ],
     idealFor: "Rumah tinggal, show unit properti, gedung kantor, dan area publik.",
-    image: "/assets/kci/hunian_goldfinch_serpong.jpg",
+    image: "/assets/kci/hunian_goldfinch_serpong.webp",
     imageAlt: "Konstruksi taman tropis dengan pencahayaan batu alam di Goldfinch Summarecon Serpong",
     whatsappMessage:
       "Halo CV. Kreasi Cendekia Indonesia, saya tertarik berkonsultasi mengenai layanan Desain & Konstruksi Taman.",
@@ -125,7 +125,7 @@ export const SERVICES = [
       "Pekerjaan Saluran Drainase Lanskap",
     ],
     idealFor: "Kawasan komersial, cluster perumahan, rest area, dan villa pribadi.",
-    image: "/assets/kci/hardscape_planter_bench.jpg",
+    image: "/assets/kci/hardscape_planter_bench.webp",
     imageAlt: "Konstruksi planter box dan bangku kayu taman arsitektural",
     whatsappMessage:
       "Halo CV. Kreasi Cendekia Indonesia, saya ingin menanyakan penawaran untuk pekerjaan Hardscape & Kolam Buatan.",
@@ -145,7 +145,7 @@ export const SERVICES = [
       "Dekorasi Tanaman Acara & Ruang Rapat",
     ],
     idealFor: "Perbankan, restoran, lobi perkantoran, dan dinding batas hunian.",
-    image: "/assets/kci/vertical_garden_gedung.jpg",
+    image: "/assets/kci/vertical_garden_gedung.webp",
     imageAlt: "Pemasangan vertical garden modular pada struktur bangunan",
     whatsappMessage:
       "Halo CV. Kreasi Cendekia Indonesia, saya ingin memesan layanan Vertical Garden / Indoor Plant.",
@@ -164,7 +164,7 @@ export const SERVICES = [
       "Alas Drainase Cell & Perataan Lahan",
     ],
     idealFor: "Teras indoor, rooftop, sekolah, sarana olahraga, dan taman minim perawatan.",
-    image: "/assets/kci/rumput_sintetis_futsal.jpg",
+    image: "/assets/kci/rumput_sintetis_futsal.webp",
     imageAlt: "Pemasangan rumput sintetis standar lapangan mini soccer dan futsal",
     whatsappMessage:
       "Halo CV. Kreasi Cendekia Indonesia, saya membutuhkan informasi jasa Taman Kering atau Rumput Sintetis.",
@@ -183,7 +183,7 @@ export const SERVICES = [
       "Pemupukan, pengendalian hama & peremajaan tanaman",
     ],
     idealFor: "Hunian mewah, pengelola kawasan kota mandiri, hotel, dan area publik.",
-    image: "/assets/kci/perawatan_bonsai.jpg",
+    image: "/assets/kci/perawatan_bonsai.webp",
     imageAlt: "Tim ahli melakukan pemangkasan dan perawatan bonsai taman",
     whatsappMessage:
       "Halo CV. Kreasi Cendekia Indonesia, saya ingin menjadwalkan layanan Perawatan Taman atau Bonsai.",
@@ -202,7 +202,7 @@ export const SERVICES = [
       "Penghijauan Akses Jalan & Infrastruktur Tol",
     ],
     idealFor: "Proyek developer skala besar, institusi pendidikan, wisata edukasi, dan kolektor.",
-    image: "/assets/kci/nursery_cigombong.jpg",
+    image: "/assets/kci/nursery_cigombong.webp",
     imageAlt: "Area pembibitan dan stok tanaman di nursery CV. Kreasi Cendekia Indonesia",
     whatsappMessage:
       "Halo CV. Kreasi Cendekia Indonesia, saya tertarik dengan layanan Hidroponik / Suplai Nursery / Taman Aviary.",
@@ -363,7 +363,7 @@ export const GALLERY_ITEMS = [
     title: "Lanskap & Kolam Tepi Danau Taman Golf",
     projectContext: "Taman Golf Karawaci · Bpk. John Riady",
     category: "Hunian & Taman",
-    image: "/assets/kci/hero_karawaci.jpg",
+    image: "/assets/kci/hero_karawaci.webp",
     caption:
       "Penataan lanskap halaman luas, jalur stepping stone batu alam, dan perawatan taman tepi danau di Karawaci.",
   },
@@ -372,7 +372,7 @@ export const GALLERY_ITEMS = [
     title: "Masterplan Rest Area KM 68 A & B",
     projectContext: "Astra Toll Road · Tol Cipali",
     category: "Komersial & Publik",
-    image: "/assets/kci/komersial_cipali_restarea.jpg",
+    image: "/assets/kci/komersial_cipali_restarea.webp",
     caption:
       "Desain and built ruang terbuka hijau, plaza air mancur bundar, dan area istirahat pengendara di Tol Cipali.",
   },
@@ -381,7 +381,7 @@ export const GALLERY_ITEMS = [
     title: "Taman Tropis & Batu Alam Goldfinch",
     projectContext: "Summarecon Serpong · Tangerang",
     category: "Hunian & Taman",
-    image: "/assets/kci/hunian_goldfinch_serpong.jpg",
+    image: "/assets/kci/hunian_goldfinch_serpong.webp",
     caption:
       "Kombinasi bromelia, tanaman semak berbunga, batu koral putih, dan lampu taman arsitektural.",
   },
@@ -390,7 +390,7 @@ export const GALLERY_ITEMS = [
     title: "Planter Box & Bangku Kayu Arsitektural",
     projectContext: "Proyek Hardscape Komersial",
     category: "Hardscape & Sintetis",
-    image: "/assets/kci/hardscape_planter_bench.jpg",
+    image: "/assets/kci/hardscape_planter_bench.webp",
     caption:
       "Konstruksi planter baja berlapis aksen kayu dengan bangku duduk terintegrasi dan vegetasi palem.",
   },
@@ -399,7 +399,7 @@ export const GALLERY_ITEMS = [
     title: "Show Unit & Playground Catha Rempoa",
     projectContext: "Damai Putra Group · Tangerang Selatan",
     category: "Kawasan & Developer",
-    image: "/assets/kci/kawasan_catha_rempoa.jpg",
+    image: "/assets/kci/kawasan_catha_rempoa.webp",
     caption:
       "Penghijauan area bermain anak, jalur pedestrian, dan taman show unit di kawasan Catha Rempoa.",
   },
@@ -408,7 +408,7 @@ export const GALLERY_ITEMS = [
     title: "Perawatan Kawasan Segara City",
     projectContext: "Kota Harapan Indah · Bekasi",
     category: "Kawasan & Developer",
-    image: "/assets/kci/kawasan_segara_city.jpg",
+    image: "/assets/kci/kawasan_segara_city.webp",
     caption:
       "Pemeliharaan taman gerbang kawasan, median jalan, dan ruang terbuka hijau klaster perumahan.",
   },
@@ -417,7 +417,7 @@ export const GALLERY_ITEMS = [
     title: "Vertical Garden Modular Gedung",
     projectContext: "Proyek Fasad & Struktur Komersial",
     category: "Hardscape & Sintetis",
-    image: "/assets/kci/vertical_garden_gedung.jpg",
+    image: "/assets/kci/vertical_garden_gedung.webp",
     caption:
       "Pemasangan panel vertical garden rangka besi gantung untuk menyegarkan fasad bangunan.",
   },
@@ -426,7 +426,7 @@ export const GALLERY_ITEMS = [
     title: "Vertical Garden Sintetis Bebek Kaleyo",
     projectContext: "Restoran Bebek Kaleyo · Tebet & Bogor",
     category: "Hardscape & Sintetis",
-    image: "/assets/kci/vertical_garden_bebek_kaleyo.jpg",
+    image: "/assets/kci/vertical_garden_bebek_kaleyo.webp",
     caption:
       "Dinding tanaman sintetis rapat dengan komposisi warna dedaunan tropis sebagai latar signage restoran.",
   },
@@ -435,7 +435,7 @@ export const GALLERY_ITEMS = [
     title: "Lapangan Mini Soccer Rumput Sintetis",
     projectContext: "Mini Soccer Serpong & Sekolah Aviciena",
     category: "Hardscape & Sintetis",
-    image: "/assets/kci/rumput_sintetis_futsal.jpg",
+    image: "/assets/kci/rumput_sintetis_futsal.webp",
     caption:
       "Pemasangan karpet rumput sintetis olahraga lengkap dengan garis lapangan dan sistem drainase bawah.",
   },
@@ -444,7 +444,7 @@ export const GALLERY_ITEMS = [
     title: "Kolam Buatan & Pond Skala Kawasan",
     projectContext: "Konstruksi Kolam & Geomembran",
     category: "Hardscape & Sintetis",
-    image: "/assets/kci/kolam_buatan_pond.jpg",
+    image: "/assets/kci/kolam_buatan_pond.webp",
     caption:
       "Pembuatan kolam buatan menggunakan pelapis kedap air, pengerasan tepi batu, dan ekosistem ikan koi.",
   },
@@ -453,7 +453,7 @@ export const GALLERY_ITEMS = [
     title: "Perawatan Bonsai & Taman Lobi",
     projectContext: "Perawatan Spesialis Bonsai",
     category: "Hunian & Taman",
-    image: "/assets/kci/perawatan_bonsai.jpg",
+    image: "/assets/kci/perawatan_bonsai.webp",
     caption:
       "Pemangkasan presisi dan pembentukan cabang bonsai koleksi di area taman dan lobi gedung.",
   },
@@ -462,7 +462,7 @@ export const GALLERY_ITEMS = [
     title: "Indoor Plant Rent Perkantoran & Bank",
     projectContext: "Bank BTN & Bank BRI · Jabodetabek",
     category: "Komersial & Publik",
-    image: "/assets/kci/indoor_plant_rent.jpg",
+    image: "/assets/kci/indoor_plant_rent.webp",
     caption:
       "Penataan pot keramik dan tanaman indoor pilihan dengan jadwal rotasi perawatan berkala.",
   },
@@ -471,7 +471,7 @@ export const GALLERY_ITEMS = [
     title: "Dekorasi Taman Kering & Indoor Event",
     projectContext: "Sekolah IPEKA BSD & Ruang Rapat",
     category: "Komersial & Publik",
-    image: "/assets/kci/dekorasi_indoor.jpg",
+    image: "/assets/kci/dekorasi_indoor.webp",
     caption:
       "Kreasi taman kering dalam ruangan dengan hamparan batu koral putih dan tanaman tropis rendah cahaya.",
   },
@@ -480,7 +480,7 @@ export const GALLERY_ITEMS = [
     title: "Taman Aviary Natural & Jalur Batu",
     projectContext: "Konstruksi Taman Aviary",
     category: "Hunian & Taman",
-    image: "/assets/kci/taman_aviary.jpg",
+    image: "/assets/kci/taman_aviary.webp",
     caption:
       "Penataan habitat aviary dengan struktur kandang tinggi, pohon peneduh, batu alam, dan kendi air.",
   },
@@ -489,7 +489,7 @@ export const GALLERY_ITEMS = [
     title: "Instalasi Kebun Hidroponik Vertikal",
     projectContext: "Divisi Hidroponik KCI",
     category: "Komersial & Publik",
-    image: "/assets/kci/hidroponik_farm.jpg",
+    image: "/assets/kci/hidroponik_farm.webp",
     caption:
       "Pembangunan green house dan instalasi menara serta pipa hidroponik produktif siap panen.",
   },
@@ -498,7 +498,7 @@ export const GALLERY_ITEMS = [
     title: "Lahan Pembibitan Nursery Cigombong",
     projectContext: "Nursery Mandiri · Kabupaten Bogor",
     category: "Kawasan & Developer",
-    image: "/assets/kci/nursery_cigombong.jpg",
+    image: "/assets/kci/nursery_cigombong.webp",
     caption:
       "Stok ribuan tanaman semak, penutup tanah, dan pohon pelindung yang siap dikirim ke lokasi proyek.",
   },
@@ -512,7 +512,7 @@ export const LEGALITY_DATA = {
     deedInfo: "Akta Nomor 01 tanggal 11 Januari 2024",
     notary: "Notaris Lia Herawati, S.H., M.Kn. (Kab. Sukabumi)",
     domicile: "Berkedudukan di Kabupaten Bogor, Jawa Barat",
-    image: "/assets/kci/legalitas_ahu.jpg",
+    image: "/assets/kci/legalitas_ahu.webp",
   },
   npwp: {
     title: "Nomor Pokok Wajib Pajak (NPWP) Badan",
@@ -521,6 +521,6 @@ export const LEGALITY_DATA = {
     registeredDate: "18 Januari 2024",
     taxOffice: "KPP Pratama Ciawi",
     address: "Raya Bogor Sukabumi Km 21 RT. 013 RW. 004, Cigombong, Kab. Bogor",
-    image: "/assets/kci/legalitas_npwp.jpg",
+    image: "/assets/kci/legalitas_npwp.webp",
   },
 };

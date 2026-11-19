@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { PhoneCall, ArrowRight } from 'lucide-react'
-import heroBg from '../assets/hero-bg.jpg'
+import heroBg from '../assets/hero-bg.webp'
 import './Hero.css'
 
 export default function Hero() {
