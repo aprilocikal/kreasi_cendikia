@@ -14,35 +14,37 @@ export function ConversionFooter() {
 
   return (
     <>
-      {/* Pre-Footer Conversion Band on Sage Tint */}
-      <section className="bg-[var(--bg-canvas)] py-16 lg:py-20 border-t border-[var(--border-warm)]">
-        <div className="mx-auto max-w-[1240px] px-6">
-          <div className="flex flex-col items-start justify-between gap-8 rounded-2xl border border-[var(--border-hairline)] bg-[var(--bg-sage)] p-8 sm:p-12 lg:flex-row lg:items-center shadow-xs">
-            <div className="max-w-2xl">
-              <p className="text-xs font-semibold tracking-wide text-[var(--brand-primary)] uppercase">
-                Konsultasi &amp; Survei Lokasi
-              </p>
-              <h2 className="mt-2 font-display text-[clamp(1.75rem,3vw,2.5rem)] font-semibold leading-tight tracking-tight text-[var(--ink-primary)] text-balance">
-                Siap Mewujudkan Taman, Hardscape, atau Penghijauan Kawasan Anda?
-              </h2>
-              <p className="mt-3 text-sm leading-relaxed text-[var(--ink-secondary)]">
-                Hubungi tim konsultan dan kontraktor kami langsung melalui WhatsApp untuk
-                diskusi kebutuhan ruang, estimasi anggaran, dan jadwal peninjauan lokasi.
-              </p>
-            </div>
+      {/* Pre-Footer Conversion Band on Sage Tint (Hanya tampil di selain beranda) */}
+      {!isHomePage && (
+        <section className="bg-[var(--bg-canvas)] py-16 lg:py-20 border-t border-[var(--border-warm)]">
+          <div className="mx-auto max-w-[1240px] px-6">
+            <div className="flex flex-col items-start justify-between gap-8 rounded-2xl border border-[var(--border-hairline)] bg-[var(--bg-sage)] p-8 sm:p-12 lg:flex-row lg:items-center shadow-xs">
+              <div className="max-w-2xl">
+                <p className="text-xs font-semibold tracking-wide text-[var(--brand-primary)] uppercase">
+                  Konsultasi &amp; Survei Lokasi
+                </p>
+                <h2 className="mt-2 font-display text-[clamp(1.75rem,3vw,2.5rem)] font-semibold leading-tight tracking-tight text-[var(--ink-primary)] text-balance">
+                  Siap Mewujudkan Taman, Hardscape, atau Penghijauan Kawasan Anda?
+                </h2>
+                <p className="mt-3 text-sm leading-relaxed text-[var(--ink-secondary)]">
+                  Hubungi tim konsultan dan kontraktor kami langsung melalui WhatsApp untuk
+                  diskusi kebutuhan ruang, estimasi anggaran, dan jadwal peninjauan lokasi.
+                </p>
+              </div>
 
-            <a
-              href={ctaHref}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-lg bg-[var(--accent-cta)] px-7 py-4 text-base font-semibold text-[var(--accent-cta-ink)] whitespace-nowrap shrink-0 shadow-sm transition-all duration-150 hover:bg-[var(--accent-cta-hover)] hover:shadow focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent-cta)]"
-            >
-              <span>Pesan Sekarang</span>
-              <ArrowUpRight className="h-5 w-5" strokeWidth={2} />
-            </a>
+              <a
+                href={ctaHref}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 rounded-lg bg-[var(--accent-cta)] px-7 py-4 text-base font-semibold text-[var(--accent-cta-ink)] whitespace-nowrap shrink-0 shadow-sm transition-all duration-150 hover:bg-[var(--accent-cta-hover)] hover:shadow focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent-cta)]"
+              >
+                <span>Pesan Sekarang</span>
+                <ArrowUpRight className="h-5 w-5" strokeWidth={2} />
+              </a>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* Quiet Architectural Footer on Clean Canvas */}
       <footer className="border-t border-[var(--border-warm)] bg-[var(--bg-canvas)] py-12">

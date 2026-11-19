@@ -264,30 +264,64 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 6. Legalitas Badan Usaha Teaser -> Menuju /legalitas */}
-      <section className="border-t border-[var(--border-hairline)] bg-[var(--bg-sage-soft)] py-16 lg:py-20">
+      {/* 6. Dual Card: Legalitas (Kiri) & Konsultasi/CTA (Kanan) -> Kompak & Kiri-Kanan */}
+      <section className="border-t border-[var(--border-hairline)] bg-[var(--bg-sage-soft)] py-14 lg:py-16">
         <div className="mx-auto max-w-[1240px] px-6">
-          <div className="flex flex-col items-start justify-between gap-6 rounded-2xl border border-[var(--border-hairline)] bg-[var(--bg-elevated)] p-8 sm:p-10 lg:flex-row lg:items-center shadow-xs">
-            <div className="max-w-2xl">
-              <div className="flex items-center gap-2 text-xs font-semibold text-[var(--brand-primary)] uppercase">
-                <ShieldCheck className="h-4 w-4" />
-                <span>Kredibilitas Hukum Resmi</span>
+          <div className="grid grid-cols-1 gap-6 lg:grid-cols-2 items-stretch">
+            {/* Kotak Kiri: Legalitas Hukum Resmi */}
+            <div className="flex flex-col justify-between rounded-2xl border border-[var(--border-hairline)] bg-[var(--bg-elevated)] p-7 sm:p-8 shadow-xs">
+              <div>
+                <div className="flex items-center gap-2 text-xs font-semibold text-[var(--brand-primary)] uppercase">
+                  <ShieldCheck className="h-4 w-4" />
+                  <span>Kredibilitas Hukum Resmi</span>
+                </div>
+                <h3 className="mt-3 font-display text-xl sm:text-2xl font-semibold leading-snug text-[var(--ink-primary)]">
+                  Terdaftar Resmi Kemenkumham RI &amp; Ber-NPWP Aktif
+                </h3>
+                <p className="mt-2 text-xs sm:text-sm leading-relaxed text-[var(--ink-secondary)]">
+                  SK Kemenkumham: <strong>AHU-0004520-AH.01.14 Tahun 2024</strong> · NPWP Badan: <strong>99.973.701.8-434.000</strong>. Siap mendukung proses lelang &amp; administrasi pengadaan korporasi.
+                </p>
               </div>
-              <h2 className="mt-2 font-display text-2xl font-semibold text-[var(--ink-primary)]">
-                Terdaftar Resmi Kemenkumham RI &amp; Ber-NPWP Aktif
-              </h2>
-              <p className="mt-2 text-xs leading-relaxed text-[var(--ink-secondary)]">
-                SK Kemenkumham RI: <strong>AHU-0004520-AH.01.14 Tahun 2024</strong> · NPWP Badan: <strong>99.973.701.8-434.000</strong>. Siap mendukung proses lelang dan administrasi pengadaan korporasi.
-              </p>
+
+              <div className="mt-6 pt-2">
+                <Link
+                  to="/legalitas"
+                  className="inline-flex items-center gap-2 rounded-lg border border-[var(--brand-primary)] bg-[var(--brand-tint)] px-5 py-2.5 text-xs sm:text-sm font-semibold text-[var(--brand-primary)] hover:bg-[var(--brand-primary)] hover:text-white transition-all shadow-xs"
+                >
+                  <FileCheck2 className="h-4 w-4" />
+                  <span>Lihat Dokumen Legalitas</span>
+                </Link>
+              </div>
             </div>
 
-            <Link
-              to="/legalitas"
-              className="inline-flex items-center gap-2 rounded-lg bg-[var(--brand-primary)] px-6 py-3 text-sm font-semibold text-white hover:bg-[var(--brand-primary-hover)] shadow-sm whitespace-nowrap shrink-0 transition-colors"
-            >
-              <FileCheck2 className="h-4 w-4" />
-              <span>Lihat Verifikasi Dokumen Legalitas</span>
-            </Link>
+            {/* Kotak Kanan: Konsultasi & Survei Lokasi */}
+            <div className="flex flex-col justify-between rounded-2xl border border-[var(--border-hairline)] bg-[var(--bg-sage)] p-7 sm:p-8 shadow-xs">
+              <div>
+                <p className="text-xs font-semibold tracking-wide text-[var(--brand-primary)] uppercase">
+                  Konsultasi &amp; Survei Lokasi
+                </p>
+                <h3 className="mt-3 font-display text-xl sm:text-2xl font-semibold leading-snug text-[var(--ink-primary)]">
+                  Siap Mewujudkan Taman &amp; Lanskap Impian Anda?
+                </h3>
+                <p className="mt-2 text-xs sm:text-sm leading-relaxed text-[var(--ink-secondary)]">
+                  Hubungi tim konsultan kami via WhatsApp untuk diskusi kebutuhan ruang, estimasi anggaran (RAB), dan peninjauan survei lokasi.
+                </p>
+              </div>
+
+              <div className="mt-6 pt-2">
+                <a
+                  href={buildWhatsAppUrl(
+                    "Halo CV. Kreasi Cendekia Indonesia, saya ingin berkonsultasi dan menjadwalkan survei lokasi proyek."
+                  )}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 rounded-lg bg-[var(--accent-cta)] px-5 py-2.5 text-xs sm:text-sm font-semibold text-white shadow-xs transition-all hover:bg-[var(--accent-cta-hover)] hover:shadow"
+                >
+                  <span>Pesan Sekarang</span>
+                  <ArrowUpRight className="h-4 w-4" />
+                </a>
+              </div>
+            </div>
           </div>
         </div>
       </section>
