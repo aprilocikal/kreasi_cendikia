@@ -1,12 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { ArrowUpRight, ShieldCheck, MapPin, CheckCircle2 } from "lucide-react";
+import { ArrowUpRight, MapPin, CheckCircle2 } from "lucide-react";
 import { COMPANY_PROFILE, buildWhatsAppUrl } from "../data/kciData";
 import PageHeader from "../components/PageHeader";
 import AboutVisionSection from "../components/AboutVisionSection";
-import LegalityTrustSection from "../components/LegalityTrustSection";
 import ResilientImage from "../components/ResilientImage";
-import KciLogo from "../components/KciLogo";
 
 export default function AboutPage() {
   const whatsappHref = buildWhatsAppUrl(
@@ -19,25 +17,7 @@ export default function AboutPage() {
       <PageHeader
         bgImage="/assets/kci/nursery_cigombong.jpg"
         title="Mengenal CV. Kreasi Cendekia Indonesia"
-        subtitle="Konsultan dan kontraktor lanskap profesional yang memadukan keahlian teknik sipil hijau, perencanaan 3D terukur, dan pembibitan mandiri di Cigombong, Bogor untuk menghadirkan ruang hidup yang asri dan berdaya tahan lama."
-      >
-        <div className="flex items-center gap-3 mb-4">
-          <div className="inline-flex items-center rounded-lg bg-white/95 px-2 py-1 shadow-sm backdrop-blur-sm">
-            <KciLogo width={32} />
-          </div>
-          <div className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3.5 py-1 text-xs font-semibold text-white/95 backdrop-blur-md uppercase tracking-wider">
-            <ShieldCheck size={14} className="text-[#75dc66]" />
-            <span>Profil Resmi Perusahaan</span>
-          </div>
-        </div>
-        <h1 className="mt-4 font-display text-[clamp(2.2rem,4vw,3.25rem)] font-bold leading-tight tracking-tight text-white drop-shadow-xs">
-          Mengenal CV. Kreasi Cendekia Indonesia
-        </h1>
-        <p className="mt-4 text-base leading-relaxed text-stone-200/90 sm:text-lg">
-          Konsultan dan kontraktor lanskap profesional yang memadukan keahlian teknik sipil hijau,
-          perencanaan 3D terukur, dan pembibitan mandiri di Cigombong, Bogor untuk menghadirkan ruang hidup yang asri dan berdaya tahan lama.
-        </p>
-      </PageHeader>
+      />
 
       {/* Profil, Visi, Misi, & Core Values */}
       <AboutVisionSection />
@@ -111,9 +91,6 @@ export default function AboutPage() {
           </div>
         </div>
       </section>
-
-      {/* Legalitas Resmi */}
-      <LegalityTrustSection />
     </div>
   );
 }

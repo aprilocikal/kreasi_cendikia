@@ -39,16 +39,16 @@ export function LegalityTrustSection() {
           {/* Card 1: SK Kemenkumham AHU */}
           <div className="flex flex-col justify-between overflow-hidden rounded-2xl border border-[var(--border-hairline)] bg-[var(--bg-elevated)] p-6 sm:p-7 shadow-xs">
             <div>
-              <div className="flex items-start justify-between gap-4">
+              <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2.5 sm:gap-4">
                 <div>
                   <p className="text-xs font-semibold text-[var(--ink-muted)]">
                     Kementerian Hukum &amp; HAM RI
                   </p>
-                  <h3 className="mt-1 font-display text-xl font-semibold text-[var(--ink-primary)]">
+                  <h3 className="mt-1 font-display text-base sm:text-lg lg:text-xl font-semibold leading-snug text-[var(--ink-primary)]">
                     {LEGALITY_DATA.ahu.title}
                   </h3>
                 </div>
-                <span className="text-xs font-bold text-[var(--ink-secondary)] tabular-nums whitespace-nowrap bg-[var(--bg-sage)] px-2.5 py-1 rounded-md">
+                <span className="self-start sm:self-auto text-[11px] sm:text-xs font-bold text-[var(--ink-secondary)] tabular-nums whitespace-nowrap bg-[var(--bg-sage)] px-2.5 py-1 rounded-md shrink-0">
                   Terbit {LEGALITY_DATA.ahu.issuedDate}
                 </span>
               </div>
@@ -118,16 +118,16 @@ export function LegalityTrustSection() {
           {/* Card 2: NPWP Perusahaan */}
           <div className="flex flex-col justify-between overflow-hidden rounded-2xl border border-[var(--border-hairline)] bg-[var(--bg-elevated)] p-6 sm:p-7 shadow-xs">
             <div>
-              <div className="flex items-start justify-between gap-4">
+              <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2.5 sm:gap-4">
                 <div>
                   <p className="text-xs font-semibold text-[var(--ink-muted)]">
                     Direktorat Jenderal Pajak RI
                   </p>
-                  <h3 className="mt-1 font-display text-xl font-semibold text-[var(--ink-primary)]">
+                  <h3 className="mt-1 font-display text-base sm:text-lg lg:text-xl font-semibold leading-snug text-[var(--ink-primary)]">
                     {LEGALITY_DATA.npwp.title}
                   </h3>
                 </div>
-                <span className="text-xs font-bold text-[var(--ink-secondary)] tabular-nums whitespace-nowrap bg-[var(--bg-sage)] px-2.5 py-1 rounded-md">
+                <span className="self-start sm:self-auto text-[11px] sm:text-xs font-bold text-[var(--ink-secondary)] tabular-nums whitespace-nowrap bg-[var(--bg-sage)] px-2.5 py-1 rounded-md shrink-0">
                   Terdaftar {LEGALITY_DATA.npwp.registeredDate}
                 </span>
               </div>

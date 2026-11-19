@@ -74,9 +74,9 @@ export default function Footer() {
               <li>
                 <Link to="/layanan">Layanan</Link>
               </li>
-              <li>
+              {/* <li>
                 <Link to="/model-3d">Model 3D</Link>
-              </li>
+              </li> */}
               <li>
                 <Link to="/portofolio">Portofolio</Link>
               </li>

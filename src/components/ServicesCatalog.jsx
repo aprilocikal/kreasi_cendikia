@@ -46,19 +46,19 @@ export function ServicesCatalog() {
           </a>
         </div>
 
-        {/* Asymmetric Bento Grid: 2 featured wide cards + 4 balanced cards */}
-        <div className="mt-10 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-6">
+        {/* Asymmetric Bento Grid: 2-column on mobile, responsive on desktop */}
+        <div className="mt-8 sm:mt-10 grid grid-cols-2 gap-3 sm:gap-6 md:grid-cols-2 lg:grid-cols-6">
           {SERVICES.map((service) => {
             const isFeatured = Boolean(service.featured);
             return (
               <article
                 key={service.id}
-                className={`group flex flex-col justify-between overflow-hidden rounded-2xl border border-[var(--border-hairline)] bg-[var(--bg-elevated)] transition-all duration-200 hover:-translate-y-1 hover:shadow-md ${
+                className={`group flex flex-col justify-between overflow-hidden rounded-xl sm:rounded-2xl border border-[var(--border-hairline)] bg-[var(--bg-elevated)] transition-all duration-200 hover:-translate-y-1 hover:shadow-md ${
                   isFeatured ? "lg:col-span-3" : "lg:col-span-3 xl:col-span-3"
                 }`}
               >
                 <div>
-                  <div className="aspect-[16/10] w-full overflow-hidden border-b border-[var(--border-hairline)] bg-[var(--bg-sage-soft)]">
+                  <div className="aspect-[4/3] sm:aspect-[16/10] w-full overflow-hidden border-b border-[var(--border-hairline)] bg-[var(--bg-sage-soft)]">
                     <ResilientImage
                       src={service.image}
                       alt={service.imageAlt}
@@ -68,24 +68,20 @@ export function ServicesCatalog() {
                     />
                   </div>
 
-                  <div className="p-6 sm:p-7">
-                    <div className="flex items-center gap-2 text-xs font-medium text-[var(--ink-muted)]">
+                  <div className="p-3 sm:p-7">
+                    <div className="flex items-center gap-1.5 sm:gap-2 text-[10px] sm:text-xs font-medium text-[var(--ink-muted)]">
                       <span className="font-bold text-[var(--accent-cta)] tabular-nums">
                         {service.number}
                       </span>
                       <span aria-hidden="true">·</span>
-                      <span>{service.subtitle}</span>
+                      <span className="line-clamp-1">{service.subtitle}</span>
                     </div>
 
-                    <h3 className="mt-2 font-display text-xl font-semibold tracking-tight text-[var(--ink-primary)] sm:text-2xl">
+                    <h3 className="mt-1 sm:mt-2 font-display text-xs sm:text-2xl font-semibold tracking-tight text-[var(--ink-primary)] line-clamp-2">
                       {service.title}
                     </h3>
 
-                    <p className="mt-2.5 text-sm leading-relaxed text-[var(--ink-secondary)]">
-                      {service.summary}
-                    </p>
-
-                    <ul className="mt-5 space-y-2 border-t border-[var(--border-warm)] pt-4">
+                    <ul className="hidden sm:block mt-5 space-y-2 border-t border-[var(--border-warm)] pt-4">
                       {service.scope.slice(0, 4).map((item) => (
                         <li
                           key={item}
@@ -107,11 +103,11 @@ export function ServicesCatalog() {
                   </div>
                 </div>
 
-                <div className="flex flex-wrap items-center justify-between gap-3 border-t border-[var(--border-warm)] bg-[var(--bg-canvas)]/60 px-6 py-4 sm:px-7">
+                <div className="flex flex-wrap items-center justify-between gap-2 border-t border-[var(--border-warm)] bg-[var(--bg-canvas)]/60 px-3 py-2.5 sm:px-7 sm:py-4">
                   <button
                     type="button"
                     onClick={() => setSelectedService(service)}
-                    className="text-sm font-semibold text-[var(--ink-primary)] underline-offset-4 hover:underline whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--accent-cta)]"
+                    className="text-[11px] sm:text-sm font-semibold text-[var(--ink-primary)] underline-offset-4 hover:underline whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--accent-cta)]"
                   >
                     Detail Cakupan
                   </button>
@@ -120,10 +116,10 @@ export function ServicesCatalog() {
                     href={buildWhatsAppUrl(service.whatsappMessage)}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 rounded-lg bg-[var(--accent-cta)] px-4 py-2 text-xs font-semibold text-[var(--accent-cta-ink)] whitespace-nowrap shrink-0 transition-colors duration-150 hover:bg-[var(--accent-cta-hover)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent-cta)]"
+                    className="inline-flex items-center gap-1 rounded-md sm:rounded-lg bg-[var(--accent-cta)] px-2.5 py-1.5 sm:px-4 sm:py-2 text-[10px] sm:text-xs font-semibold text-[var(--accent-cta-ink)] whitespace-nowrap shrink-0 transition-colors duration-150 hover:bg-[var(--accent-cta-hover)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent-cta)]"
                   >
-                    <span>Pesan Sekarang</span>
-                    <ArrowUpRight className="h-3.5 w-3.5" strokeWidth={2} />
+                    <span>Pesan</span>
+                    <ArrowUpRight className="h-3 w-3 sm:h-3.5 sm:w-3.5" strokeWidth={2} />
                   </a>
                 </div>
               </article>

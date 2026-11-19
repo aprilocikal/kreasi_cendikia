@@ -39,7 +39,7 @@ export default function ServicesPage() {
             </p>
           </div>
 
-          <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-5">
+          <div className="mt-8 sm:mt-12 grid grid-cols-2 gap-3 sm:gap-6 lg:grid-cols-5">
             {[
               {
                 step: "01",
@@ -69,16 +69,16 @@ export default function ServicesPage() {
             ].map((item) => (
               <div
                 key={item.step}
-                className="flex flex-col justify-between rounded-xl border border-[var(--border-warm)] bg-[var(--bg-elevated)] p-6 transition-all duration-150 hover:-translate-y-1 hover:shadow-sm"
+                className="flex flex-col justify-between rounded-xl border border-[var(--border-warm)] bg-[var(--bg-elevated)] p-3.5 sm:p-6 transition-all duration-150 hover:-translate-y-1 hover:shadow-sm"
               >
                 <div>
-                  <span className="font-display text-2xl font-bold text-[var(--accent-cta)] tabular-nums">
+                  <span className="font-display text-lg sm:text-2xl font-bold text-[var(--accent-cta)] tabular-nums">
                     {item.step}
                   </span>
-                  <h3 className="mt-3 font-display text-lg font-semibold text-[var(--ink-primary)]">
+                  <h3 className="mt-1.5 sm:mt-3 font-display text-xs sm:text-lg font-semibold text-[var(--ink-primary)]">
                     {item.title}
                   </h3>
-                  <p className="mt-2 text-xs leading-relaxed text-[var(--ink-secondary)]">
+                  <p className="mt-1 sm:mt-2 text-[11px] sm:text-xs leading-relaxed text-[var(--ink-secondary)]">
                     {item.desc}
                   </p>
                 </div>

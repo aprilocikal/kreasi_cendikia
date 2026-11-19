@@ -9,7 +9,7 @@ const navLinks = [
   { label: 'Home', path: '/' },
   { label: 'Tentang Kami', path: '/tentang-kami' },
   { label: 'Layanan', path: '/layanan' },
-  { label: 'Model 3D', path: '/model-3d' },
+  // { label: 'Model 3D', path: '/model-3d' },
   { label: 'Portofolio', path: '/portofolio' },
   { label: 'Kontak', path: '/kontak' },
 ]

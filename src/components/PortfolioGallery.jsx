@@ -11,6 +11,8 @@ import { ResilientImage } from "./ResilientImage";
 export function PortfolioGallery() {
   const [activeCategory, setActiveCategory] = useState("Semua");
   const [lightboxIndex, setLightboxIndex] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5;
 
   const filteredGallery = useMemo(() => {
     if (activeCategory === "Semua") return GALLERY_ITEMS;
@@ -21,6 +23,16 @@ export function PortfolioGallery() {
     if (activeCategory === "Semua") return PORTFOLIO_PROJECTS;
     return PORTFOLIO_PROJECTS.filter((project) => project.category === activeCategory);
   }, [activeCategory]);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [activeCategory]);
+
+  const totalPages = Math.ceil(filteredProjects.length / itemsPerPage) || 1;
+  const paginatedProjects = useMemo(() => {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    return filteredProjects.slice(startIndex, startIndex + itemsPerPage);
+  }, [filteredProjects, currentPage, itemsPerPage]);
 
   const activeLightboxItem =
     lightboxIndex !== null && filteredGallery[lightboxIndex]
@@ -66,50 +78,64 @@ export function PortfolioGallery() {
             </h2>
           </div>
 
-          {/* Functional Segmented Filter Buttons */}
-          <div
-            role="tablist"
-            aria-label="Filter Kategori Proyek"
-            className="flex flex-wrap items-center gap-1.5 rounded-xl border border-[var(--border-hairline)] bg-[var(--bg-sage-soft)] p-1.5"
-          >
-            {PORTFOLIO_CATEGORIES.map((category) => {
-              const isActive = activeCategory === category;
-              return (
-                <button
-                  key={category}
-                  type="button"
-                  role="tab"
-                  aria-selected={isActive}
-                  onClick={() => setActiveCategory(category)}
-                  className={`rounded-lg px-3.5 py-2 text-xs font-semibold whitespace-nowrap shrink-0 transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent-cta)] ${
-                    isActive
-                      ? "bg-[var(--accent-cta)] text-[var(--accent-cta-ink)] shadow-xs"
-                      : "text-[var(--ink-secondary)] hover:bg-[var(--bg-elevated)] hover:text-[var(--ink-primary)]"
-                  }`}
-                >
-                  {category}
-                </button>
-              );
-            })}
+          {/* Modern Horizontal Pill Filter - Wrapped in soft green capsule track so it visually cues swipeability */}
+          <div className="w-full lg:w-auto rounded-2xl sm:rounded-full bg-[var(--brand-tint)] border border-[var(--border-hairline)] p-1 sm:p-1.5 shadow-2xs">
+            <div
+              role="tablist"
+              aria-label="Filter Kategori Proyek"
+              className="flex items-center gap-1.5 sm:gap-2 overflow-x-auto px-1 py-0.5 max-w-full [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] sm:flex-wrap"
+            >
+              {PORTFOLIO_CATEGORIES.map((category) => {
+                const isActive = activeCategory === category;
+                return (
+                  <button
+                    key={category}
+                    type="button"
+                    role="tab"
+                    aria-selected={isActive}
+                    onClick={() => setActiveCategory(category)}
+                    className={`rounded-full px-3.5 sm:px-4 py-1.5 sm:py-2 text-xs font-semibold whitespace-nowrap shrink-0 transition-all duration-150 border focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent-cta)] ${
+                      isActive
+                        ? "bg-[var(--accent-cta)] text-white border-[var(--accent-cta)] shadow-xs font-bold"
+                        : "bg-white text-[var(--ink-secondary)] border-transparent hover:text-[var(--brand-primary)] hover:border-emerald-200/60 shadow-2xs"
+                    }`}
+                  >
+                    {category}
+                  </button>
+                );
+              })}
+            </div>
           </div>
         </div>
 
         {/* Media-First Bento Gallery */}
-        <div className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-8 sm:mt-10 grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-4">
           {filteredGallery.map((item, idx) => {
-            const isHeroTile = idx === 0 && filteredGallery.length >= 4;
+            const hasHeroTile = filteredGallery.length >= 4;
+            const isHeroTile = idx === 0 && hasHeroTile;
+            const isLast = idx === filteredGallery.length - 1 && idx !== 0;
+            const isLastAlone = isLast && (hasHeroTile ? (idx - 1) % 2 === 0 : idx % 2 === 0);
+
             return (
               <button
                 key={item.id}
                 type="button"
                 onClick={() => setLightboxIndex(idx)}
-                className={`group relative overflow-hidden rounded-2xl border border-[var(--border-warm)] bg-[var(--bg-elevated)] text-left transition-all duration-200 hover:-translate-y-1 hover:shadow-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent-cta)] ${
-                  isHeroTile ? "sm:col-span-2 sm:row-span-2" : ""
+                className={`group relative overflow-hidden rounded-xl sm:rounded-2xl border border-[var(--border-warm)] bg-[var(--bg-elevated)] text-left transition-all duration-200 hover:-translate-y-1 hover:shadow-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent-cta)] ${
+                  isHeroTile
+                    ? "col-span-2 sm:col-span-2 sm:row-span-2"
+                    : isLastAlone
+                    ? "col-span-2 sm:col-span-1 lg:col-span-1"
+                    : ""
                 }`}
               >
                 <div
                   className={`w-full overflow-hidden bg-[var(--bg-sage-soft)] ${
-                    isHeroTile ? "aspect-[16/11] sm:h-full sm:min-h-[360px]" : "aspect-[4/3]"
+                    isHeroTile
+                      ? "aspect-[16/10] sm:h-full sm:min-h-[360px]"
+                      : isLastAlone
+                      ? "aspect-[16/9] sm:aspect-[4/3]"
+                      : "aspect-[4/3]"
                   }`}
                 >
                   <ResilientImage
@@ -124,18 +150,18 @@ export function PortfolioGallery() {
                 {/* Measured gradient scrim for WCAG contrast */}
                 <div
                   aria-hidden="true"
-                  className="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black/85 via-black/45 to-transparent"
+                  className="pointer-events-none absolute inset-x-0 bottom-0 h-28 sm:h-32 bg-gradient-to-t from-black/85 via-black/45 to-transparent"
                 />
 
-                <div className="absolute top-3 right-3 inline-flex h-8 w-8 items-center justify-center rounded-full bg-black/50 text-white opacity-0 transition-opacity duration-150 group-hover:opacity-100">
-                  <Expand className="h-4 w-4" />
+                <div className="absolute top-2.5 sm:top-3 right-2.5 sm:right-3 inline-flex h-7 w-7 sm:h-8 sm:w-8 items-center justify-center rounded-full bg-black/50 text-white opacity-0 transition-opacity duration-150 group-hover:opacity-100">
+                  <Expand className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
                 </div>
 
-                <div className="absolute inset-x-0 bottom-0 p-4 sm:p-5 text-white">
-                  <p className="text-[11px] font-medium text-white/80">
+                <div className="absolute inset-x-0 bottom-0 p-2.5 sm:p-5 text-white">
+                  <p className="text-[10px] sm:text-[11px] font-medium text-white/80 line-clamp-1">
                     {item.projectContext}
                   </p>
-                  <h3 className="mt-0.5 font-display text-base font-medium leading-snug sm:text-lg">
+                  <h3 className="mt-0.5 font-display text-xs sm:text-lg font-medium leading-snug line-clamp-1 sm:line-clamp-2">
                     {item.title}
                   </h3>
                 </div>
@@ -145,11 +171,11 @@ export function PortfolioGallery() {
         </div>
 
         {/* Consolidated Project Ledger (Daftar Proyek Resmi) */}
-        <div className="mt-14 rounded-2xl border border-[var(--border-warm)] bg-[var(--bg-elevated)] shadow-xs">
-          <div className="flex flex-col gap-2 border-b border-[var(--border-warm)] px-6 py-5 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-14 sm:mt-16 overflow-hidden rounded-2xl border border-[var(--border-warm)] bg-[var(--bg-elevated)] shadow-xs">
+          <div className="flex flex-col gap-3 border-b border-[var(--border-warm)] bg-[var(--bg-sage-soft)] p-5 sm:p-6 sm:flex-row sm:items-center sm:justify-between">
             <div>
-              <h3 className="font-display text-xl font-semibold text-[var(--ink-primary)]">
-                Daftar Rekam Jejak Proyek ({filteredProjects.length})
+              <h3 className="font-display text-lg sm:text-xl font-semibold text-[var(--ink-primary)]">
+                Daftar Rekam Jejak Proyek
               </h3>
               <p className="text-xs text-[var(--ink-muted)]">
                 Menampilkan kategori: {activeCategory}
@@ -161,7 +187,7 @@ export function PortfolioGallery() {
               )}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 self-start rounded-lg bg-[var(--accent-cta)] px-4 py-2 text-xs font-semibold text-[var(--accent-cta-ink)] whitespace-nowrap shrink-0 transition-colors hover:bg-[var(--accent-cta-hover)] sm:self-auto shadow-xs"
+              className="inline-flex items-center gap-1.5 self-start rounded-lg bg-[var(--accent-cta)] px-3.5 py-2 text-xs font-semibold text-[var(--accent-cta-ink)] whitespace-nowrap shrink-0 transition-colors hover:bg-[var(--accent-cta-hover)] sm:self-auto shadow-xs"
             >
               <span>Pesan Sekarang</span>
               <ArrowUpRight className="h-3.5 w-3.5" strokeWidth={2} />
@@ -169,35 +195,86 @@ export function PortfolioGallery() {
           </div>
 
           <div className="divide-y divide-[var(--border-warm)]">
-            {filteredProjects.map((project, index) => (
-              <div
-                key={project.id}
-                className="grid grid-cols-1 gap-2 px-6 py-4 transition-colors hover:bg-[var(--bg-sage-soft)]/60 md:grid-cols-12 md:items-center md:gap-4"
-              >
-                <div className="flex items-baseline gap-3 md:col-span-5">
-                  <span className="text-xs font-bold text-[var(--ink-muted)] tabular-nums">
-                    {String(index + 1).padStart(2, "0")}
-                  </span>
-                  <span className="text-sm font-semibold text-[var(--ink-primary)]">
-                    {project.title}
-                  </span>
-                </div>
+            {paginatedProjects.map((project, idx) => {
+              const globalIndex = (currentPage - 1) * itemsPerPage + idx;
+              return (
+                <div
+                  key={project.id}
+                  className="grid grid-cols-1 gap-1.5 px-4 sm:px-6 py-3.5 sm:py-4 transition-colors hover:bg-[var(--bg-sage-soft)]/60 md:grid-cols-12 md:items-center md:gap-4"
+                >
+                  <div className="flex items-baseline gap-2.5 md:col-span-5">
+                    <span className="text-xs font-bold text-[var(--brand-primary)] tabular-nums">
+                      {String(globalIndex + 1).padStart(2, "0")}
+                    </span>
+                    <span className="text-xs sm:text-sm font-semibold text-[var(--ink-primary)]">
+                      {project.title}
+                    </span>
+                  </div>
 
-                <div className="text-xs font-medium text-[var(--ink-secondary)] md:col-span-3">
-                  {project.client}
-                  <span className="mx-1.5 text-[var(--ink-muted)]" aria-hidden="true">
-                    ·
-                  </span>
-                  <span className="text-[var(--ink-muted)]">{project.location}</span>
-                </div>
+                  <div className="text-[11px] sm:text-xs font-medium text-[var(--ink-secondary)] md:col-span-3">
+                    {project.client}
+                    <span className="mx-1.5 text-[var(--ink-muted)]" aria-hidden="true">
+                      ·
+                    </span>
+                    <span className="text-[var(--ink-muted)]">{project.location}</span>
+                  </div>
 
-                <div className="text-xs text-[var(--ink-secondary)] md:col-span-4 md:text-right">
-                  {project.scopeNote}
-                  {project.yearNote ? ` (${project.yearNote})` : ""}
+                  <div className="text-[11px] sm:text-xs text-[var(--ink-secondary)] md:col-span-4 md:text-right">
+                    {project.scopeNote}
+                    {project.yearNote ? ` (${project.yearNote})` : ""}
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
+
+          {/* Slide Navigation Controls (Per 5 Proyek) */}
+          {totalPages > 1 && (
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-2.5 sm:gap-4 border-t border-[var(--border-warm)] bg-[var(--bg-canvas)]/50 px-4 sm:px-6 py-3">
+              <div className="text-[11px] sm:text-xs text-[var(--ink-muted)] text-center sm:text-left">
+                Halaman <span className="font-semibold text-[var(--ink-primary)]">{currentPage}</span> dari {totalPages}
+              </div>
+
+              <div className="flex items-center gap-1.5">
+                <button
+                  type="button"
+                  disabled={currentPage === 1}
+                  onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
+                  className="inline-flex h-8 items-center gap-1 rounded-lg border border-[var(--border-warm)] bg-white px-2.5 text-xs font-medium text-[var(--ink-primary)] shadow-2xs transition-all hover:bg-stone-50 disabled:opacity-40 disabled:cursor-not-allowed"
+                >
+                  <ChevronLeft className="h-3.5 w-3.5" />
+                  <span className="hidden sm:inline">Sebelumnya</span>
+                </button>
+
+                <div className="flex items-center gap-1">
+                  {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                    <button
+                      key={page}
+                      type="button"
+                      onClick={() => setCurrentPage(page)}
+                      className={`inline-flex h-8 w-8 items-center justify-center rounded-lg text-xs font-semibold transition-all ${
+                        currentPage === page
+                          ? "bg-[var(--brand-primary)] text-white shadow-xs"
+                          : "border border-transparent text-[var(--ink-secondary)] hover:bg-white hover:border-[var(--border-warm)]"
+                      }`}
+                    >
+                      {page}
+                    </button>
+                  ))}
+                </div>
+
+                <button
+                  type="button"
+                  disabled={currentPage === totalPages}
+                  onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
+                  className="inline-flex h-8 items-center gap-1 rounded-lg border border-[var(--border-warm)] bg-white px-2.5 text-xs font-medium text-[var(--ink-primary)] shadow-2xs transition-all hover:bg-stone-50 disabled:opacity-40 disabled:cursor-not-allowed"
+                >
+                  <span className="hidden sm:inline">Berikutnya</span>
+                  <ChevronRight className="h-3.5 w-3.5" />
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       </div>
 

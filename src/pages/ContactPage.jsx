@@ -6,6 +6,7 @@ import {
   Clock,
   ArrowUpRight,
   ShieldCheck,
+  CheckCircle2,
   Send,
   MessageSquare,
 } from "lucide-react";
@@ -17,13 +18,19 @@ export default function ContactPage() {
   const [formState, setFormState] = useState({
     name: "",
     serviceType: "Desain & Konstruksi Taman",
+    customService: "",
     location: "",
     message: "",
   });
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const text = `Halo CV. Kreasi Cendekia Indonesia,\nNama: ${formState.name}\nLayanan: ${formState.serviceType}\nLokasi Proyek: ${formState.location}\nKebutuhan: ${formState.message}`;
+    const finalService =
+      formState.serviceType === "Lainnya" && formState.customService.trim()
+        ? formState.customService.trim()
+        : formState.serviceType;
+
+    const text = `Halo CV. Kreasi Cendekia Indonesia,\nNama: ${formState.name}\nLayanan: ${finalService}\nLokasi Proyek: ${formState.location}\nKebutuhan: ${formState.message}`;
     window.open(buildWhatsAppUrl(text), "_blank");
   };
 
@@ -104,7 +111,27 @@ export default function ContactPage() {
                   </div>
                 </div>
 
-                <div className="mt-8 border-t border-[var(--border-warm)] pt-6">
+                {/* Compact Google Maps Widget */}
+                <div className="relative mt-5 overflow-hidden rounded-xl border border-[var(--border-warm)] shadow-2xs">
+                  <iframe
+                    title="Lokasi Kantor & Kebun Pembibitan CV. Kreasi Cendekia Indonesia"
+                    src="https://maps.google.com/maps?q=Cigombong%2C%20Kabupaten%20Bogor%2C%20Jawa%20Barat&t=&z=13&ie=UTF8&iwloc=&output=embed"
+                    className="h-44 w-full border-0"
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                  />
+                  <a
+                    href="https://maps.google.com/?q=Cigombong,+Kabupaten+Bogor,+Jawa+Barat"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="absolute top-2.5 left-2.5 inline-flex items-center gap-1 rounded-md border border-stone-200/80 bg-white/95 px-2.5 py-1 text-[11px] font-semibold text-[var(--ink-primary)] shadow-sm backdrop-blur-sm transition-colors hover:bg-stone-50"
+                  >
+                    <span>Buka di Maps</span>
+                    <ArrowUpRight className="h-3.5 w-3.5 text-[var(--brand-primary)]" />
+                  </a>
+                </div>
+
+                <div className="mt-6 border-t border-[var(--border-warm)] pt-5">
                   <a
                     href={buildWhatsAppUrl("Halo CV. Kreasi Cendekia Indonesia, saya ingin memesan jadwal survei.")}
                     target="_blank"
@@ -151,7 +178,7 @@ export default function ContactPage() {
                     <input
                       type="text"
                       required
-                      placeholder="Contoh: Bpk. Hendra / Damai Putra Group"
+                      placeholder="Nama atau instansi Anda"
                       value={formState.name}
                       onChange={(e) => setFormState({ ...formState, name: e.target.value })}
                       className="mt-2 w-full rounded-lg border border-[var(--border-hairline)] bg-[var(--bg-canvas)] px-4 py-3 text-sm text-[var(--ink-primary)] focus:border-[var(--accent-cta)] focus:outline-none"
@@ -173,7 +200,21 @@ export default function ContactPage() {
                       <option>Taman Kering &amp; Rumput Sintetis</option>
                       <option>Perawatan Berkala &amp; Spesialis Bonsai</option>
                       <option>Suplai Bibit Nursery / Hidroponik / Aviary</option>
+                      <option value="Lainnya">Lainnya (Tulis Sendiri)</option>
                     </select>
+
+                    {formState.serviceType === "Lainnya" && (
+                      <div className="mt-2.5 animate-in fade-in slide-in-from-top-1 duration-200">
+                        <input
+                          type="text"
+                          required
+                          placeholder="Tuliskan kebutuhan layanan Anda..."
+                          value={formState.customService}
+                          onChange={(e) => setFormState({ ...formState, customService: e.target.value })}
+                          className="w-full rounded-lg border border-[var(--brand-primary)] bg-[var(--bg-canvas)] px-4 py-2.5 text-sm text-[var(--ink-primary)] focus:border-[var(--accent-cta)] focus:outline-none focus:ring-1 focus:ring-[var(--brand-primary)]"
+                        />
+                      </div>
+                    )}
                   </div>
 
                   <div>
@@ -183,7 +224,7 @@ export default function ContactPage() {
                     <input
                       type="text"
                       required
-                      placeholder="Contoh: BSD Serpong / Karawaci / Sentul / Bekasi"
+                      placeholder="Kota atau wilayah proyek"
                       value={formState.location}
                       onChange={(e) => setFormState({ ...formState, location: e.target.value })}
                       className="mt-2 w-full rounded-lg border border-[var(--border-hairline)] bg-[var(--bg-canvas)] px-4 py-3 text-sm text-[var(--ink-primary)] focus:border-[var(--accent-cta)] focus:outline-none"
@@ -196,7 +237,7 @@ export default function ContactPage() {
                     </label>
                     <textarea
                       rows={4}
-                      placeholder="Jelaskan perkiraan luas area, konsep taman yang diinginkan, atau rencana waktu pengerjaan..."
+                      placeholder="Perkiraan luas atau konsep taman yang diinginkan..."
                       value={formState.message}
                       onChange={(e) => setFormState({ ...formState, message: e.target.value })}
                       className="mt-2 w-full rounded-lg border border-[var(--border-hairline)] bg-[var(--bg-canvas)] px-4 py-3 text-sm text-[var(--ink-primary)] focus:border-[var(--accent-cta)] focus:outline-none"
@@ -211,6 +252,30 @@ export default function ContactPage() {
                     <span>Kirim &amp; Hubungkan ke WhatsApp Konsultan</span>
                   </button>
                 </form>
+              </div>
+
+              {/* Service Guarantees Card - Balances the Legal Badge on the Left */}
+              <div className="mt-6 rounded-2xl border border-[var(--border-hairline)] bg-[var(--bg-sage-soft)] p-6">
+                <div className="flex items-center gap-2.5">
+                  <CheckCircle2 className="h-5 w-5 text-[var(--brand-primary)]" />
+                  <span className="font-display text-sm font-bold text-[var(--ink-primary)]">
+                    Jaminan Mutu &amp; Komitmen Layanan
+                  </span>
+                </div>
+                <div className="mt-3 grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs text-[var(--ink-secondary)]">
+                  <div className="flex items-start gap-2">
+                    <span className="text-[var(--brand-primary)] font-bold text-sm">✓</span>
+                    <span><strong>Garansi Tanaman:</strong> Jaminan hidup selama masa adaptasi awal proyek.</span>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <span className="text-[var(--brand-primary)] font-bold text-sm">✓</span>
+                    <span><strong>RAB Transparan:</strong> Rincian spesifikasi terukur tanpa biaya tersembunyi.</span>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <span className="text-[var(--brand-primary)] font-bold text-sm">✓</span>
+                    <span><strong>Survei Cepat:</strong> Peninjauan lokasi fleksibel oleh tim arsitek lanskap.</span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

@@ -91,21 +91,23 @@ export function AboutVisionSection({ showFullLink = false }) {
             </p>
           </div>
 
-          <div className="mt-8 grid grid-cols-1 gap-px overflow-hidden rounded-2xl border border-[var(--border-warm)] bg-[var(--border-warm)] sm:grid-cols-2 lg:grid-cols-4 shadow-xs">
+          <div className="mt-6 sm:mt-8 grid grid-cols-2 gap-px overflow-hidden rounded-xl sm:rounded-2xl border border-[var(--border-warm)] bg-[var(--border-warm)] sm:grid-cols-2 lg:grid-cols-4 shadow-xs">
             {COMPANY_PROFILE.coreValues.map((value) => (
               <div
                 key={value.index}
-                className="bg-[var(--bg-elevated)] p-6 transition-colors duration-150 hover:bg-[var(--bg-sage-soft)]"
+                className="bg-[var(--bg-elevated)] p-3.5 sm:p-6 transition-colors duration-150 hover:bg-[var(--bg-sage-soft)] flex flex-col justify-between"
               >
-                <span className="text-xs font-bold text-[var(--ink-muted)] tabular-nums">
-                  {value.index}
-                </span>
-                <h4 className="mt-2 font-display text-lg font-semibold text-[var(--ink-primary)]">
-                  {value.title}
-                </h4>
-                <p className="mt-1.5 text-sm leading-relaxed text-[var(--ink-secondary)]">
-                  {value.description}
-                </p>
+                <div>
+                  <span className="text-[10px] sm:text-xs font-bold text-[var(--brand-primary)] tabular-nums">
+                    {value.index}
+                  </span>
+                  <h4 className="mt-1 sm:mt-2 font-display text-xs sm:text-lg font-semibold text-[var(--ink-primary)]">
+                    {value.title}
+                  </h4>
+                  <p className="mt-1 sm:mt-1.5 text-[11px] sm:text-sm leading-relaxed text-[var(--ink-secondary)]">
+                    {value.description}
+                  </p>
+                </div>
               </div>
             ))}
           </div>
