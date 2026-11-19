@@ -13,11 +13,14 @@ export function ConversionFooter() {
     <footer className="border-t border-[var(--border-warm)] bg-[var(--bg-canvas)] py-8 sm:py-10">
       <div className="mx-auto max-w-[1240px] px-6">
         <div className="flex flex-col gap-6 md:flex-row md:items-start md:justify-between">
-          {/* Logo Brand */}
-          <div>
+          {/* Logo Brand & Editorial Deskripsi (Desktop) */}
+          <div className="max-w-md">
             <Link to="/" className="inline-block" title="CV. Kreasi Cendekia Indonesia">
               <KciLogo width={50} showText={true} />
             </Link>
+            <p className="hidden md:block mt-3 text-xs leading-relaxed text-[var(--ink-secondary)]">
+              Konsultan dan kontraktor lanskap profesional yang memadukan arsitektur tropis presisi, pembibitan nursery mandiri di Cigombong, serta komitmen mutu jangka panjang untuk hunian residensial, korporasi, dan infrastruktur publik.
+            </p>
           </div>
 
           {/* Kantor & Nursery */}
