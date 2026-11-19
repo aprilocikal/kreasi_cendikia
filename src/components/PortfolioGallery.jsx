@@ -65,7 +65,7 @@ export function PortfolioGallery() {
   }, [lightboxIndex, filteredGallery.length]);
 
   return (
-    <section id="portofolio" className="bg-[var(--bg-canvas)] py-16 lg:py-24">
+    <section id="portofolio" className="bg-[var(--bg-canvas)] py-8 lg:py-14">
       <div className="mx-auto max-w-[1240px] px-6">
         {/* Header & Interactive Filter Controls */}
         <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">

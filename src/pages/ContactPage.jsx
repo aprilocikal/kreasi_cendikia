@@ -11,7 +11,6 @@ import {
   MessageSquare,
 } from "lucide-react";
 import { COMPANY_PROFILE, buildWhatsAppUrl } from "../data/kciData";
-import PageHeader from "../components/PageHeader";
 import KciLogo from "../components/KciLogo";
 
 export default function ContactPage() {
@@ -35,19 +34,23 @@ export default function ContactPage() {
   };
 
   return (
-    <div className="bg-[var(--bg-canvas)]">
-      {/* Header Banner with Photography Background */}
-      <PageHeader
-        bgImage="/assets/kci/dekorasi_indoor.webp"
-        badgeIcon={<MessageSquare size={14} className="text-[#75dc66]" />}
-        badgeText="Kontak & Penawaran"
-        title="Hubungi Konsultan Kami"
-        subtitle="Jadwalkan survei peninjauan lokasi, konsultasikan estimasi anggaran, atau pesan suplai tanaman langsung dari nursery kami di Cigombong, Bogor."
-      />
-
+    <div className="bg-[var(--bg-canvas)] pt-16 sm:pt-20 lg:pt-24 pb-12">
       {/* Main Contact Grid */}
-      <section className="py-16 lg:py-24">
+      <section className="py-8 lg:py-14">
         <div className="mx-auto max-w-[1240px] px-6">
+          {/* Section Heading */}
+          <div className="max-w-2xl mb-10 sm:mb-12">
+            <p className="text-xs font-semibold tracking-wide text-[var(--ink-muted)] uppercase">
+              Kontak &amp; Penawaran
+            </p>
+            <h1 className="mt-2 font-display text-[clamp(1.75rem,3vw,2.5rem)] font-semibold leading-tight tracking-tight text-[var(--ink-primary)] text-balance">
+              Hubungi Tim Konsultan &amp; Pembibitan Kami.
+            </h1>
+            <p className="mt-3 text-sm leading-relaxed text-[var(--ink-secondary)]">
+              Jadwalkan survei peninjauan lokasi, konsultasikan estimasi anggaran, atau pesan suplai tanaman langsung dari kebun nursery kami di Cigombong, Bogor.
+            </p>
+          </div>
+
           <div className="grid grid-cols-1 gap-12 lg:grid-cols-12">
             {/* Left Column: Direct Info Cards */}
             <div className="space-y-6 lg:col-span-5">

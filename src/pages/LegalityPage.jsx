@@ -1,8 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { ShieldCheck, FileText, CheckCircle2, ArrowUpRight } from "lucide-react";
-import { COMPANY_PROFILE, buildWhatsAppUrl } from "../data/kciData";
-import PageHeader from "../components/PageHeader";
+import { CheckCircle2, ArrowUpRight } from "lucide-react";
+import { buildWhatsAppUrl } from "../data/kciData";
 import LegalityTrustSection from "../components/LegalityTrustSection";
 
 export default function LegalityPage() {
@@ -11,16 +10,7 @@ export default function LegalityPage() {
   );
 
   return (
-    <div className="bg-[var(--bg-canvas)]">
-      {/* Header Banner with Real Project Background */}
-      <PageHeader
-        bgImage="/assets/kci/komersial_merak_siteplan.webp"
-        badgeIcon={<ShieldCheck size={14} className="text-[#75dc66]" />}
-        badgeText="Legalitas & Akuntabilitas"
-        title="Legalitas Resmi Badan Usaha"
-        subtitle="CV. Kreasi Cendekia Indonesia adalah badan usaha yang terdaftar secara sah di Kementerian Hukum dan HAM Republik Indonesia serta Direktorat Jenderal Pajak untuk memberikan jaminan keamanan administratif dalam setiap kontrak kerja sama."
-      />
-
+    <div className="bg-[var(--bg-canvas)] pt-16 sm:pt-20 lg:pt-24 pb-12">
       {/* Main Legality Section with Expandable Scan Viewers */}
       <LegalityTrustSection />
 

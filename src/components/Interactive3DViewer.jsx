@@ -182,7 +182,7 @@ export default function Interactive3DViewer() {
   }
 
   return (
-    <section id="model-3d" className="border-t border-[var(--border-warm)] bg-[var(--bg-canvas)] py-16 lg:py-24">
+    <section id="model-3d" className="bg-[var(--bg-canvas)] py-8 lg:py-14">
       <div className="mx-auto max-w-[1240px] px-6">
         {/* Header */}
         <div className="mx-auto max-w-3xl text-center">

@@ -2,7 +2,6 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { ArrowUpRight, MapPin, CheckCircle2 } from "lucide-react";
 import { COMPANY_PROFILE, buildWhatsAppUrl } from "../data/kciData";
-import PageHeader from "../components/PageHeader";
 import AboutVisionSection from "../components/AboutVisionSection";
 import ResilientImage from "../components/ResilientImage";
 
