@@ -12,7 +12,7 @@ import {
   Sparkles,
   Trees,
 } from "lucide-react";
-import HeroSection from "../components/HeroSection";
+import Hero from "../components/Hero";
 import ResilientImage from "../components/ResilientImage";
 import { COMPANY_PROFILE, SERVICES, GALLERY_ITEMS, buildWhatsAppUrl } from "../data/kciData";
 
@@ -22,8 +22,8 @@ export default function Home() {
 
   return (
     <div className="home-portal-container bg-[var(--bg-canvas)]">
-      {/* 1. Hero Section: Display Headline, Karawaci Photography, & 4-column KPI Strip */}
-      <HeroSection />
+      {/* 1. Hero Section: Full Background Photo, Compact Poppins Typography like Setinggi Langit */}
+      <Hero />
 
       {/* 2. Cuplikan Profil & Integritas Kerja -> Menuju /tentang-kami */}
       <section className="border-t border-[var(--border-warm)] bg-[var(--bg-canvas)] py-16 lg:py-20">

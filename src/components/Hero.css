@@ -2,25 +2,25 @@
   position: relative;
   min-height: 100vh;
   background-size: cover;
-  background-position: right center;
+  background-position: center right;
   background-repeat: no-repeat;
   display: flex;
   align-items: center;
   overflow: hidden;
-  padding-top: 90px;
+  padding-top: 100px;
   padding-bottom: 60px;
 }
 
-/* Gradient overlay: Dark on the left for text readability, blending to reveal the hero image on the right */
+/* Gradient overlay: Dark cinematic on the left for text readability, smoothly revealing the real background photo on the right */
 .hero-dark-overlay {
   position: absolute;
   inset: 0;
   background: linear-gradient(
     to right,
-    rgba(10, 20, 14, 0.94) 0%,
-    rgba(10, 20, 14, 0.88) 42%,
-    rgba(10, 20, 14, 0.52) 72%,
-    rgba(10, 20, 14, 0.22) 100%
+    rgba(8, 18, 12, 0.94) 0%,
+    rgba(8, 18, 12, 0.82) 36%,
+    rgba(8, 18, 12, 0.42) 65%,
+    rgba(8, 18, 12, 0.08) 100%
   );
   z-index: 1;
 }
@@ -35,35 +35,35 @@
 }
 
 .hero-text-content {
-  max-width: 620px;
+  max-width: 520px;
 }
 
 /* Eyebrow Tag like Setinggi Langit */
 .hero-eyebrow-tag {
   font-family: 'Poppins', 'Inter', sans-serif;
-  font-size: 0.78rem;
+  font-size: 0.72rem;
   font-weight: 600;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.18em;
   color: #9DBE9B;
   text-transform: uppercase;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
 }
 
-/* Giant Headline with Poppins like Setinggi Langit */
+/* Headline in Poppins - Compact & Refined like Setinggi Langit */
 .hero-giant-title {
   display: flex;
   flex-direction: column;
   font-family: 'Poppins', sans-serif;
-  font-size: clamp(3.2rem, 6.4vw, 5.5rem);
+  font-size: clamp(2.2rem, 3.8vw, 3.4rem);
   font-weight: 800;
-  line-height: 1.06;
-  letter-spacing: -0.025em;
-  margin-bottom: 24px;
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+  margin-bottom: 20px;
 }
 
 .title-line-white {
   color: #FFFFFF;
-  text-shadow: 0 4px 24px rgba(0, 0, 0, 0.35);
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
 }
 
 .title-line-orange-wrap {
@@ -76,59 +76,59 @@
 
 .title-line-orange {
   color: #FA6E1E;
-  text-shadow: 0 4px 24px rgba(232, 115, 42, 0.35);
+  text-shadow: 0 4px 20px rgba(232, 115, 42, 0.35);
 }
 
 /* Subtle Curved Underline Accent like Setinggi Langit */
 .hero-brush-stroke {
-  width: 96px;
+  width: 72px;
   height: auto;
-  margin-top: 2px;
+  margin-top: 3px;
   margin-left: 2px;
   display: block;
-  filter: drop-shadow(0 2px 6px rgba(232, 115, 42, 0.35));
+  filter: drop-shadow(0 2px 5px rgba(232, 115, 42, 0.35));
 }
 
-/* Subtitle Description */
+/* Subtitle Description - Compact & Clean Font */
 .hero-description {
   font-family: 'Inter', sans-serif;
-  font-size: 1.05rem;
-  line-height: 1.8;
-  color: rgba(255, 255, 255, 0.88);
-  margin-bottom: 34px;
-  max-width: 530px;
+  font-size: 0.92rem;
+  line-height: 1.72;
+  color: rgba(255, 255, 255, 0.85);
+  margin-bottom: 28px;
+  max-width: 480px;
 }
 
 /* Action Buttons Row */
 .hero-buttons-row {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 14px;
   flex-wrap: wrap;
 }
 
-/* Primary Orange Button like Setinggi Langit */
+/* Primary Orange Pill Button like Setinggi Langit */
 .hero-btn-orange {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
+  gap: 8px;
   background: #E8732A;
   color: #FFFFFF;
   border-radius: 999px;
-  padding: 14px 32px;
+  padding: 12px 28px;
   font-family: 'Poppins', 'Inter', sans-serif;
-  font-size: 0.95rem;
+  font-size: 0.88rem;
   font-weight: 600;
   text-decoration: none;
-  box-shadow: 0 8px 24px rgba(232, 115, 42, 0.45);
+  box-shadow: 0 6px 20px rgba(232, 115, 42, 0.4);
   transition: all 0.25s ease;
 }
 
 .hero-btn-orange:hover {
   background: #D8631A;
   transform: translateY(-2px);
-  box-shadow: 0 12px 30px rgba(232, 115, 42, 0.55);
+  box-shadow: 0 10px 26px rgba(232, 115, 42, 0.5);
 }
 
 /* Translucent Pill Button like Setinggi Langit */
@@ -136,24 +136,25 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
+  gap: 8px;
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  border: 1.5px solid rgba(255, 255, 255, 0.3);
+  border: 1.5px solid rgba(255, 255, 255, 0.28);
   color: #FFFFFF;
   border-radius: 999px;
-  padding: 14px 28px;
+  padding: 12px 24px;
   font-family: 'Poppins', 'Inter', sans-serif;
-  font-size: 0.95rem;
+  font-size: 0.88rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.25s ease;
+  text-decoration: none;
 }
 
 .hero-btn-translucent:hover {
-  background: rgba(255, 255, 255, 0.22);
-  border-color: rgba(255, 255, 255, 0.55);
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.5);
   transform: translateY(-2px);
 }
 
@@ -163,15 +164,15 @@
     padding-top: 100px;
   }
   .hero-dark-overlay {
-    background: rgba(10, 20, 14, 0.9);
+    background: rgba(8, 18, 12, 0.9);
   }
   .hero-inner-container {
     padding: 0 24px;
   }
   .hero-giant-title {
-    font-size: 3rem;
+    font-size: 2.3rem;
   }
   .hero-brush-stroke {
-    width: 80px;
+    width: 64px;
   }
 }

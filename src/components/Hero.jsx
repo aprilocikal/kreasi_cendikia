@@ -17,7 +17,7 @@ export default function Hero() {
             KONSULTAN &amp; KONTRAKTOR LANDSCAPE PROFESIONAL
           </p>
 
-          {/* Giant Display Headline in Poppins like Setinggi Langit */}
+          {/* Display Headline in Poppins like Setinggi Langit */}
           <h1 className="hero-giant-title">
             <span className="title-line-white">Harmoni</span>
             <span className="title-line-orange-wrap">
@@ -25,21 +25,21 @@ export default function Hero() {
               {/* Subtle curved underline accent like Setinggi Langit */}
               <svg
                 className="hero-brush-stroke"
-                viewBox="0 0 130 12"
+                viewBox="0 0 100 10"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <path
-                  d="M2 7C25 3 68 3 126 6"
+                  d="M2 6C20 2.5 55 2.5 98 5"
                   stroke="#E8732A"
-                  strokeWidth="4.5"
+                  strokeWidth="3.5"
                   strokeLinecap="round"
                 />
               </svg>
             </span>
           </h1>
 
-          {/* Subtitle Description */}
+          {/* Subtitle Description - Compact & Clean Font */}
           <p className="hero-description">
             CV. Kreasi Cendikia Indonesia menghadirkan solusi lanskap menyeluruh:
             mulai dari perencanaan masterplan 3D, pembangunan taman residensial &amp;
@@ -55,7 +55,7 @@ export default function Hero() {
               rel="noopener noreferrer"
               className="hero-btn-orange"
             >
-              <PhoneCall size={16} />
+              <PhoneCall size={15} />
               <span>Pesan Sekarang</span>
             </a>
 
@@ -64,7 +64,7 @@ export default function Hero() {
               className="hero-btn-translucent"
             >
               <span>Tentang Kami</span>
-              <ArrowRight size={16} />
+              <ArrowRight size={15} />
             </Link>
           </div>
         </div>
