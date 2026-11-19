@@ -66,10 +66,12 @@ export default function ServicesPage() {
                 title: "Handover & Perawatan",
                 desc: "Serah terima proyek dengan garansi tanaman hidup serta opsi kontrak perawatan berkala jangka panjang.",
               },
-            ].map((item) => (
+            ].map((item, idx) => (
               <div
                 key={item.step}
-                className="flex flex-col justify-between rounded-xl border border-[var(--border-warm)] bg-[var(--bg-elevated)] p-3.5 sm:p-6 transition-all duration-150 hover:-translate-y-1 hover:shadow-sm"
+                className={`flex flex-col justify-between rounded-xl border border-[var(--border-warm)] bg-[var(--bg-elevated)] p-3.5 sm:p-6 transition-all duration-150 hover:-translate-y-1 hover:shadow-sm ${
+                  idx === 4 ? "col-span-2 lg:col-span-1" : ""
+                }`}
               >
                 <div>
                   <span className="font-display text-lg sm:text-2xl font-bold text-[var(--accent-cta)] tabular-nums">
