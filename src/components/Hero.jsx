@@ -2,9 +2,15 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { PhoneCall, ArrowRight } from 'lucide-react'
 import heroBg from '../assets/hero-bg.webp'
+import KciLogo from './KciLogo'
+import { buildWhatsAppUrl } from '../data/kciData'
 import './Hero.css'
 
 export default function Hero() {
+  const whatsappHref = buildWhatsAppUrl(
+    "Halo CV. Kreasi Cendekia Indonesia, saya ingin berkonsultasi mengenai layanan lanskap."
+  )
+
   return (
     <section className="hero-section" style={{ backgroundImage: `url(${heroBg})` }}>
       {/* Balanced radial overlay for center alignment readability */}
@@ -12,15 +18,20 @@ export default function Hero() {
 
       <div className="hero-inner-container">
         <div className="hero-text-content">
+          {/* Big Official Brand Logo */}
+          <div className="hero-logo-wrapper">
+            <KciLogo width={105} showText={false} className="hero-big-logo" />
+          </div>
+
           {/* Luxury Editorial Headline with Refined Shimmer */}
           <h1 className="hero-giant-title">
-            <span className="title-serif-main glitter-text">Harmoni Lanskap</span>
-            <span className="title-serif-sub">Ruang Hidup Tropis Berkelas</span>
+            <span className="title-serif-main glitter-text">Kreasi Cendekia</span>
+            <span className="title-serif-sub">Landscape Consultant</span>
           </h1>
 
           {/* Subtitle Description */}
           <p className="hero-description">
-            CV. Kreasi Cendikia Indonesia memadukan seni rancang arsitektur hijau, konstruksi presisi,
+            CV. Kreasi Cendekia Indonesia memadukan seni rancang arsitektur hijau, konstruksi presisi,
             dan pembibitan mandiri untuk mewujudkan taman residensial eksklusif, kawasan publik,
             hingga lanskap komersial berdaya tahan lama.
           </p>
@@ -28,13 +39,13 @@ export default function Hero() {
           {/* Centered Action Buttons */}
           <div className="hero-buttons-row">
             <a
-              href="https://wa.me/6281212126595?text=Halo%20CV%20Kreasi%20Cendikia%20Indonesia,%20saya%20ingin%20konsultasi%20mengenai%20layanan%20landscape"
+              href={whatsappHref}
               target="_blank"
               rel="noopener noreferrer"
               className="hero-btn-primary"
             >
               <PhoneCall size={16} />
-              <span>Konsultasi Proyek</span>
+              <span>Pesan Sekarang</span>
             </a>
 
             <Link

@@ -186,8 +186,8 @@ export default function Interactive3DViewer() {
       <div className="mx-auto max-w-[1240px] px-6">
         {/* Header */}
         <div className="mx-auto max-w-3xl text-center">
-          <div className="inline-flex items-center gap-2 rounded-full border border-[var(--border-hairline)] bg-[var(--bg-sage-soft)] px-3.5 py-1 text-xs font-semibold text-[var(--ink-secondary)] uppercase">
-            <Box size={14} className="text-[var(--accent-cta)]" />
+          <div className="inline-flex items-center gap-2 text-xs font-semibold tracking-wider text-[var(--brand-primary)] uppercase">
+            <Box size={14} />
             <span>Simulasi 3 Dimensi Interaktif</span>
           </div>
           <h2 className="mt-3 font-display text-[clamp(1.75rem,3vw,2.5rem)] font-semibold leading-tight tracking-tight text-[var(--ink-primary)] text-balance">

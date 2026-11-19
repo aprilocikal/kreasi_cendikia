@@ -34,7 +34,7 @@ export default function Footer() {
             {/* Square Rounded Action Icons */}
             <div className="footer-icon-buttons">
               <a
-                href="https://wa.me/6281212126595"
+                href="https://wa.me/6281915900782"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="f-icon-btn"
@@ -44,7 +44,7 @@ export default function Footer() {
               </a>
 
               <a
-                href="mailto:jk.suma88@gmail.com"
+                href="mailto:cvkreasicendekia@gmail.com"
                 className="f-icon-btn"
                 title="Kirim Email"
               >
@@ -52,7 +52,7 @@ export default function Footer() {
               </a>
 
               <a
-                href="tel:081212126595"
+                href="tel:081915900782"
                 className="f-icon-btn"
                 title="Telepon Kantor"
               >
@@ -92,7 +92,7 @@ export default function Footer() {
 
             {/* Email Pill Card */}
             <a
-              href="mailto:jk.suma88@gmail.com"
+              href="mailto:cvkreasicendekia@gmail.com"
               className="footer-contact-pill-card"
             >
               <div className="pill-card-icon">
@@ -100,13 +100,13 @@ export default function Footer() {
               </div>
               <div className="pill-card-text">
                 <span className="pill-card-sub">EMAIL RESMI</span>
-                <span className="pill-card-main">jk.suma88@gmail.com</span>
+                <span className="pill-card-main">cvkreasicendekia@gmail.com</span>
               </div>
             </a>
 
             {/* Big Orange Pill Button like Setinggi Langit */}
             <a
-              href="https://wa.me/6281212126595?text=Halo%20CV%20Kreasi%20Cendikia%20Indonesia,%20saya%20ingin%20pesan%20layanan%20landscape"
+              href="https://wa.me/6281915900782?text=Halo%20CV%20Kreasi%20Cendikia%20Indonesia,%20saya%20ingin%20pesan%20layanan%20landscape"
               target="_blank"
               rel="noopener noreferrer"
               className="footer-orange-pill-btn"

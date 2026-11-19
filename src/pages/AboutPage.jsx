@@ -12,14 +12,8 @@ export default function AboutPage() {
   );
 
   return (
-    <div className="bg-[var(--bg-canvas)]">
-      {/* Header Banner with Real Nursery Photography Background */}
-      <PageHeader
-        bgImage="/assets/kci/nursery_cigombong.webp"
-        title="Mengenal CV. Kreasi Cendekia Indonesia"
-      />
-
-      {/* Profil, Visi, Misi, & Core Values */}
+    <div className="bg-[var(--bg-canvas)] pt-20 sm:pt-24 lg:pt-28">
+      {/* Profil, Visi, Misi, & Core Values (Straight to content) */}
       <AboutVisionSection />
 
       {/* Nursery Mandiri Spotlight */}

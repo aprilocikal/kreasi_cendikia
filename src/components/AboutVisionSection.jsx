@@ -5,7 +5,7 @@ import { COMPANY_PROFILE } from "../data/kciData";
 
 export function AboutVisionSection({ showFullLink = false }) {
   return (
-    <section id="tentang" className="border-t border-[var(--border-warm)] bg-[var(--bg-canvas)] py-16 lg:py-24">
+    <section id="tentang" className="bg-[var(--bg-canvas)] py-10 lg:py-16">
       <div className="mx-auto max-w-[1240px] px-6">
         {/* Section Heading */}
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-12 lg:gap-12">

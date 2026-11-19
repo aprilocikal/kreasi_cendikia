@@ -34,7 +34,7 @@ export default function Contact() {
 
   const sendWhatsApp = () => {
     const text = `Halo CV. Kreasi Cendikia Indonesia,%0A%0ASaya: ${form.name || 'Calon Klien'}%0ANo Telp: ${form.phone || '-'}%0ALayanan: ${form.service}%0ALokasi: ${form.location || '-' } %0APesan: ${form.message || 'Saya ingin konsultasi proyek landscape'}`
-    window.open(`https://wa.me/6281212126595?text=${text}`, '_blank')
+    window.open(`https://wa.me/6281915900782?text=${text}`, '_blank')
   }
 
   return (
@@ -67,7 +67,7 @@ export default function Contact() {
                 </div>
                 <div>
                   <span className="c-label">Telepon / WhatsApp</span>
-                  <p className="c-val">0812-1212-6595</p>
+                  <p className="c-val">+62 819-1590-0782</p>
                   <span className="c-sub">Fast response via WhatsApp</span>
                 </div>
               </div>
@@ -78,7 +78,7 @@ export default function Contact() {
                 </div>
                 <div>
                   <span className="c-label">Alamat E-mail</span>
-                  <p className="c-val">jk.suma88@gmail.com</p>
+                  <p className="c-val">cvkreasicendekia@gmail.com</p>
                   <span className="c-sub">Untuk pengiriman dokumen tender &amp; penawaran</span>
                 </div>
               </div>

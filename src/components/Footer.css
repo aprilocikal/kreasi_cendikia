@@ -182,9 +182,9 @@
   color: #0F172A;
 }
 
-/* Big Green Pill Button */
+/* Big Neon Orange Pill Button */
 .footer-orange-pill-btn {
-  background-color: #0ca74b;
+  background-color: var(--accent-cta);
   color: #ffffff;
   border-radius: 999px;
   padding: 14px 24px;
@@ -196,15 +196,15 @@
   justify-content: center;
   gap: 8px;
   text-decoration: none;
-  box-shadow: 0 8px 22px rgba(12, 167, 75, 0.35);
+  box-shadow: 0 8px 22px rgba(240, 82, 10, 0.35);
   transition: all 0.25s ease;
   width: 100%;
 }
 
 .footer-orange-pill-btn:hover {
-  background-color: #098e3f;
+  background-color: var(--accent-cta-hover);
   transform: translateY(-2px);
-  box-shadow: 0 12px 28px rgba(12, 167, 75, 0.55);
+  box-shadow: 0 12px 28px rgba(240, 82, 10, 0.55);
 }
 
 /* Bottom Bar */

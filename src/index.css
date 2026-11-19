@@ -26,10 +26,10 @@
   --border-hairline: #cee4d4;
   --border-warm: #e1ede5;
 
-  /* CTA Primary (Emerald Green Matching Logo) */
-  --accent-cta: #0ca74b;
-  --accent-cta-hover: #098e3f;
-  --accent-cta-soft: #eaf8ee;
+  /* CTA Primary (Vibrant Neon/Electric Orange - High Contrast & Eye Comfort) */
+  --accent-cta: #f0520a;
+  --accent-cta-hover: #d84300;
+  --accent-cta-soft: #fff3ec;
   --accent-cta-ink: #ffffff;
 
   /* Secondary Accents */

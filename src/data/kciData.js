@@ -1,4 +1,4 @@
-export const WHATSAPP_NUMBER = "6281212126595";
+export const WHATSAPP_NUMBER = "6281915900782";
 
 export function buildWhatsAppUrl(message) {
   return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
@@ -10,8 +10,8 @@ export const COMPANY_PROFILE = {
   tagline: "Konsultan & Kontraktor Landscape Profesional",
   address:
     "Jl. Raya Sukabumi Km 21 RT.013 RW.004, Cigombong, Kabupaten Bogor, Jawa Barat",
-  phoneDisplay: "0812-1212-6595",
-  email: "jk.suma88@gmail.com",
+  phoneDisplay: "+62 819-1590-0782",
+  email: "cvkreasicendekia@gmail.com",
   establishedYear: "2024",
   vision:
     "Menjadi Konsultan dan Kontraktor Landscape profesional yang terkemuka serta mempunyai reputasi dan keunggulan yang dapat dipertanggungjawabkan serta jujur.",
