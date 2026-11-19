@@ -12,18 +12,11 @@ export default function Hero() {
 
       <div className="hero-inner-container">
         <div className="hero-text-content">
-          {/* Luxury Editorial Headline with Glitter Shimmer & Twinkling Sparkles */}
-          <div className="hero-title-wrapper">
-            <span className="sparkle-star sparkle-top-left" aria-hidden="true">✦</span>
-            <span className="sparkle-star sparkle-top-right" aria-hidden="true">✧</span>
-            <span className="sparkle-star sparkle-bottom-left" aria-hidden="true">⋆</span>
-            <span className="sparkle-star sparkle-bottom-right" aria-hidden="true">✦</span>
-
-            <h1 className="hero-giant-title">
-              <span className="title-serif-main glitter-text">Harmoni Lanskap</span>
-              <span className="title-serif-sub">Ruang Hidup Tropis Berkelas</span>
-            </h1>
-          </div>
+          {/* Luxury Editorial Headline with Refined Shimmer */}
+          <h1 className="hero-giant-title">
+            <span className="title-serif-main glitter-text">Harmoni Lanskap</span>
+            <span className="title-serif-sub">Ruang Hidup Tropis Berkelas</span>
+          </h1>
 
           {/* Subtitle Description */}
           <p className="hero-description">
