@@ -78,12 +78,12 @@ export function PortfolioGallery() {
             </h2>
           </div>
 
-          {/* Modern Horizontal Pill Filter - Wrapped in soft green capsule track so it visually cues swipeability */}
-          <div className="w-full lg:w-auto rounded-2xl sm:rounded-full bg-[var(--brand-tint)] border border-[var(--border-hairline)] p-1 sm:p-1.5 shadow-2xs">
+          {/* Modern Horizontal Pill Filter - Soft green capsule on mobile, clean & transparent on laptop/desktop */}
+          <div className="w-full lg:w-auto rounded-2xl bg-[var(--brand-tint)] border border-[var(--border-hairline)] p-1 shadow-2xs sm:bg-transparent sm:border-0 sm:p-0 sm:shadow-none">
             <div
               role="tablist"
               aria-label="Filter Kategori Proyek"
-              className="flex items-center gap-1.5 sm:gap-2 overflow-x-auto px-1 py-0.5 max-w-full [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] sm:flex-wrap"
+              className="flex items-center gap-1.5 sm:gap-2 overflow-x-auto px-1 py-0.5 sm:px-0 sm:py-0 max-w-full [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] sm:flex-wrap"
             >
               {PORTFOLIO_CATEGORIES.map((category) => {
                 const isActive = activeCategory === category;
@@ -97,7 +97,7 @@ export function PortfolioGallery() {
                     className={`rounded-full px-3.5 sm:px-4 py-1.5 sm:py-2 text-xs font-semibold whitespace-nowrap shrink-0 transition-all duration-150 border focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent-cta)] ${
                       isActive
                         ? "bg-[var(--accent-cta)] text-white border-[var(--accent-cta)] shadow-xs font-bold"
-                        : "bg-white text-[var(--ink-secondary)] border-transparent hover:text-[var(--brand-primary)] hover:border-emerald-200/60 shadow-2xs"
+                        : "bg-white text-[var(--ink-secondary)] border-transparent sm:border-stone-200/90 hover:text-[var(--brand-primary)] hover:border-emerald-200/60 shadow-2xs"
                     }`}
                   >
                     {category}
