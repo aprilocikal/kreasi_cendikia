@@ -1,114 +1,218 @@
+/* ============================================================
+   KCI Splash Screen — Pure GPU-Accelerated Fluid Animation
+   Graceful, cinematic logo convergence into 1 unified mark
+   ============================================================ */
+
+/* ---- Root Container ---- */
 .kci-splash {
   position: fixed;
   inset: 0;
-  background-color: var(--bg-cream);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 99999;
-  overflow: hidden;
-}
-
-.splash-skip-btn {
-  position: absolute;
-  top: 24px;
-  right: 28px;
-  z-index: 100;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 8px 16px;
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(8px);
-  border: 1.5px solid var(--sage-border);
-  border-radius: 999px;
-  font-size: 0.8125rem;
-  font-weight: 600;
-  color: var(--sage-deep);
-  transition: all var(--transition-fast);
-  cursor: pointer;
-}
-
-.splash-skip-btn:hover {
-  background: var(--sage-tint);
-  border-color: var(--sage-main);
-  transform: translateX(2px);
-}
-
-.splash-aura {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(80px);
-  pointer-events: none;
-}
-
-.aura-sage {
-  width: 580px;
-  height: 580px;
-  background: var(--sage-tint);
-  top: -120px;
-  right: -80px;
-}
-
-.aura-orange {
-  width: 440px;
-  height: 440px;
-  background: var(--accent-orange-light);
-  bottom: -100px;
-  left: -60px;
-}
-
-.splash-box {
-  position: relative;
-  z-index: 2;
+  background: #ffffff;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  text-align: center;
-  padding: 24px;
-  max-width: 420px;
+  z-index: 99999;
+  overflow: hidden;
+  transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+              transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Blooming flowers animation wrapper */
-.splash-blooming-wrapper {
-  width: 100%;
-  max-width: 280px;
-  margin-bottom: 6px;
+.kci-splash.splash-phase-exit {
+  opacity: 0;
+  transform: scale(1.02);
+  pointer-events: none;
+}
+
+/* ---- Atmospheric Blobs ---- */
+.splash-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  pointer-events: none;
+  opacity: 0.6;
+}
+.blob-green {
+  width: 480px;
+  height: 480px;
+  background: radial-gradient(circle, #d1fae5 0%, transparent 65%);
+  top: -120px;
+  left: -140px;
+}
+.blob-teal {
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, #bbf7d0 0%, transparent 65%);
+  bottom: -100px;
+  right: -100px;
+}
+
+/* ---- Spark particles ---- */
+.splash-spark {
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  opacity: 0;
+  pointer-events: none;
+}
+.splash-spark.spark-1  { top: 36%; left: 34%; background: #0CA74B; }
+.splash-spark.spark-2  { top: 29%; left: 56%; background: #2EB556; }
+.splash-spark.spark-3  { top: 58%; left: 63%; background: #75DC66; }
+.splash-spark.spark-4  { top: 66%; left: 42%; background: #0CA74B; }
+.splash-spark.spark-5  { top: 43%; left: 28%; background: #2EB556; }
+.splash-spark.spark-6  { top: 25%; left: 47%; background: #75DC66; }
+.splash-spark.spark-7  { top: 70%; left: 53%; background: #0CA74B; }
+.splash-spark.spark-8  { top: 47%; left: 70%; background: #2EB556; }
+.splash-spark.spark-9  { top: 32%; left: 39%; background: #75DC66; }
+.splash-spark.spark-10 { top: 63%; left: 33%; background: #0CA74B; }
+
+.kci-splash.splash-phase-merge .splash-spark,
+.kci-splash.splash-phase-hold .splash-spark {
+  animation: spark-burst 0.75s ease-out forwards;
+}
+/* Sparks memancar tepat saat ketiga potongan bertemu (1.65s - 1.8s) */
+.splash-spark.spark-1  { animation-delay: 1.65s; }
+.splash-spark.spark-2  { animation-delay: 1.70s; }
+.splash-spark.spark-3  { animation-delay: 1.75s; }
+.splash-spark.spark-4  { animation-delay: 1.80s; }
+.splash-spark.spark-5  { animation-delay: 1.68s; }
+.splash-spark.spark-6  { animation-delay: 1.72s; }
+.splash-spark.spark-7  { animation-delay: 1.78s; }
+.splash-spark.spark-8  { animation-delay: 1.66s; }
+.splash-spark.spark-9  { animation-delay: 1.82s; }
+.splash-spark.spark-10 { animation-delay: 1.74s; }
+
+@keyframes spark-burst {
+  0%   { opacity: 0;   transform: scale(0); }
+  50%  { opacity: 0.9; transform: scale(2.2); }
+  100% { opacity: 0;   transform: scale(0) translateY(-22px); }
+}
+
+/* ---- Stage ---- */
+.splash-stage {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
+  gap: 28px;
+  position: relative;
+  z-index: 2;
 }
 
-.blooming-flowers-container {
-  width: 100%;
-  height: 270px;
+/* ---- Logo Assembly ---- */
+.splash-logo-assembly {
+  position: relative;
+  width: 220px;
+  height: 116px;
+}
+
+/* Gerakan meluncur lambat, anggun & dinamis (1.75 detik) */
+.splash-svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 220px;
+  height: 116px;
+  will-change: transform, opacity;
+  transition:
+    transform 1.75s cubic-bezier(0.2, 0.9, 0.25, 1),
+    opacity 0.6s ease;
+}
+
+/* State 1: Start (posisi terpencar di awal) */
+.kci-splash.splash-phase-start .path-1 {
+  opacity: 0.9;
+  transform: translate(-130px, 55px) rotate(-16deg) scale(0.82);
+}
+.kci-splash.splash-phase-start .path-2 {
+  opacity: 0.9;
+  transform: translate(110px, 65px) rotate(18deg) scale(0.82);
+}
+.kci-splash.splash-phase-start .path-3 {
+  opacity: 0.9;
+  transform: translate(75px, -70px) rotate(-24deg) scale(0.75);
+}
+
+/* State 2 & 3: Merge & Hold (perlahan meluncur lalu bersatu utuh di tengah) */
+.kci-splash.splash-phase-merge .path-1,
+.kci-splash.splash-phase-hold  .path-1,
+.kci-splash.splash-phase-exit  .path-1,
+.kci-splash.splash-phase-merge .path-2,
+.kci-splash.splash-phase-hold  .path-2,
+.kci-splash.splash-phase-exit  .path-2,
+.kci-splash.splash-phase-merge .path-3,
+.kci-splash.splash-phase-hold  .path-3,
+.kci-splash.splash-phase-exit  .path-3 {
+  opacity: 1;
+  transform: translate(0, 0) rotate(0deg) scale(1);
+}
+
+/* Sedikit stagger agar pergerakan terlihat organik */
+.path-1 { transition-delay: 0s; }
+.path-2 { transition-delay: 0.06s; }
+.path-3 { transition-delay: 0.12s; }
+
+/* Pulse lembut saat bersatu */
+.kci-splash.splash-phase-hold .path-1,
+.kci-splash.splash-phase-hold .path-2,
+.kci-splash.splash-phase-hold .path-3 {
+  animation: logo-snap 0.45s ease-out;
+}
+@keyframes logo-snap {
+  0%   { transform: scale(0.97); }
+  50%  { transform: scale(1.03); }
+  100% { transform: scale(1); }
+}
+
+/* ---- Brand text ---- */
+.splash-brand-text {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
+  gap: 3px;
+  opacity: 0;
+  transform: translateY(14px);
+  will-change: transform, opacity;
+  /* Muncul tepat saat potongan logo hampir selesai menyatu di detik 1.6 */
+  transition: opacity 0.55s ease 1.65s, transform 0.55s cubic-bezier(0.16, 1, 0.3, 1) 1.65s;
 }
 
-.blooming-svg {
-  width: 100%;
-  height: 100%;
-  overflow: visible;
-  filter: drop-shadow(0 12px 28px rgba(225, 29, 72, 0.18));
+.kci-splash.splash-phase-merge .splash-brand-text,
+.kci-splash.splash-phase-hold .splash-brand-text,
+.kci-splash.splash-phase-exit .splash-brand-text {
+  opacity: 1;
+  transform: translateY(0);
 }
 
-/* Clean logo mark without border box / card */
-.splash-logo-clean {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.splash-brand-name {
+  font-family: 'Poppins', sans-serif;
+  font-size: clamp(1.4rem, 4vw, 1.85rem);
+  font-weight: 700;
+  color: #111827;
+  letter-spacing: -0.01em;
+  line-height: 1;
+}
+.splash-brand-tagline {
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  color: #0CA74B;
+  text-transform: uppercase;
   margin-top: 2px;
-  filter: drop-shadow(0 6px 20px rgba(14, 161, 75, 0.25));
+}
+.splash-brand-loc {
+  font-size: 0.7rem;
+  color: rgba(0, 0, 0, 0.38);
+  letter-spacing: 0.08em;
+  margin-top: 3px;
 }
 
-@media (max-width: 600px) {
-  .splash-blooming-wrapper {
-    max-width: 210px;
-  }
-  .blooming-flowers-container {
-    height: 200px;
-  }
+/* ---- Responsive ---- */
+@media (max-width: 480px) {
+  .splash-logo-assembly { width: 160px; height: 84px; }
+  .splash-svg           { width: 160px; height: 84px; }
+  .kci-splash.splash-phase-start .path-1 { transform: translate(-90px, 40px) rotate(-16deg) scale(0.82); }
+  .kci-splash.splash-phase-start .path-2 { transform: translate(80px, 45px) rotate(18deg) scale(0.82); }
+  .kci-splash.splash-phase-start .path-3 { transform: translate(55px, -55px) rotate(-24deg) scale(0.75); }
 }

@@ -31,9 +31,7 @@ export default function Hero() {
 
           {/* Subtitle Description */}
           <p className="hero-description">
-            CV. Kreasi Cendekia Indonesia memadukan seni rancang arsitektur hijau, konstruksi presisi,
-            dan pembibitan mandiri untuk mewujudkan taman residensial eksklusif, kawasan publik,
-            hingga lanskap komersial berdaya tahan lama.
+            Konsultan &amp; kontraktor lanskap profesional — taman hunian, kawasan publik, dan infrastruktur hijau.
           </p>
 
           {/* Centered Action Buttons */}

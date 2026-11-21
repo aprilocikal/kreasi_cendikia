@@ -10,9 +10,11 @@ export default function LegalityPage() {
   );
 
   return (
-    <div className="bg-[var(--bg-canvas)] pt-16 sm:pt-20 lg:pt-24 pb-12">
-      {/* Main Legality Section with Expandable Scan Viewers */}
-      <LegalityTrustSection />
+    <div className="bg-[var(--bg-sage-soft)]">
+      {/* Top container seamlessly extends behind the floating navbar with uniform soft sage background */}
+      <div className="pt-20 sm:pt-24 lg:pt-28 pb-10 sm:pb-14">
+        <LegalityTrustSection />
+      </div>
 
       {/* Procurement & Administrative Guarantee Section */}
       <section className="border-t border-[var(--border-warm)] bg-[var(--bg-canvas)] py-16 lg:py-20">

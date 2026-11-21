@@ -18,7 +18,7 @@ export function LegalityTrustSection() {
   return (
     <section
       id="legalitas"
-      className="border-b border-[var(--border-hairline)] bg-[var(--bg-sage-soft)] py-8 lg:py-14"
+      className="bg-transparent"
     >
       <div className="mx-auto max-w-[1240px] px-6">
         <div className="max-w-2xl">

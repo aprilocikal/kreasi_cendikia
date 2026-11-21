@@ -35,15 +35,19 @@ export function TopBar() {
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 w-full px-3 sm:px-6 pt-2 sm:pt-3.5 pb-1 sm:pb-2 pointer-events-none transition-all duration-300">
-      {/* Full-screen Backdrop Blur Overlay when mobile menu is open */}
-      {mobileMenuOpen && (
-        <div
-          onClick={() => setMobileMenuOpen(false)}
-          onTouchMove={(e) => e.preventDefault()}
-          className="fixed inset-0 bg-black/45 backdrop-blur-md pointer-events-auto xl:hidden transition-all duration-300 touch-none"
-          aria-hidden="true"
-        />
-      )}
+      {/* Full-screen Backdrop — always mounted, fade via opacity */}
+      <div
+        onClick={() => setMobileMenuOpen(false)}
+        onTouchMove={(e) => e.preventDefault()}
+        aria-hidden="true"
+        className="xl:hidden touch-none fixed inset-0 transition-all duration-300 ease-in-out"
+        style={{
+          backgroundColor: "rgba(0,0,0,0.45)",
+          backdropFilter: mobileMenuOpen ? "blur(8px)" : "blur(0px)",
+          opacity: mobileMenuOpen ? 1 : 0,
+          pointerEvents: mobileMenuOpen ? "auto" : "none",
+        }}
+      />
 
       <div className="relative z-10 mx-auto flex w-[93%] sm:w-full max-w-[1040px] items-center justify-between gap-3 rounded-full border border-white/80 bg-white/90 px-3 sm:px-5 py-1 sm:py-1.5 shadow-[0_4px_22px_rgba(0,0,0,0.08)] backdrop-blur-xl transition-all duration-300 hover:shadow-[0_6px_28px_rgba(0,0,0,0.12)] pointer-events-auto">
         
@@ -55,7 +59,32 @@ export function TopBar() {
           aria-label={mobileMenuOpen ? "Tutup menu navigasi" : "Buka menu navigasi"}
           className="inline-flex h-7.5 w-7.5 items-center justify-center rounded-full border border-stone-200/90 bg-stone-100/80 text-stone-800 xl:hidden transition-colors duration-150 hover:bg-stone-200 shadow-2xs"
         >
-          {mobileMenuOpen ? <X className="h-3.5 w-3.5" /> : <Menu className="h-3.5 w-3.5" />}
+          {/* Animated hamburger → X morph */}
+          <span className="relative w-3.5 h-3.5 flex items-center justify-center">
+            {/* Bar atas */}
+            <span
+              className="absolute block h-[1.8px] w-3.5 rounded-full bg-stone-700 transition-all duration-300 ease-in-out origin-center"
+              style={{
+                transform: mobileMenuOpen
+                  ? "translateY(0) rotate(45deg)"
+                  : "translateY(-4px) rotate(0deg)",
+              }}
+            />
+            {/* Bar tengah */}
+            <span
+              className="absolute block h-[1.8px] w-3.5 rounded-full bg-stone-700 transition-all duration-200 ease-in-out"
+              style={{ opacity: mobileMenuOpen ? 0 : 1, transform: mobileMenuOpen ? "scaleX(0)" : "scaleX(1)" }}
+            />
+            {/* Bar bawah */}
+            <span
+              className="absolute block h-[1.8px] w-3.5 rounded-full bg-stone-700 transition-all duration-300 ease-in-out origin-center"
+              style={{
+                transform: mobileMenuOpen
+                  ? "translateY(0) rotate(-45deg)"
+                  : "translateY(4px) rotate(0deg)",
+              }}
+            />
+          </span>
         </button>
 
         {/* Single Brand Logo (Clean vector icon, no text, single element in DOM) */}
@@ -117,12 +146,20 @@ export function TopBar() {
         </div>
       </div>
 
-      {/* Mobile Navigation Drawer */}
-      {mobileMenuOpen && (
-        <nav
-          aria-label="Navigasi Mobile"
-          className="relative z-10 mx-auto mt-2 w-[93%] max-w-[1040px] rounded-2xl border border-stone-200/90 bg-white/95 p-3 xl:hidden shadow-2xl backdrop-blur-2xl animate-in fade-in slide-in-from-top-2 duration-200 pointer-events-auto"
-        >
+      {/* Mobile Navigation Drawer — always mounted, slides via CSS transform */}
+      <nav
+        aria-label="Navigasi Mobile"
+        className="relative z-10 mx-auto mt-2 w-[93%] max-w-[1040px] rounded-2xl border border-stone-200/90 bg-white/95 p-3 xl:hidden shadow-2xl backdrop-blur-2xl pointer-events-auto overflow-hidden transition-all duration-300 ease-in-out"
+        style={{
+          opacity: mobileMenuOpen ? 1 : 0,
+          transform: mobileMenuOpen ? "translateY(0) scaleY(1)" : "translateY(-12px) scaleY(0.92)",
+          transformOrigin: "top center",
+          pointerEvents: mobileMenuOpen ? "auto" : "none",
+          maxHeight: mobileMenuOpen ? "600px" : "0px",
+          paddingTop: mobileMenuOpen ? undefined : "0",
+          paddingBottom: mobileMenuOpen ? undefined : "0",
+        }}
+      >
           <div className="flex flex-col gap-1.5">
             {NAV_LINKS.map((link) => (
               <NavLink
@@ -156,7 +193,6 @@ export function TopBar() {
             </div>
           </div>
         </nav>
-      )}
     </header>
   );
 }

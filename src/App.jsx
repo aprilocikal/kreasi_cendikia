@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useState, useCallback } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import TopBar from './components/TopBar'
 import ConversionFooter from './components/ConversionFooter'
 import ScrollToTop from './components/ScrollToTop'
+import SplashScreen from './components/SplashScreen'
 
 // Distinct Pages
 import Home from './pages/Home'
@@ -14,8 +15,19 @@ import LegalityPage from './pages/LegalityPage'
 import ContactPage from './pages/ContactPage'
 
 export default function App() {
+  // Animasi splash tampil 1 kali per sesi kunjungan
+  const [showSplash, setShowSplash] = useState(
+    () => !sessionStorage.getItem('kci_splash_done')
+  )
+
+  const handleSplashDone = useCallback(() => {
+    sessionStorage.setItem('kci_splash_done', '1')
+    setShowSplash(false)
+  }, [])
+
   return (
     <div className="min-h-screen bg-[var(--bg-canvas)] text-[var(--ink-primary)] selection:bg-[var(--accent-cta)] selection:text-white flex flex-col justify-between">
+      {showSplash && <SplashScreen onDone={handleSplashDone} />}
       <ScrollToTop />
       <TopBar />
 
