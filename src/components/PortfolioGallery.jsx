@@ -9,7 +9,8 @@ import { useData } from "../context/DataContext";
 import { ResilientImage } from "./ResilientImage";
 
 export function PortfolioGallery() {
-  const { portfolio } = useData();
+  const { portfolio, categories } = useData();
+  const availableCategories = categories && categories.length > 0 ? categories : PORTFOLIO_CATEGORIES;
   const [activeCategory, setActiveCategory] = useState("Semua");
   const [lightboxIndex, setLightboxIndex] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
@@ -86,7 +87,7 @@ export function PortfolioGallery() {
               aria-label="Filter Kategori Proyek"
               className="flex items-center gap-1.5 sm:gap-2 overflow-x-auto px-1 py-0.5 sm:px-0 sm:py-0 max-w-full [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] sm:flex-wrap"
             >
-              {PORTFOLIO_CATEGORIES.map((category) => {
+              {availableCategories.map((category) => {
                 const isActive = activeCategory === category;
                 return (
                   <button

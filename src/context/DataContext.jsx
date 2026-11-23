@@ -2,6 +2,7 @@ import React, { createContext, useContext, useState, useEffect, useCallback } fr
 import {
   collection,
   getDocs,
+  getDoc,
   doc,
   setDoc,
   deleteDoc,
@@ -12,6 +13,7 @@ import {
   GALLERY_ITEMS as DEFAULT_PORTFOLIO,
   SERVICES as DEFAULT_SERVICES,
   LEGALITY_DATA as DEFAULT_LEGALITY,
+  PORTFOLIO_CATEGORIES as DEFAULT_CATEGORIES,
 } from "../data/kciData";
 
 const DataContext = createContext(null);
@@ -45,6 +47,19 @@ export function DataProvider({ children }) {
     }
   });
 
+  const [categories, setCategories] = useState(() => {
+    try {
+      const cached = localStorage.getItem("kci_categories");
+      if (cached) {
+        const parsed = JSON.parse(cached);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          return Array.from(new Set(["Semua", ...parsed]));
+        }
+      }
+    } catch {}
+    return DEFAULT_CATEGORIES;
+  });
+
   const [loading, setLoading] = useState(true);
   const [firebaseStatus, setFirebaseStatus] = useState("connecting"); // 'connecting' | 'connected' | 'offline'
 
@@ -73,6 +88,10 @@ export function DataProvider({ children }) {
       for (const [key, item] of Object.entries(DEFAULT_LEGALITY)) {
         await setDoc(doc(db, "kci_legality", key), item);
       }
+      // Seed Categories
+      await setDoc(doc(db, "kci_settings", "categories"), {
+        list: DEFAULT_CATEGORIES,
+      });
       setFirebaseStatus("connected");
       return { success: true };
     } catch (error) {
@@ -87,14 +106,15 @@ export function DataProvider({ children }) {
     setLoading(true);
     try {
       // 1. Portfolio
+      let currentPortData = [];
       const portSnap = await getDocs(collection(db, "kci_portfolio"));
       if (!portSnap.empty) {
-        const portData = portSnap.docs.map((d) => ({
+        currentPortData = portSnap.docs.map((d) => ({
           ...d.data(),
           id: d.id,
         }));
-        setPortfolio(portData);
-        saveLocal("kci_portfolio", portData);
+        setPortfolio(currentPortData);
+        saveLocal("kci_portfolio", currentPortData);
       } else {
         // If collection doesn't exist yet, seed it!
         seedToFirebase();
@@ -124,6 +144,23 @@ export function DataProvider({ children }) {
         saveLocal("kci_legality", legData);
       }
 
+      // 4. Categories
+      try {
+        const catSnap = await getDoc(doc(db, "kci_settings", "categories"));
+        let firestoreCats = [];
+        if (catSnap.exists() && Array.isArray(catSnap.data()?.list)) {
+          firestoreCats = catSnap.data().list;
+        }
+        const itemCats = currentPortData.map((p) => p.category).filter(Boolean);
+        const combined = Array.from(
+          new Set(["Semua", ...DEFAULT_CATEGORIES, ...firestoreCats, ...itemCats])
+        );
+        setCategories(combined);
+        saveLocal("kci_categories", combined);
+      } catch (catErr) {
+        console.warn("Could not fetch categories from Firebase:", catErr);
+      }
+
       setFirebaseStatus("connected");
     } catch (error) {
       console.warn("Firebase fetch failed or Firestore not initialized yet. Using local fallback cache:", error);
@@ -138,9 +175,46 @@ export function DataProvider({ children }) {
   }, [refreshFromFirebase]);
 
   // ==========================================
+  // CRUD ACTIONS: CATEGORIES
+  // ==========================================
+  const addCategory = async (newCat) => {
+    const trimmed = typeof newCat === "string" ? newCat.trim() : "";
+    if (!trimmed) return "";
+
+    let isNew = false;
+    setCategories((prev) => {
+      if (prev.includes(trimmed)) return prev;
+      isNew = true;
+      const updated = [...prev, trimmed];
+      saveLocal("kci_categories", updated);
+      setDoc(doc(db, "kci_settings", "categories"), { list: updated }).catch((e) =>
+        console.warn("Could not save categories to Firestore:", e)
+      );
+      return updated;
+    });
+    return trimmed;
+  };
+
+  const deleteCategory = async (catName) => {
+    if (!catName || catName === "Semua") return;
+    setCategories((prev) => {
+      const updated = prev.filter((c) => c !== catName);
+      saveLocal("kci_categories", updated);
+      setDoc(doc(db, "kci_settings", "categories"), { list: updated }).catch((e) =>
+        console.warn("Could not delete category in Firestore:", e)
+      );
+      return updated;
+    });
+  };
+
+  // ==========================================
   // CRUD ACTIONS: PORTOFOLIO
   // ==========================================
   const addPortfolio = async (item) => {
+    if (item.category) {
+      addCategory(item.category);
+    }
+
     const newItem = {
       ...item,
       id: item.id || `p-${Date.now()}`,
@@ -165,6 +239,10 @@ export function DataProvider({ children }) {
   };
 
   const updatePortfolio = async (id, updatedFields) => {
+    if (updatedFields.category) {
+      addCategory(updatedFields.category);
+    }
+
     setPortfolio((prev) => {
       const updated = prev.map((item) =>
         item.id === id ? { ...item, ...updatedFields } : item
@@ -287,9 +365,11 @@ export function DataProvider({ children }) {
     setPortfolio(DEFAULT_PORTFOLIO);
     setServices(DEFAULT_SERVICES);
     setLegality(DEFAULT_LEGALITY);
+    setCategories(DEFAULT_CATEGORIES);
     saveLocal("kci_portfolio", DEFAULT_PORTFOLIO);
     saveLocal("kci_services", DEFAULT_SERVICES);
     saveLocal("kci_legality", DEFAULT_LEGALITY);
+    saveLocal("kci_categories", DEFAULT_CATEGORIES);
     await seedToFirebase();
   };
 
@@ -299,6 +379,7 @@ export function DataProvider({ children }) {
         portfolio,
         services,
         legality,
+        categories,
         loading,
         firebaseStatus,
         refreshFromFirebase,
@@ -307,6 +388,8 @@ export function DataProvider({ children }) {
         addPortfolio,
         updatePortfolio,
         deletePortfolio,
+        addCategory,
+        deleteCategory,
         addService,
         updateService,
         deleteService,

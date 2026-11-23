@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import {
   Lock,
@@ -14,55 +14,39 @@ import {
   FolderKanban,
   Wrench,
   FileBadge2,
-  Database,
-  RefreshCw,
   CheckCircle2,
   AlertCircle,
   Eye,
   EyeOff,
   Image as ImageIcon,
   Sparkles,
+  UploadCloud,
+  Loader2,
+  Tag,
+  Check,
+  FileImage,
 } from "lucide-react";
 import { useData } from "../context/DataContext";
 import KciLogo from "../components/KciLogo";
 import { PORTFOLIO_CATEGORIES } from "../data/kciData";
-
-const PRESET_IMAGES = [
-  { label: "Taman Golf Karawaci", url: "/assets/kci/hero_karawaci.webp" },
-  { label: "Rest Area KM 68 Tol Cipali", url: "/assets/kci/komersial_cipali_restarea.webp" },
-  { label: "Goldfinch Summarecon Serpong", url: "/assets/kci/hunian_goldfinch_serpong.webp" },
-  { label: "Planter Box & Bench", url: "/assets/kci/hardscape_planter_bench.webp" },
-  { label: "Catha Rempoa Damai Putra", url: "/assets/kci/kawasan_catha_rempoa.webp" },
-  { label: "Segara City Harapan Indah", url: "/assets/kci/kawasan_segara_city.webp" },
-  { label: "Vertical Garden Gedung", url: "/assets/kci/vertical_garden_gedung.webp" },
-  { label: "Vertical Garden Bebek Kaleyo", url: "/assets/kci/vertical_garden_bebek_kaleyo.webp" },
-  { label: "Rumput Sintetis Futsal", url: "/assets/kci/rumput_sintetis_futsal.webp" },
-  { label: "Kolam Koi & Water Feature", url: "/assets/kci/kolam_buatan_pond.webp" },
-  { label: "Perawatan Bonsai & Pohon", url: "/assets/kci/perawatan_bonsai.webp" },
-  { label: "Rental Tanaman Indoor", url: "/assets/kci/indoor_plant_rent.webp" },
-  { label: "Dekorasi Indoor Eksklusif", url: "/assets/kci/dekorasi_indoor.webp" },
-  { label: "Taman Aviary & Burung", url: "/assets/kci/taman_aviary.webp" },
-  { label: "Hidroponik Mandiri", url: "/assets/kci/hidroponik_farm.webp" },
-  { label: "Nursery Mandiri Cigombong", url: "/assets/kci/nursery_cigombong.webp" },
-  { label: "SK AHU Kemenkumham", url: "/assets/kci/legalitas_ahu.webp" },
-  { label: "NPWP Badan Resmi", url: "/assets/kci/legalitas_npwp.webp" },
-];
+import { processAndUploadImage, formatBytes } from "../utils/imageUtils";
 
 export default function AdminPage() {
   const {
     portfolio,
     services,
     legality,
+    categories = PORTFOLIO_CATEGORIES,
     firebaseStatus,
     addPortfolio,
     updatePortfolio,
     deletePortfolio,
+    addCategory,
+    deleteCategory,
     addService,
     updateService,
     deleteService,
     updateLegality,
-    seedToFirebase,
-    resetAllToDefaults,
   } = useData();
 
   // Authentication State
@@ -73,9 +57,10 @@ export default function AdminPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [authError, setAuthError] = useState("");
 
-  // Active Tab: 'portfolio' | 'services' | 'legality' | 'database'
+  // Active Tab: 'portfolio' | 'services' | 'legality'
   const [activeTab, setActiveTab] = useState("portfolio");
   const [toastMessage, setToastMessage] = useState("");
+  const [adminCategoryFilter, setAdminCategoryFilter] = useState("Semua");
 
   // Portfolio Modal State
   const [isPortfolioModalOpen, setIsPortfolioModalOpen] = useState(false);
@@ -84,9 +69,20 @@ export default function AdminPage() {
     title: "",
     projectContext: "",
     category: "Hunian & Taman",
-    image: "/assets/kci/hero_karawaci.webp",
+    image: "",
     caption: "",
   });
+
+  // Image Upload & WebP Conversion State
+  const [uploadingImage, setUploadingImage] = useState(false);
+  const [uploadStats, setUploadStats] = useState(null);
+  const [uploadError, setUploadError] = useState("");
+  const [showManualUrl, setShowManualUrl] = useState(false);
+  const fileInputRef = useRef(null);
+
+  // Dynamic Category State inside Modal
+  const [isAddingCategory, setIsAddingCategory] = useState(false);
+  const [newCategoryInput, setNewCategoryInput] = useState("");
 
   // Services Modal State
   const [isServiceModalOpen, setIsServiceModalOpen] = useState(false);
@@ -98,9 +94,16 @@ export default function AdminPage() {
     summary: "",
     scopeText: "",
     idealFor: "",
-    image: "/assets/kci/hunian_goldfinch_serpong.webp",
+    image: "",
     featured: true,
   });
+
+  // Service Image Upload & WebP Conversion State
+  const [uploadingServiceImage, setUploadingServiceImage] = useState(false);
+  const [uploadServiceStats, setUploadServiceStats] = useState(null);
+  const [uploadServiceError, setUploadServiceError] = useState("");
+  const [showManualServiceUrl, setShowManualServiceUrl] = useState(false);
+  const serviceFileInputRef = useRef(null);
 
   // Legality Edit State
   const [ahuForm, setAhuForm] = useState(() => legality?.ahu || {});
@@ -137,17 +140,82 @@ export default function AdminPage() {
   };
 
   // ==========================================
+  // HANDLERS: IMAGE UPLOAD & WEBP
+  // ==========================================
+  const handleImageFileChange = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (!file.type.startsWith("image/")) {
+      setUploadError("File harus berupa gambar (JPG, PNG, WEBP, JPEG, dll).");
+      return;
+    }
+
+    setUploadingImage(true);
+    setUploadError("");
+    try {
+      const result = await processAndUploadImage(file, "portofolio");
+      setPortfolioForm((prev) => ({ ...prev, image: result.url }));
+      const savings = Math.max(
+        0,
+        Math.round(((result.originalSize - result.webpSize) / result.originalSize) * 100)
+      );
+      setUploadStats({
+        originalSize: result.originalSize,
+        webpSize: result.webpSize,
+        filename: result.filename,
+        savings,
+        storageType: result.storageType,
+      });
+      showToast(`Gambar "${file.name}" berhasil dikonversi ke WebP & siap disimpan!`);
+    } catch (err) {
+      console.error("Upload error:", err);
+      setUploadError(err.message || "Gagal memproses dan mengonversi gambar.");
+    } finally {
+      setUploadingImage(false);
+      if (fileInputRef.current) {
+        fileInputRef.current.value = "";
+      }
+    }
+  };
+
+  // ==========================================
+  // HANDLERS: TAMBAH KATEGORI BARU
+  // ==========================================
+  const handleAddNewCategory = async (e) => {
+    if (e) e.preventDefault();
+    const trimmed = newCategoryInput.trim();
+    if (!trimmed) return;
+    if (trimmed.toLowerCase() === "semua") {
+      setUploadError("Nama kategori tidak boleh 'Semua'");
+      return;
+    }
+
+    await addCategory(trimmed);
+    setPortfolioForm((prev) => ({ ...prev, category: trimmed }));
+    setNewCategoryInput("");
+    setIsAddingCategory(false);
+    showToast(`Kategori baru "${trimmed}" berhasil ditambahkan & dipilih!`);
+  };
+
+  // ==========================================
   // HANDLERS: PORTFOLIO
   // ==========================================
   const handleOpenAddPortfolio = () => {
     setEditingPortfolioId(null);
+    const defaultCat = categories.find((c) => c !== "Semua") || "Hunian & Taman";
     setPortfolioForm({
       title: "",
       projectContext: "",
-      category: "Hunian & Taman",
-      image: "/assets/kci/hero_karawaci.webp",
+      category: defaultCat,
+      image: "",
       caption: "",
     });
+    setUploadStats(null);
+    setUploadError("");
+    setIsAddingCategory(false);
+    setNewCategoryInput("");
+    setShowManualUrl(false);
     setIsPortfolioModalOpen(true);
   };
 
@@ -157,15 +225,25 @@ export default function AdminPage() {
       title: item.title || "",
       projectContext: item.projectContext || "",
       category: item.category || "Hunian & Taman",
-      image: item.image || "/assets/kci/hero_karawaci.webp",
+      image: item.image || "",
       caption: item.caption || "",
     });
+    setUploadStats(null);
+    setUploadError("");
+    setIsAddingCategory(false);
+    setNewCategoryInput("");
+    setShowManualUrl(Boolean(item.image && !item.image.startsWith("data:image/webp")));
     setIsPortfolioModalOpen(true);
   };
 
   const handleSavePortfolio = async (e) => {
     e.preventDefault();
     if (!portfolioForm.title.trim()) return;
+
+    if (!portfolioForm.image) {
+      setUploadError("Harap upload foto proyek terlebih dahulu.");
+      return;
+    }
 
     if (editingPortfolioId) {
       await updatePortfolio(editingPortfolioId, portfolioForm);
@@ -187,6 +265,43 @@ export default function AdminPage() {
   // ==========================================
   // HANDLERS: SERVICES
   // ==========================================
+  const handleServiceImageFileChange = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (!file.type.startsWith("image/")) {
+      setUploadServiceError("File harus berupa gambar (JPG, PNG, WEBP, JPEG, dll).");
+      return;
+    }
+
+    setUploadingServiceImage(true);
+    setUploadServiceError("");
+    try {
+      const result = await processAndUploadImage(file, "layanan");
+      setServiceForm((prev) => ({ ...prev, image: result.url }));
+      const savings = Math.max(
+        0,
+        Math.round(((result.originalSize - result.webpSize) / result.originalSize) * 100)
+      );
+      setUploadServiceStats({
+        originalSize: result.originalSize,
+        webpSize: result.webpSize,
+        filename: result.filename,
+        savings,
+        storageType: result.storageType,
+      });
+      showToast(`Foto layanan "${file.name}" berhasil dikonversi ke WebP & siap disimpan!`);
+    } catch (err) {
+      console.error("Upload error:", err);
+      setUploadServiceError(err.message || "Gagal memproses dan mengonversi gambar layanan.");
+    } finally {
+      setUploadingServiceImage(false);
+      if (serviceFileInputRef.current) {
+        serviceFileInputRef.current.value = "";
+      }
+    }
+  };
+
   const handleOpenAddService = () => {
     setEditingServiceId(null);
     setServiceForm({
@@ -196,9 +311,12 @@ export default function AdminPage() {
       summary: "",
       scopeText: "",
       idealFor: "",
-      image: "/assets/kci/hunian_goldfinch_serpong.webp",
+      image: "",
       featured: true,
     });
+    setUploadServiceStats(null);
+    setUploadServiceError("");
+    setShowManualServiceUrl(false);
     setIsServiceModalOpen(true);
   };
 
@@ -211,15 +329,23 @@ export default function AdminPage() {
       summary: service.summary || "",
       scopeText: Array.isArray(service.scope) ? service.scope.join("\n") : "",
       idealFor: service.idealFor || "",
-      image: service.image || "/assets/kci/hunian_goldfinch_serpong.webp",
+      image: service.image || "",
       featured: Boolean(service.featured),
     });
+    setUploadServiceStats(null);
+    setUploadServiceError("");
+    setShowManualServiceUrl(Boolean(service.image && !service.image.startsWith("data:image/webp")));
     setIsServiceModalOpen(true);
   };
 
   const handleSaveService = async (e) => {
     e.preventDefault();
     if (!serviceForm.title.trim()) return;
+
+    if (!serviceForm.image) {
+      setUploadServiceError("Harap upload foto ilustrasi layanan terlebih dahulu.");
+      return;
+    }
 
     const payload = {
       number: serviceForm.number,
@@ -459,18 +585,6 @@ export default function AdminPage() {
             <FileBadge2 size={15} />
             <span>Legalitas</span>
           </button>
-
-          <button
-            onClick={() => setActiveTab("database")}
-            className={`inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all shrink-0 whitespace-nowrap ${
-              activeTab === "database"
-                ? "bg-emerald-600 text-white shadow-lg shadow-emerald-950 font-bold"
-                : "bg-stone-900 hover:bg-stone-800 text-stone-400 hover:text-stone-200"
-            }`}
-          >
-            <Database size={15} />
-            <span>Firebase</span>
-          </button>
         </div>
 
         {/* ============================================================== */}
@@ -494,12 +608,34 @@ export default function AdminPage() {
               </button>
             </div>
 
-            {/* Portfolio Grid List */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {portfolio.map((item) => (
+            {/* Category Filter Pills in Admin */}
+            <div className="flex items-center gap-1.5 sm:gap-2 overflow-x-auto pb-1 max-w-full">
+              {categories.map((cat) => (
+                <button
+                  key={cat}
+                  type="button"
+                  onClick={() => setAdminCategoryFilter(cat)}
+                  className={`text-xs px-3.5 py-1.5 rounded-full font-semibold transition-all shrink-0 ${
+                    adminCategoryFilter === cat
+                      ? "bg-emerald-600 text-white shadow-sm"
+                      : "bg-stone-900 text-stone-400 hover:text-stone-200 border border-stone-800"
+                  }`}
+                >
+                  {cat}
+                </button>
+              ))}
+            </div>
+
+            {/* Portfolio Grid List (2 kolom di HP / Mobile, 3 kolom di Desktop) */}
+            <div className="grid grid-cols-2 lg:grid-cols-3 gap-2.5 sm:gap-4">
+              {portfolio
+                .filter((item) =>
+                  adminCategoryFilter === "Semua" ? true : item.category === adminCategoryFilter
+                )
+                .map((item) => (
                 <div
                   key={item.id}
-                  className="bg-stone-900 border border-stone-800 rounded-2xl overflow-hidden flex flex-col justify-between group hover:border-stone-700 transition-all"
+                  className="bg-stone-900 border border-stone-800 rounded-xl sm:rounded-2xl overflow-hidden flex flex-col justify-between group hover:border-stone-700 transition-all"
                 >
                   <div className="relative aspect-[16/10] bg-stone-950 overflow-hidden">
                     <img
@@ -510,41 +646,43 @@ export default function AdminPage() {
                         e.target.src = "/assets/kci/hero_karawaci.webp";
                       }}
                     />
-                    <span className="absolute top-2 right-2 text-[10px] font-bold px-2 py-1 rounded-md bg-black/75 backdrop-blur-sm text-emerald-400 border border-white/10">
+                    <span className="absolute top-1.5 right-1.5 sm:top-2 sm:right-2 text-[8px] sm:text-[10px] font-bold px-1.5 py-0.5 sm:px-2 sm:py-1 rounded-md bg-black/75 backdrop-blur-sm text-emerald-400 border border-white/10 line-clamp-1 max-w-[85%]">
                       {item.category}
                     </span>
                   </div>
 
-                  <div className="p-4 flex-1 flex flex-col justify-between">
+                  <div className="p-2.5 sm:p-4 flex-1 flex flex-col justify-between">
                     <div>
-                      <h3 className="font-semibold text-sm text-white line-clamp-1">
+                      <h3 className="font-semibold text-xs sm:text-sm text-white line-clamp-1">
                         {item.title}
                       </h3>
-                      <p className="text-xs text-emerald-400 font-medium mt-0.5 line-clamp-1">
+                      <p className="text-[10px] sm:text-xs text-emerald-400 font-medium mt-0.5 line-clamp-1">
                         {item.projectContext}
                       </p>
-                      <p className="text-xs text-stone-400 mt-2 line-clamp-2 leading-relaxed">
+                      <p className="text-[10px] sm:text-xs text-stone-400 mt-1 sm:mt-2 line-clamp-2 leading-relaxed">
                         {item.caption}
                       </p>
                     </div>
 
-                    <div className="mt-4 pt-3 border-t border-stone-800 flex items-center justify-between">
-                      <span className="text-[10px] font-mono text-stone-500">
-                        ID: {item.id}
+                    <div className="mt-2.5 sm:mt-4 pt-2 sm:pt-3 border-t border-stone-800 flex items-center justify-between gap-1">
+                      <span className="text-[8px] sm:text-[10px] font-mono text-stone-500 truncate hidden xs:inline max-w-[50px] sm:max-w-none">
+                        {item.id}
                       </span>
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-1 sm:gap-2 w-full xs:w-auto justify-end">
                         <button
                           onClick={() => handleOpenEditPortfolio(item)}
-                          className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-stone-800 hover:bg-stone-700 text-stone-200 text-xs font-medium transition-colors"
+                          className="inline-flex items-center justify-center gap-0.5 sm:gap-1 flex-1 xs:flex-none px-2 sm:px-2.5 py-1 rounded-md sm:rounded-lg bg-stone-800 hover:bg-stone-700 text-stone-200 text-[10px] sm:text-xs font-medium transition-colors"
+                          title="Edit Proyek"
                         >
-                          <Pencil size={13} />
+                          <Pencil size={11} className="shrink-0 sm:w-3 sm:h-3" />
                           <span>Edit</span>
                         </button>
                         <button
                           onClick={() => handleDeletePortfolio(item.id, item.title)}
-                          className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-red-950/50 hover:bg-red-900/80 text-red-300 text-xs font-medium transition-colors border border-red-800/40"
+                          className="inline-flex items-center justify-center gap-0.5 sm:gap-1 flex-1 xs:flex-none px-2 sm:px-2.5 py-1 rounded-md sm:rounded-lg bg-red-950/50 hover:bg-red-900/80 text-red-300 text-[10px] sm:text-xs font-medium transition-colors border border-red-800/40"
+                          title="Hapus Proyek"
                         >
-                          <Trash2 size={13} />
+                          <Trash2 size={11} className="shrink-0 sm:w-3 sm:h-3" />
                           <span>Hapus</span>
                         </button>
                       </div>
@@ -887,77 +1025,6 @@ export default function AdminPage() {
             </div>
           </div>
         )}
-
-        {/* ============================================================== */}
-        {/* TAB 4: DATABASE & SYNC                                         */}
-        {/* ============================================================== */}
-        {activeTab === "database" && (
-          <div className="space-y-6 max-w-3xl">
-            <div className="bg-stone-900/60 p-6 rounded-2xl border border-stone-800 space-y-4">
-              <h2 className="text-base font-bold text-white flex items-center gap-2">
-                <Database size={18} className="text-emerald-400" />
-                <span>Status & Sinkronisasi Database Firebase</span>
-              </h2>
-              <p className="text-xs text-stone-300 leading-relaxed">
-                Aplikasi ini terhubung langsung dengan Google Firebase Cloud Firestore (Project ID:{" "}
-                <span className="font-mono text-emerald-400 font-bold">projek-4-818d8</span>). Seluruh data
-                tersimpan aman di cloud dan memiliki cache lokal otomatis agar website tetap aktif instan.
-              </p>
-
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
-                <div className="p-4 rounded-xl bg-stone-950 border border-stone-800">
-                  <span className="text-[11px] text-stone-400">Total Portofolio</span>
-                  <p className="text-xl font-bold text-white mt-1 font-mono">
-                    {portfolio.length} Item
-                  </p>
-                </div>
-                <div className="p-4 rounded-xl bg-stone-950 border border-stone-800">
-                  <span className="text-[11px] text-stone-400">Total Layanan</span>
-                  <p className="text-xl font-bold text-white mt-1 font-mono">
-                    {services.length} Paket
-                  </p>
-                </div>
-                <div className="p-4 rounded-xl bg-stone-950 border border-stone-800">
-                  <span className="text-[11px] text-stone-400">Dokumen Legalitas</span>
-                  <p className="text-xl font-bold text-white mt-1 font-mono">
-                    {Object.keys(legality || {}).length} Dokumen
-                  </p>
-                </div>
-              </div>
-
-              <div className="pt-4 border-t border-stone-800 flex flex-col sm:flex-row gap-3">
-                <button
-                  type="button"
-                  onClick={async () => {
-                    const res = await seedToFirebase();
-                    if (res.success) {
-                      showToast("Seluruh data default berhasil di-upload ke Firebase Firestore!");
-                    } else {
-                      showToast("Gagal upload ke Firebase: " + res.error);
-                    }
-                  }}
-                  className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold shadow-lg transition-all"
-                >
-                  <RefreshCw size={15} />
-                  <span>Upload / Seed Data Default ke Firebase</span>
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => {
-                    if (window.confirm("Yakin ingin mereset seluruh data kembali ke kondisi default pabrikan?")) {
-                      resetAllToDefaults();
-                      showToast("Data telah di-reset ke kondisi awal pabrikan.");
-                    }
-                  }}
-                  className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-stone-800 hover:bg-stone-700 text-stone-300 text-xs font-semibold transition-all border border-stone-700"
-                >
-                  <span>Reset ke Data Default Pabrikan</span>
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
       </div>
 
       {/* ============================================================== */}
@@ -1008,53 +1075,231 @@ export default function AdminPage() {
                 />
               </div>
 
+              {/* Kategori Proyek */}
               <div>
-                <label className="block text-xs font-semibold text-stone-300 mb-1">
-                  Kategori Proyek
-                </label>
-                <select
-                  value={portfolioForm.category}
-                  onChange={(e) => setPortfolioForm({ ...portfolioForm, category: e.target.value })}
-                  className="w-full bg-stone-950 border border-stone-800 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-emerald-500"
-                >
-                  {PORTFOLIO_CATEGORIES.filter((c) => c !== "Semua").map((cat) => (
-                    <option key={cat} value={cat}>
-                      {cat}
-                    </option>
-                  ))}
-                </select>
+                <div className="flex items-center justify-between mb-1.5">
+                  <label className="block text-xs font-semibold text-stone-300">
+                    Kategori Proyek *
+                  </label>
+                  {!isAddingCategory && (
+                    <button
+                      type="button"
+                      onClick={() => setIsAddingCategory(true)}
+                      className="inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-400 hover:text-emerald-300 transition-colors"
+                    >
+                      <Plus size={13} />
+                      <span>Tambah Kategori Baru</span>
+                    </button>
+                  )}
+                </div>
+
+                {isAddingCategory ? (
+                  <div className="p-3 bg-stone-950 border border-emerald-500/50 rounded-xl space-y-2 animate-in fade-in duration-150">
+                    <span className="text-[11px] font-medium text-emerald-400">
+                      Buat & Tambah Kategori Baru:
+                    </span>
+                    <div className="flex items-center gap-2">
+                      <input
+                        type="text"
+                        autoFocus
+                        value={newCategoryInput}
+                        onChange={(e) => setNewCategoryInput(e.target.value)}
+                        placeholder="Contoh: Vertical Garden Gedung, Gazebo & Kolam..."
+                        className="flex-1 bg-stone-900 border border-stone-700 rounded-lg px-3 py-1.5 text-xs text-white focus:outline-none focus:border-emerald-500"
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter") {
+                            e.preventDefault();
+                            handleAddNewCategory();
+                          }
+                        }}
+                      />
+                      <button
+                        type="button"
+                        onClick={handleAddNewCategory}
+                        className="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold shrink-0 shadow-sm"
+                      >
+                        Simpan
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setIsAddingCategory(false);
+                          setNewCategoryInput("");
+                        }}
+                        className="px-2.5 py-1.5 rounded-lg bg-stone-800 hover:bg-stone-700 text-stone-300 text-xs shrink-0"
+                      >
+                        Batal
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="relative">
+                    <select
+                      value={portfolioForm.category}
+                      onChange={(e) => {
+                        if (e.target.value === "__NEW__") {
+                          setIsAddingCategory(true);
+                        } else {
+                          setPortfolioForm({ ...portfolioForm, category: e.target.value });
+                        }
+                      }}
+                      className="w-full bg-stone-950 border border-stone-800 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-emerald-500"
+                    >
+                      {categories
+                        .filter((c) => c !== "Semua")
+                        .map((cat) => (
+                          <option key={cat} value={cat}>
+                            {cat}
+                          </option>
+                        ))}
+                      <option value="__NEW__" className="text-emerald-400 font-semibold">
+                        + Tambah Kategori Baru Lainnya...
+                      </option>
+                    </select>
+                  </div>
+                )}
               </div>
 
+              {/* Upload Gambar Foto Proyek (WebP) */}
               <div>
-                <label className="block text-xs font-semibold text-stone-300 mb-1">
-                  URL Gambar Foto Proyek
-                </label>
-                <input
-                  type="text"
-                  value={portfolioForm.image}
-                  onChange={(e) => setPortfolioForm({ ...portfolioForm, image: e.target.value })}
-                  className="w-full bg-stone-950 border border-stone-800 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-emerald-500 font-mono"
-                />
-                {/* Quick preset selector */}
-                <div className="mt-2">
-                  <span className="text-[10px] text-stone-400">Pilih cepat foto aset lokal KCI:</span>
-                  <div className="flex flex-wrap gap-1.5 mt-1 max-h-24 overflow-y-auto">
-                    {PRESET_IMAGES.slice(0, 8).map((p) => (
-                      <button
-                        key={p.url}
-                        type="button"
-                        onClick={() => setPortfolioForm({ ...portfolioForm, image: p.url })}
-                        className={`text-[10px] px-2 py-0.5 rounded border transition-colors ${
-                          portfolioForm.image === p.url
-                            ? "bg-emerald-600 text-white border-emerald-500"
-                            : "bg-stone-950 text-stone-400 border-stone-800 hover:text-white"
-                        }`}
-                      >
-                        {p.label}
-                      </button>
-                    ))}
-                  </div>
+                <div className="flex items-center justify-between mb-1.5">
+                  <label className="block text-xs font-semibold text-stone-300">
+                    Foto Proyek (Otomatis WebP) *
+                  </label>
+                  <button
+                    type="button"
+                    onClick={() => setShowManualUrl(!showManualUrl)}
+                    className="text-[11px] text-stone-400 hover:text-stone-300 underline underline-offset-2"
+                  >
+                    {showManualUrl ? "Gunakan upload file" : "Gunakan URL manual"}
+                  </button>
                 </div>
+
+                {uploadError && (
+                  <div className="mb-2 p-2.5 rounded-xl bg-red-950/60 border border-red-800/60 text-red-300 text-xs flex items-center gap-2">
+                    <AlertCircle size={14} className="shrink-0 text-red-400" />
+                    <span>{uploadError}</span>
+                  </div>
+                )}
+
+                {/* Hidden File Input */}
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageFileChange}
+                  className="hidden"
+                />
+
+                {uploadingImage ? (
+                  <div className="w-full py-8 border-2 border-dashed border-emerald-500/50 bg-emerald-950/10 rounded-2xl flex flex-col items-center justify-center gap-2.5 animate-pulse">
+                    <Loader2 size={26} className="text-emerald-400 animate-spin" />
+                    <p className="text-xs font-semibold text-emerald-300">
+                      Mengonversi gambar ke format WebP & memproses ke database...
+                    </p>
+                    <span className="text-[10px] text-stone-400">
+                      Mengoptimalkan resolusi dan ukuran file
+                    </span>
+                  </div>
+                ) : portfolioForm.image ? (
+                  <div className="space-y-2">
+                    <div className="relative rounded-2xl overflow-hidden border border-stone-800 bg-stone-950 group">
+                      <div className="aspect-[16/9] w-full max-h-56 overflow-hidden flex items-center justify-center bg-stone-950">
+                        <img
+                          src={portfolioForm.image}
+                          alt="Preview Proyek"
+                          className="w-full h-full object-cover"
+                          onError={(e) => {
+                            e.target.src = "/assets/kci/hero_karawaci.webp";
+                          }}
+                        />
+                      </div>
+
+                      {/* Badges on preview */}
+                      <div className="absolute top-2.5 left-2.5 flex items-center gap-1.5">
+                        <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-emerald-600/90 text-white text-[10px] font-bold backdrop-blur-sm shadow-md">
+                          <Check size={11} />
+                          WebP Siap Disimpan
+                        </span>
+                        {uploadStats && (
+                          <span className="px-2.5 py-1 rounded-full bg-black/75 text-emerald-300 text-[10px] font-semibold backdrop-blur-sm border border-emerald-500/30">
+                            Hemat {uploadStats.savings}% ({formatBytes(uploadStats.webpSize)})
+                          </span>
+                        )}
+                      </div>
+
+                      {/* Action buttons on image */}
+                      <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2 backdrop-blur-[2px]">
+                        <button
+                          type="button"
+                          onClick={() => fileInputRef.current?.click()}
+                          className="px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold flex items-center gap-1.5 shadow-lg"
+                        >
+                          <UploadCloud size={14} />
+                          <span>Ganti Foto</span>
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setPortfolioForm((prev) => ({ ...prev, image: "" }));
+                            setUploadStats(null);
+                          }}
+                          className="px-3 py-1.5 rounded-xl bg-red-600/80 hover:bg-red-600 text-white text-xs font-semibold flex items-center gap-1.5 shadow-lg"
+                        >
+                          <Trash2 size={14} />
+                          <span>Hapus</span>
+                        </button>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center justify-between text-[11px] text-stone-400 px-1">
+                      <span>Gambar telah terpasang untuk proyek ini.</span>
+                      <button
+                        type="button"
+                        onClick={() => fileInputRef.current?.click()}
+                        className="text-emerald-400 hover:text-emerald-300 font-semibold"
+                      >
+                        Ganti File Foto
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <div
+                    onClick={() => fileInputRef.current?.click()}
+                    className="w-full py-8 px-4 border-2 border-dashed border-stone-800 hover:border-emerald-500/70 bg-stone-950/70 hover:bg-stone-950 rounded-2xl flex flex-col items-center justify-center gap-2 cursor-pointer transition-all group"
+                  >
+                    <div className="p-3 rounded-2xl bg-stone-900 border border-stone-800 text-emerald-400 group-hover:scale-110 transition-transform">
+                      <UploadCloud size={24} />
+                    </div>
+                    <div className="text-center">
+                      <p className="text-xs font-bold text-white group-hover:text-emerald-400 transition-colors">
+                        Klik di sini untuk upload foto proyek
+                      </p>
+                      <p className="text-[11px] text-stone-400 mt-0.5">
+                        Pilih file gambar langsung dari HP/Laptop (JPG, PNG, JPEG, WEBP)
+                      </p>
+                    </div>
+                    <span className="text-[10px] px-2 py-0.5 rounded-md bg-stone-900 text-stone-400 border border-stone-800">
+                      Otomatis diubah ke WebP & disimpan ke database
+                    </span>
+                  </div>
+                )}
+
+                {/* Optional Manual URL input */}
+                {showManualUrl && (
+                  <div className="mt-2.5 p-3 rounded-xl bg-stone-950 border border-stone-800 space-y-1.5">
+                    <label className="block text-[11px] font-semibold text-stone-400">
+                      Atau URL Gambar Manual (Path / Link):
+                    </label>
+                    <input
+                      type="text"
+                      value={portfolioForm.image}
+                      onChange={(e) => setPortfolioForm({ ...portfolioForm, image: e.target.value })}
+                      placeholder="Contoh: /assets/kci/hero_karawaci.webp atau https://..."
+                      className="w-full bg-stone-900 border border-stone-800 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-emerald-500 font-mono"
+                    />
+                  </div>
+                )}
               </div>
 
               <div>
@@ -1189,16 +1434,146 @@ export default function AdminPage() {
                 />
               </div>
 
+              {/* Upload Foto Layanan (WebP) */}
               <div>
-                <label className="block text-xs font-semibold text-stone-300 mb-1">
-                  URL Foto Ilustrasi
-                </label>
+                <div className="flex items-center justify-between mb-1.5">
+                  <label className="block text-xs font-semibold text-stone-300">
+                    Foto Ilustrasi Layanan (Otomatis WebP) *
+                  </label>
+                  <button
+                    type="button"
+                    onClick={() => setShowManualServiceUrl(!showManualServiceUrl)}
+                    className="text-[11px] text-stone-400 hover:text-stone-300 underline underline-offset-2"
+                  >
+                    {showManualServiceUrl ? "Gunakan upload file" : "Gunakan URL manual"}
+                  </button>
+                </div>
+
+                {uploadServiceError && (
+                  <div className="mb-2 p-2.5 rounded-xl bg-red-950/60 border border-red-800/60 text-red-300 text-xs flex items-center gap-2">
+                    <AlertCircle size={14} className="shrink-0 text-red-400" />
+                    <span>{uploadServiceError}</span>
+                  </div>
+                )}
+
+                {/* Hidden File Input for Service */}
                 <input
-                  type="text"
-                  value={serviceForm.image}
-                  onChange={(e) => setServiceForm({ ...serviceForm, image: e.target.value })}
-                  className="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-xs text-white font-mono"
+                  ref={serviceFileInputRef}
+                  type="file"
+                  accept="image/*"
+                  onChange={handleServiceImageFileChange}
+                  className="hidden"
                 />
+
+                {uploadingServiceImage ? (
+                  <div className="w-full py-8 border-2 border-dashed border-emerald-500/50 bg-emerald-950/10 rounded-2xl flex flex-col items-center justify-center gap-2.5 animate-pulse">
+                    <Loader2 size={26} className="text-emerald-400 animate-spin" />
+                    <p className="text-xs font-semibold text-emerald-300">
+                      Mengonversi gambar layanan ke format WebP & memproses ke database...
+                    </p>
+                    <span className="text-[10px] text-stone-400">
+                      Mengoptimalkan resolusi dan ukuran file
+                    </span>
+                  </div>
+                ) : serviceForm.image ? (
+                  <div className="space-y-2">
+                    <div className="relative rounded-2xl overflow-hidden border border-stone-800 bg-stone-950 group">
+                      <div className="aspect-[16/9] w-full max-h-52 overflow-hidden flex items-center justify-center bg-stone-950">
+                        <img
+                          src={serviceForm.image}
+                          alt="Preview Layanan"
+                          className="w-full h-full object-cover"
+                          onError={(e) => {
+                            e.target.src = "/assets/kci/hunian_goldfinch_serpong.webp";
+                          }}
+                        />
+                      </div>
+
+                      {/* Badges on preview */}
+                      <div className="absolute top-2.5 left-2.5 flex items-center gap-1.5">
+                        <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-emerald-600/90 text-white text-[10px] font-bold backdrop-blur-sm shadow-md">
+                          <Check size={11} />
+                          WebP Siap Disimpan
+                        </span>
+                        {uploadServiceStats && (
+                          <span className="px-2.5 py-1 rounded-full bg-black/75 text-emerald-300 text-[10px] font-semibold backdrop-blur-sm border border-emerald-500/30">
+                            Hemat {uploadServiceStats.savings}% ({formatBytes(uploadServiceStats.webpSize)})
+                          </span>
+                        )}
+                      </div>
+
+                      {/* Action buttons on image */}
+                      <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2 backdrop-blur-[2px]">
+                        <button
+                          type="button"
+                          onClick={() => serviceFileInputRef.current?.click()}
+                          className="px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold flex items-center gap-1.5 shadow-lg"
+                        >
+                          <UploadCloud size={14} />
+                          <span>Ganti Foto</span>
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setServiceForm((prev) => ({ ...prev, image: "" }));
+                            setUploadServiceStats(null);
+                          }}
+                          className="px-3 py-1.5 rounded-xl bg-red-600/80 hover:bg-red-600 text-white text-xs font-semibold flex items-center gap-1.5 shadow-lg"
+                        >
+                          <Trash2 size={14} />
+                          <span>Hapus</span>
+                        </button>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center justify-between text-[11px] text-stone-400 px-1">
+                      <span>Gambar telah terpasang untuk layanan ini.</span>
+                      <button
+                        type="button"
+                        onClick={() => serviceFileInputRef.current?.click()}
+                        className="text-emerald-400 hover:text-emerald-300 font-semibold"
+                      >
+                        Ganti File Foto
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <div
+                    onClick={() => serviceFileInputRef.current?.click()}
+                    className="w-full py-7 px-4 border-2 border-dashed border-stone-800 hover:border-emerald-500/70 bg-stone-950/70 hover:bg-stone-950 rounded-2xl flex flex-col items-center justify-center gap-2 cursor-pointer transition-all group"
+                  >
+                    <div className="p-2.5 rounded-2xl bg-stone-900 border border-stone-800 text-emerald-400 group-hover:scale-110 transition-transform">
+                      <UploadCloud size={22} />
+                    </div>
+                    <div className="text-center">
+                      <p className="text-xs font-bold text-white group-hover:text-emerald-400 transition-colors">
+                        Klik di sini untuk upload foto ilustrasi layanan
+                      </p>
+                      <p className="text-[11px] text-stone-400 mt-0.5">
+                        Pilih file gambar langsung dari HP/Laptop (JPG, PNG, JPEG, WEBP)
+                      </p>
+                    </div>
+                    <span className="text-[10px] px-2 py-0.5 rounded-md bg-stone-900 text-stone-400 border border-stone-800">
+                      Otomatis diubah ke WebP & disimpan ke database
+                    </span>
+                  </div>
+                )}
+
+                {/* Optional Manual URL input */}
+                {showManualServiceUrl && (
+                  <div className="mt-2.5 p-3 rounded-xl bg-stone-950 border border-stone-800 space-y-1.5">
+                    <label className="block text-[11px] font-semibold text-stone-400">
+                      Atau URL Gambar Manual (Path / Link):
+                    </label>
+                    <input
+                      type="text"
+                      value={serviceForm.image}
+                      onChange={(e) => setServiceForm({ ...serviceForm, image: e.target.value })}
+                      placeholder="Contoh: /assets/kci/hunian_goldfinch_serpong.webp atau https://..."
+                      className="w-full bg-stone-900 border border-stone-800 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-emerald-500 font-mono"
+                    />
+                  </div>
+                )}
               </div>
 
               <div className="flex items-center gap-2 pt-1">

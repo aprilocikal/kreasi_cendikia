@@ -31,7 +31,7 @@ export default function Hero() {
 
           {/* Subtitle Description */}
           <p className="hero-description">
-            Konsultan &amp; kontraktor lanskap profesional untuk taman hunian, kawasan publik, dan infrastruktur hijau.
+            Konsultan &amp; kontraktor lanskap profesional serta pusat nursery mandiri di Cigombong Bogor untuk taman hunian, kawasan publik, dan suplai tanaman berkualitas.
           </p>
 
           {/* Centered Action Buttons */}

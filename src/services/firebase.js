@@ -1,5 +1,6 @@
 import { initializeApp, getApps, getApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
+import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDB4Y9npn6HUVdzGEhttXP_s-Inj6zauQg",
@@ -13,3 +14,11 @@ const firebaseConfig = {
 
 export const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
 export const db = getFirestore(app);
+
+let storageInstance = null;
+try {
+  storageInstance = getStorage(app);
+} catch (e) {
+  console.warn("Firebase Storage failed to initialize:", e);
+}
+export const storage = storageInstance;
