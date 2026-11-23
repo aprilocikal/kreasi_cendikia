@@ -26,12 +26,12 @@ export default function Hero() {
           {/* Luxury Editorial Headline with Refined Shimmer */}
           <h1 className="hero-giant-title">
             <span className="title-serif-main glitter-text">Kreasi Cendekia</span>
-            <span className="title-serif-sub">Landscape Consultant</span>
+            <span className="title-serif-sub">Landscape Contractor</span>
           </h1>
 
           {/* Subtitle Description */}
           <p className="hero-description">
-            Konsultan &amp; kontraktor lanskap profesional — taman hunian, kawasan publik, dan infrastruktur hijau.
+            Konsultan &amp; kontraktor lanskap profesional untuk taman hunian, kawasan publik, dan infrastruktur hijau.
           </p>
 
           {/* Centered Action Buttons */}
