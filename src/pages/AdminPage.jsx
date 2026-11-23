@@ -358,30 +358,34 @@ export default function AdminPage() {
       )}
 
       {/* Top Admin Navbar */}
-      <header className="sticky top-0 z-40 bg-stone-900/90 backdrop-blur-md border-b border-stone-800 px-6 py-3.5">
-        <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <Link to="/" title="Buka Beranda" className="flex items-center gap-2">
-              <KciLogo width={36} showText={false} />
+      <header className="sticky top-0 z-40 bg-stone-900/95 backdrop-blur-md border-b border-stone-800 px-3.5 sm:px-6 py-2.5 sm:py-3.5">
+        <div className="max-w-7xl mx-auto flex items-center justify-between gap-2.5 sm:gap-4">
+          {/* Brand info */}
+          <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
+            <Link to="/" title="Buka Beranda Publik" className="flex items-center shrink-0">
+              <KciLogo width={30} showText={false} />
             </Link>
-            <div>
+            <div className="min-w-0">
               <div className="flex items-center gap-2">
-                <h1 className="text-sm font-bold text-white tracking-wide">
-                  KCI Admin Control Panel
+                <h1 className="text-xs sm:text-sm font-bold text-white tracking-tight whitespace-nowrap">
+                  Admin KCI
                 </h1>
-                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
-                  Firebase Active
+                <span className="inline-flex items-center gap-1 text-[9px] sm:text-[10px] font-semibold px-1.5 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 whitespace-nowrap">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                  Firebase
                 </span>
               </div>
-              <p className="text-[11px] text-stone-400">
-                Database: <span className="text-stone-300 font-mono">projek-4-818d8</span> (Firestore)
+              <p className="text-[10px] sm:text-[11px] text-stone-400 truncate">
+                <span className="hidden sm:inline">DB: </span>
+                <span className="text-stone-300 font-mono">projek-4-818d8</span>
               </p>
             </div>
           </div>
 
-          <div className="flex items-center gap-3">
-            {/* Status indicator */}
-            <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full bg-stone-950 border border-stone-800 text-xs">
+          {/* Quick action buttons */}
+          <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
+            {/* Status indicator for desktop */}
+            <div className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-full bg-stone-950 border border-stone-800 text-xs">
               <span
                 className={`w-2 h-2 rounded-full ${
                   firebaseStatus === "connected"
@@ -397,17 +401,19 @@ export default function AdminPage() {
             <Link
               to="/"
               target="_blank"
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-stone-800 hover:bg-stone-700 text-stone-200 text-xs font-semibold transition-all"
+              title="Lihat Website Publik"
+              className="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-lg sm:rounded-xl bg-stone-800 hover:bg-stone-700 text-stone-200 text-xs font-medium transition-all whitespace-nowrap"
             >
-              <span>Lihat Web Live</span>
-              <ExternalLink size={13} />
+              <ExternalLink size={13} className="shrink-0" />
+              <span className="hidden sm:inline">Lihat Web</span>
             </Link>
 
             <button
               onClick={handleLogout}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-red-950/60 hover:bg-red-900 border border-red-800/80 text-red-200 text-xs font-semibold transition-all"
+              title="Keluar dari Admin"
+              className="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-lg sm:rounded-xl bg-red-950/60 hover:bg-red-900 border border-red-800/80 text-red-200 text-xs font-medium transition-all shrink-0"
             >
-              <LogOut size={13} />
+              <LogOut size={13} className="shrink-0" />
               <span className="hidden sm:inline">Keluar</span>
             </button>
           </div>
@@ -415,55 +421,55 @@ export default function AdminPage() {
       </header>
 
       {/* Main Content Area */}
-      <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 py-6 flex-1 flex flex-col">
+      <div className="max-w-7xl mx-auto w-full px-3.5 sm:px-6 py-4 sm:py-6 flex-1 flex flex-col">
         {/* Navigation Tabs */}
-        <div className="flex flex-wrap items-center gap-2 border-b border-stone-800 pb-4 mb-6">
+        <div className="flex items-center gap-1.5 sm:gap-2 overflow-x-auto pb-2 sm:pb-4 mb-5 sm:mb-6 border-b border-stone-800 scrollbar-none">
           <button
             onClick={() => setActiveTab("portfolio")}
-            className={`inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all ${
+            className={`inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all shrink-0 whitespace-nowrap ${
               activeTab === "portfolio"
                 ? "bg-emerald-600 text-white shadow-lg shadow-emerald-950 font-bold"
                 : "bg-stone-900 hover:bg-stone-800 text-stone-400 hover:text-stone-200"
             }`}
           >
-            <FolderKanban size={16} />
+            <FolderKanban size={15} />
             <span>Portofolio ({portfolio?.length || 0})</span>
           </button>
 
           <button
             onClick={() => setActiveTab("services")}
-            className={`inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all ${
+            className={`inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all shrink-0 whitespace-nowrap ${
               activeTab === "services"
                 ? "bg-emerald-600 text-white shadow-lg shadow-emerald-950 font-bold"
                 : "bg-stone-900 hover:bg-stone-800 text-stone-400 hover:text-stone-200"
             }`}
           >
-            <Wrench size={16} />
-            <span>Katalog Layanan ({services?.length || 0})</span>
+            <Wrench size={15} />
+            <span>Layanan ({services?.length || 0})</span>
           </button>
 
           <button
             onClick={() => setActiveTab("legality")}
-            className={`inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all ${
+            className={`inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all shrink-0 whitespace-nowrap ${
               activeTab === "legality"
                 ? "bg-emerald-600 text-white shadow-lg shadow-emerald-950 font-bold"
                 : "bg-stone-900 hover:bg-stone-800 text-stone-400 hover:text-stone-200"
             }`}
           >
-            <FileBadge2 size={16} />
-            <span>Dokumen Legalitas</span>
+            <FileBadge2 size={15} />
+            <span>Legalitas</span>
           </button>
 
           <button
             onClick={() => setActiveTab("database")}
-            className={`inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all ${
+            className={`inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all shrink-0 whitespace-nowrap ${
               activeTab === "database"
                 ? "bg-emerald-600 text-white shadow-lg shadow-emerald-950 font-bold"
                 : "bg-stone-900 hover:bg-stone-800 text-stone-400 hover:text-stone-200"
             }`}
           >
-            <Database size={16} />
-            <span>Sinkronisasi Firebase</span>
+            <Database size={15} />
+            <span>Firebase</span>
           </button>
         </div>
 
@@ -472,9 +478,9 @@ export default function AdminPage() {
         {/* ============================================================== */}
         {activeTab === "portfolio" && (
           <div className="space-y-6">
-            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-stone-900/60 p-5 rounded-2xl border border-stone-800">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-stone-900/60 p-4 sm:p-5 rounded-2xl border border-stone-800">
               <div>
-                <h2 className="text-base font-bold text-white">Manajemen Galeri Portofolio</h2>
+                <h2 className="text-sm sm:text-base font-bold text-white">Manajemen Galeri Portofolio</h2>
                 <p className="text-xs text-stone-400 mt-0.5">
                   Tambah, edit, dan hapus proyek lanskap yang ditampilkan di halaman /portofolio dan Beranda.
                 </p>
@@ -484,7 +490,7 @@ export default function AdminPage() {
                 className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold shadow-md transition-all shrink-0"
               >
                 <Plus size={16} />
-                <span>+ Tambah Proyek Portofolio</span>
+                <span>Tambah Proyek Portofolio</span>
               </button>
             </div>
 
@@ -567,7 +573,7 @@ export default function AdminPage() {
                 className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold shadow-md transition-all shrink-0"
               >
                 <Plus size={16} />
-                <span>+ Tambah Layanan Baru</span>
+                <span>Tambah Layanan Baru</span>
               </button>
             </div>
 
