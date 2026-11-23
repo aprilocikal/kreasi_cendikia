@@ -151,7 +151,7 @@ export default function AdminPage() {
   // Handle Login
   const handleLogin = (e) => {
     e.preventDefault();
-    if (passwordInput === "cendikia123") {
+    if (passwordInput === "cendikiamantap") {
       setIsAuthenticated(true);
       sessionStorage.setItem("kci_admin_logged_in", "true");
       setAuthError("");
