@@ -6,9 +6,14 @@ import { ResilientImage } from "./ResilientImage";
 
 export function LegalityTrustSection() {
   const { legality } = useData();
-  const ahu = legality?.ahu || ahu;
-  const npwp = legality?.npwp || npwp;
+  const ahu = legality?.ahu || LEGALITY_DATA.ahu;
+  const npwp = legality?.npwp || LEGALITY_DATA.npwp;
   const [previewDoc, setPreviewDoc] = useState(null);
+
+  // Filter custom legality documents beyond default AHU and NPWP
+  const customDocs = Object.entries(legality || {})
+    .filter(([key]) => key !== "ahu" && key !== "npwp")
+    .map(([key, data]) => ({ key, ...data }));
 
   useEffect(() => {
     if (!previewDoc) return;
@@ -197,6 +202,99 @@ export function LegalityTrustSection() {
               <Expand className="h-4 w-4 shrink-0 text-[var(--ink-muted)] transition-transform group-hover:scale-110" />
             </button>
           </div>
+
+          {/* Custom Legality Documents (NIB, SBU, Sertifikat, dll.) */}
+          {customDocs.map((doc) => (
+            <div
+              key={doc.key}
+              className="flex flex-col justify-between overflow-hidden rounded-2xl border border-[var(--border-hairline)] bg-[var(--bg-elevated)] p-6 sm:p-7 shadow-xs"
+            >
+              <div>
+                <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2.5 sm:gap-4">
+                  <div>
+                    <p className="text-xs font-semibold text-[var(--ink-muted)]">
+                      {doc.institution || "Dokumen Legalitas Resmi"}
+                    </p>
+                    <h3 className="mt-1 font-display text-base sm:text-lg lg:text-xl font-semibold leading-snug text-[var(--ink-primary)]">
+                      {doc.title}
+                    </h3>
+                  </div>
+                  {doc.issuedDate && (
+                    <span className="self-start sm:self-auto text-[11px] sm:text-xs font-bold text-[var(--ink-secondary)] tabular-nums whitespace-nowrap bg-[var(--bg-sage)] px-2.5 py-1 rounded-md shrink-0">
+                      Terbit {doc.issuedDate}
+                    </span>
+                  )}
+                </div>
+
+                <dl className="mt-5 divide-y divide-[var(--border-warm)] border-y border-[var(--border-warm)] text-sm">
+                  {doc.number && (
+                    <div className="flex flex-wrap justify-between gap-2 py-3">
+                      <dt className="text-[var(--ink-muted)]">Nomor Dokumen</dt>
+                      <dd className="font-semibold text-[var(--ink-primary)] tabular-nums">
+                        {doc.number}
+                      </dd>
+                    </div>
+                  )}
+                  {doc.validUntil && (
+                    <div className="flex flex-wrap justify-between gap-2 py-3">
+                      <dt className="text-[var(--ink-muted)]">Masa Berlaku</dt>
+                      <dd className="font-medium text-[var(--ink-primary)] tabular-nums">
+                        {doc.validUntil}
+                      </dd>
+                    </div>
+                  )}
+                  {doc.notes && (
+                    <div className="flex flex-col sm:flex-row sm:justify-between gap-2 py-3">
+                      <dt className="text-[var(--ink-muted)] shrink-0">Keterangan / Cakupan</dt>
+                      <dd className="font-medium text-[var(--ink-primary)] sm:text-right text-xs sm:text-sm">
+                        {doc.notes}
+                      </dd>
+                    </div>
+                  )}
+                </dl>
+              </div>
+
+              {doc.image ? (
+                <button
+                  type="button"
+                  onClick={() =>
+                    setPreviewDoc({
+                      title: doc.title,
+                      subtitle: doc.number || doc.institution || "",
+                      image: doc.image,
+                    })
+                  }
+                  className="group mt-6 flex w-full items-center justify-between gap-4 rounded-xl border border-[var(--border-hairline)] bg-[var(--bg-canvas)] p-3 text-left transition-colors hover:bg-[var(--bg-sage-soft)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent-cta)]"
+                >
+                  <div className="flex items-center gap-3.5">
+                    <div className="h-14 w-16 shrink-0 overflow-hidden rounded-lg border border-[var(--border-warm)] bg-white">
+                      <ResilientImage
+                        src={doc.image}
+                        alt={`Pratinjau ${doc.title}`}
+                        className="h-full w-full object-cover"
+                        containerClassName="h-full w-full"
+                        fallbackTitle={doc.title}
+                      />
+                    </div>
+                    <div>
+                      <p className="text-sm font-semibold text-[var(--ink-primary)]">
+                        Lihat Salinan Dokumen
+                      </p>
+                      <p className="text-xs text-[var(--ink-muted)]">
+                        Klik untuk memperbesar dokumen resmi
+                      </p>
+                    </div>
+                  </div>
+                  <Expand className="h-4 w-4 shrink-0 text-[var(--ink-muted)] transition-transform group-hover:scale-110" />
+                </button>
+              ) : (
+                <div className="mt-6 flex items-center gap-3 rounded-xl border border-dashed border-[var(--border-warm)] bg-[var(--bg-canvas)]/60 px-4 py-3 text-xs text-[var(--ink-secondary)]">
+                  <ShieldCheck className="h-4 w-4 text-[var(--brand-primary)] shrink-0" />
+                  <span>Salinan fisik &amp; arsip terverifikasi siap disertakan dalam berkas administrasi tender.</span>
+                </div>
+              )}
+            </div>
+          ))}
         </div>
       </div>
 

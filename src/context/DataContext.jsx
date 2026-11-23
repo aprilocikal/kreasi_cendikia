@@ -339,6 +339,28 @@ export function DataProvider({ children }) {
   // ==========================================
   // CRUD ACTIONS: LEGALITAS
   // ==========================================
+  const addLegalityDoc = async (key, data) => {
+    const docKey = key?.trim() || `doc_${Date.now()}`;
+    const payload = { ...data, id: docKey };
+    setLegality((prev) => {
+      const updated = {
+        ...prev,
+        [docKey]: payload,
+      };
+      saveLocal("kci_legality", updated);
+      return updated;
+    });
+
+    try {
+      await setDoc(doc(db, "kci_legality", docKey), payload);
+      setFirebaseStatus("connected");
+    } catch (err) {
+      console.warn("Could not add legality doc to Firebase:", err);
+      setFirebaseStatus("offline");
+    }
+    return docKey;
+  };
+
   const updateLegality = async (key, updatedFields) => {
     setLegality((prev) => {
       const updated = {
@@ -346,6 +368,7 @@ export function DataProvider({ children }) {
         [key]: {
           ...(prev[key] || {}),
           ...updatedFields,
+          id: key,
         },
       };
       saveLocal("kci_legality", updated);
@@ -357,6 +380,23 @@ export function DataProvider({ children }) {
       setFirebaseStatus("connected");
     } catch (err) {
       console.warn("Could not update legality on Firebase:", err);
+      setFirebaseStatus("offline");
+    }
+  };
+
+  const deleteLegalityDoc = async (key) => {
+    setLegality((prev) => {
+      const updated = { ...prev };
+      delete updated[key];
+      saveLocal("kci_legality", updated);
+      return updated;
+    });
+
+    try {
+      await deleteDoc(doc(db, "kci_legality", key));
+      setFirebaseStatus("connected");
+    } catch (err) {
+      console.warn("Could not delete legality doc from Firebase:", err);
       setFirebaseStatus("offline");
     }
   };
@@ -394,6 +434,8 @@ export function DataProvider({ children }) {
         updateService,
         deleteService,
         updateLegality,
+        addLegalityDoc,
+        deleteLegalityDoc,
       }}
     >
       {children}

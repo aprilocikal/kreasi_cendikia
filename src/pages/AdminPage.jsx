@@ -47,6 +47,8 @@ export default function AdminPage() {
     updateService,
     deleteService,
     updateLegality,
+    addLegalityDoc,
+    deleteLegalityDoc,
   } = useData();
 
   // Authentication State
@@ -108,6 +110,32 @@ export default function AdminPage() {
   // Legality Edit State
   const [ahuForm, setAhuForm] = useState(() => legality?.ahu || {});
   const [npwpForm, setNpwpForm] = useState(() => legality?.npwp || {});
+
+  // Custom Legality Modal State
+  const [isLegalityModalOpen, setIsLegalityModalOpen] = useState(false);
+  const [editingLegalityKey, setEditingLegalityKey] = useState(null);
+  const [legalityForm, setLegalityForm] = useState({
+    title: "",
+    institution: "",
+    number: "",
+    issuedDate: "",
+    validUntil: "",
+    notes: "",
+    image: "",
+  });
+
+  // Legality Image Upload State (for Modal and AHU/NPWP)
+  const [uploadingLegalityImage, setUploadingLegalityImage] = useState(false);
+  const [uploadLegalityStats, setUploadLegalityStats] = useState(null);
+  const [uploadLegalityError, setUploadLegalityError] = useState("");
+  const [showManualLegalityUrl, setShowManualLegalityUrl] = useState(false);
+  const legalityFileInputRef = useRef(null);
+
+  // AHU and NPWP direct image upload state
+  const [uploadingAhuImage, setUploadingAhuImage] = useState(false);
+  const [uploadingNpwpImage, setUploadingNpwpImage] = useState(false);
+  const ahuFileInputRef = useRef(null);
+  const npwpFileInputRef = useRef(null);
 
   // Sync legality state when data loads
   React.useEffect(() => {
@@ -391,6 +419,133 @@ export default function AdminPage() {
     e.preventDefault();
     await updateLegality("npwp", npwpForm);
     showToast("Dokumen NPWP Badan berhasil disimpan ke database!");
+  };
+
+  const handleOpenAddLegality = () => {
+    setEditingLegalityKey(null);
+    setLegalityForm({
+      title: "",
+      institution: "",
+      number: "",
+      issuedDate: "",
+      validUntil: "",
+      notes: "",
+      image: "",
+    });
+    setUploadLegalityStats(null);
+    setUploadLegalityError("");
+    setShowManualLegalityUrl(false);
+    setIsLegalityModalOpen(true);
+  };
+
+  const handleOpenEditLegality = (key, docData) => {
+    setEditingLegalityKey(key);
+    setLegalityForm({
+      title: docData.title || "",
+      institution: docData.institution || "",
+      number: docData.number || "",
+      issuedDate: docData.issuedDate || "",
+      validUntil: docData.validUntil || "",
+      notes: docData.notes || "",
+      image: docData.image || "",
+    });
+    setUploadLegalityStats(null);
+    setUploadLegalityError("");
+    setShowManualLegalityUrl(Boolean(docData.image && !docData.image.startsWith("data:image/webp")));
+    setIsLegalityModalOpen(true);
+  };
+
+  const handleSaveCustomLegality = async (e) => {
+    e.preventDefault();
+    if (!legalityForm.title.trim()) {
+      setUploadLegalityError("Judul dokumen wajib diisi.");
+      return;
+    }
+    if (!legalityForm.number.trim()) {
+      setUploadLegalityError("Nomor dokumen wajib diisi.");
+      return;
+    }
+
+    if (editingLegalityKey) {
+      await updateLegality(editingLegalityKey, legalityForm);
+      showToast(`Dokumen "${legalityForm.title}" berhasil diperbarui!`);
+    } else {
+      await addLegalityDoc(null, legalityForm);
+      showToast(`Dokumen legalitas "${legalityForm.title}" berhasil ditambahkan!`);
+    }
+    setIsLegalityModalOpen(false);
+  };
+
+  const handleDeleteCustomLegality = async (key, title) => {
+    if (window.confirm(`Yakin ingin menghapus dokumen legalitas "${title}"?`)) {
+      await deleteLegalityDoc(key);
+      showToast(`Dokumen legalitas "${title}" telah dihapus.`);
+    }
+  };
+
+  const handleLegalityFileProcess = async (file) => {
+    if (!file) return;
+    if (!file.type || !file.type.startsWith("image/")) {
+      setUploadLegalityError("File harus berupa gambar (JPG, PNG, WEBP, JPEG, dll).");
+      return;
+    }
+
+    setUploadingLegalityImage(true);
+    setUploadLegalityError("");
+    try {
+      const result = await processAndUploadImage(file, "legalitas");
+      setLegalityForm((prev) => ({ ...prev, image: result.url }));
+      const savings = Math.max(
+        0,
+        Math.round(((result.originalSize - result.webpSize) / result.originalSize) * 100)
+      );
+      setUploadLegalityStats({
+        originalSize: result.originalSize,
+        webpSize: result.webpSize,
+        filename: result.filename,
+        savings,
+        storageType: result.storageType,
+      });
+      showToast(`Scan dokumen "${file.name}" berhasil dikonversi ke WebP!`);
+    } catch (err) {
+      console.error("Upload error:", err);
+      setUploadLegalityError(err.message || "Gagal memproses dan mengonversi gambar dokumen.");
+    } finally {
+      setUploadingLegalityImage(false);
+      if (legalityFileInputRef.current) {
+        legalityFileInputRef.current.value = "";
+      }
+    }
+  };
+
+  const handleAhuFileProcess = async (file) => {
+    if (!file || !file.type?.startsWith("image/")) return;
+    setUploadingAhuImage(true);
+    try {
+      const result = await processAndUploadImage(file, "legalitas");
+      setAhuForm((prev) => ({ ...prev, image: result.url }));
+      showToast(`Scan SK AHU "${file.name}" berhasil dikonversi ke WebP! Klik Simpan.`);
+    } catch (err) {
+      alert("Gagal mengonversi gambar: " + err.message);
+    } finally {
+      setUploadingAhuImage(false);
+      if (ahuFileInputRef.current) ahuFileInputRef.current.value = "";
+    }
+  };
+
+  const handleNpwpFileProcess = async (file) => {
+    if (!file || !file.type?.startsWith("image/")) return;
+    setUploadingNpwpImage(true);
+    try {
+      const result = await processAndUploadImage(file, "legalitas");
+      setNpwpForm((prev) => ({ ...prev, image: result.url }));
+      showToast(`Scan NPWP "${file.name}" berhasil dikonversi ke WebP! Klik Simpan.`);
+    } catch (err) {
+      alert("Gagal mengonversi gambar: " + err.message);
+    } finally {
+      setUploadingNpwpImage(false);
+      if (npwpFileInputRef.current) npwpFileInputRef.current.value = "";
+    }
   };
 
   // ==========================================
@@ -786,11 +941,21 @@ export default function AdminPage() {
         {/* ============================================================== */}
         {activeTab === "legality" && (
           <div className="space-y-6">
-            <div className="bg-stone-900/60 p-5 rounded-2xl border border-stone-800">
-              <h2 className="text-base font-bold text-white">Manajemen Legalitas Badan Usaha</h2>
-              <p className="text-xs text-stone-400 mt-0.5">
-                Perbarui data Surat Keputusan Kemenkumham AHU dan NPWP Badan untuk keperluan administrasi pengadaan.
-              </p>
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-stone-900/60 p-5 rounded-2xl border border-stone-800">
+              <div>
+                <h2 className="text-base font-bold text-white">Manajemen Legalitas Badan Usaha</h2>
+                <p className="text-xs text-stone-400 mt-0.5">
+                  Kelola dokumen resmi CV. Kreasi Cendekia Indonesia (AHU, NPWP, NIB, SBU, Sertifikat, dll) untuk keperluan tender &amp; pengadaan.
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={handleOpenAddLegality}
+                className="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs flex items-center justify-center gap-2 shadow-lg shadow-emerald-950/40 transition-all shrink-0 self-start sm:self-auto"
+              >
+                <Plus size={16} />
+                <span>Tambah Dokumen Legalitas</span>
+              </button>
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -800,10 +965,15 @@ export default function AdminPage() {
                 className="bg-stone-900 border border-stone-800 rounded-2xl p-6 space-y-4"
               >
                 <div className="flex items-center justify-between border-b border-stone-800 pb-3">
-                  <h3 className="font-bold text-sm text-emerald-400">
-                    1. SK Kemenkumham RI (AHU)
-                  </h3>
-                  <span className="text-[10px] text-stone-400 bg-stone-950 px-2 py-0.5 rounded">
+                  <div>
+                    <span className="text-[10px] font-semibold text-stone-400 uppercase tracking-wider block">
+                      Dokumen Utama 1
+                    </span>
+                    <h3 className="font-bold text-sm text-emerald-400">
+                      SK Kemenkumham RI (AHU)
+                    </h3>
+                  </div>
+                  <span className="text-[10px] text-stone-400 bg-stone-950 px-2 py-0.5 rounded font-mono">
                     Key: ahu
                   </span>
                 </div>
@@ -859,7 +1029,7 @@ export default function AdminPage() {
 
                 <div>
                   <label className="block text-xs font-medium text-stone-400 mb-1">
-                    Nama Notaris & Wilayah
+                    Nama Notaris &amp; Wilayah
                   </label>
                   <input
                     type="text"
@@ -882,15 +1052,59 @@ export default function AdminPage() {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-medium text-stone-400 mb-1">
-                    URL Gambar Scan Dokumen
-                  </label>
-                  <input
-                    type="text"
-                    value={ahuForm.image || ""}
-                    onChange={(e) => setAhuForm({ ...ahuForm, image: e.target.value })}
-                    className="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-xs text-white"
-                  />
+                  <div className="flex items-center justify-between mb-1.5">
+                    <label className="block text-xs font-semibold text-stone-300">
+                      Scan Dokumen SK AHU (Otomatis WebP)
+                    </label>
+                    <span className="text-[10px] text-emerald-400">Pilih dari HP / Laptop</span>
+                  </div>
+
+                  <div
+                    onDragOver={(e) => e.preventDefault()}
+                    onDrop={(e) => {
+                      e.preventDefault();
+                      if (e.dataTransfer.files?.[0]) handleAhuFileProcess(e.dataTransfer.files[0]);
+                    }}
+                    onClick={() => !uploadingAhuImage && ahuFileInputRef.current?.click()}
+                    className={`border-2 border-dashed rounded-xl p-3 text-center cursor-pointer transition-colors ${
+                      uploadingAhuImage
+                        ? "border-emerald-500/50 bg-emerald-950/10 cursor-wait"
+                        : "border-stone-800 hover:border-emerald-500/50 bg-stone-950/60"
+                    }`}
+                  >
+                    <input
+                      ref={ahuFileInputRef}
+                      type="file"
+                      accept="image/*"
+                      onChange={(e) => e.target.files?.[0] && handleAhuFileProcess(e.target.files[0])}
+                      className="hidden"
+                    />
+
+                    {uploadingAhuImage ? (
+                      <div className="py-2 flex items-center justify-center gap-2">
+                        <Loader2 className="animate-spin text-emerald-400" size={18} />
+                        <span className="text-xs text-emerald-400">Mengonversi scan dokumen...</span>
+                      </div>
+                    ) : ahuForm.image ? (
+                      <div className="flex items-center gap-3">
+                        <div className="w-12 h-12 rounded-lg overflow-hidden border border-stone-800 shrink-0 bg-stone-900">
+                          <img src={ahuForm.image} alt="SK AHU" className="w-full h-full object-cover" />
+                        </div>
+                        <div className="text-left flex-1 min-w-0">
+                          <p className="text-xs font-semibold text-white flex items-center gap-1">
+                            <CheckCircle2 size={13} className="text-emerald-400" />
+                            <span>Scan SK AHU Terpasang</span>
+                          </p>
+                          <p className="text-[10px] text-stone-400">Klik untuk mengganti gambar dari galeri / file perangkat</p>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="py-2 flex items-center justify-center gap-2 text-stone-400">
+                        <UploadCloud size={18} className="text-emerald-400" />
+                        <span className="text-xs text-stone-300">Pilih / Seret Scan SK AHU dari Perangkat</span>
+                      </div>
+                    )}
+                  </div>
                 </div>
 
                 <button
@@ -908,10 +1122,15 @@ export default function AdminPage() {
                 className="bg-stone-900 border border-stone-800 rounded-2xl p-6 space-y-4"
               >
                 <div className="flex items-center justify-between border-b border-stone-800 pb-3">
-                  <h3 className="font-bold text-sm text-emerald-400">
-                    2. NPWP Badan (Dirjen Pajak)
-                  </h3>
-                  <span className="text-[10px] text-stone-400 bg-stone-950 px-2 py-0.5 rounded">
+                  <div>
+                    <span className="text-[10px] font-semibold text-stone-400 uppercase tracking-wider block">
+                      Dokumen Utama 2
+                    </span>
+                    <h3 className="font-bold text-sm text-emerald-400">
+                      NPWP Badan (Dirjen Pajak)
+                    </h3>
+                  </div>
+                  <span className="text-[10px] text-stone-400 bg-stone-950 px-2 py-0.5 rounded font-mono">
                     Key: npwp
                   </span>
                 </div>
@@ -967,7 +1186,7 @@ export default function AdminPage() {
                   </div>
                   <div>
                     <label className="block text-xs font-medium text-stone-400 mb-1">
-                      Kantor Pelayanan Pajak (KPP)
+                      Kantor Pajak (KPP)
                     </label>
                     <input
                       type="text"
@@ -991,15 +1210,59 @@ export default function AdminPage() {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-medium text-stone-400 mb-1">
-                    URL Gambar Scan Kartu NPWP
-                  </label>
-                  <input
-                    type="text"
-                    value={npwpForm.image || ""}
-                    onChange={(e) => setNpwpForm({ ...npwpForm, image: e.target.value })}
-                    className="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-xs text-white"
-                  />
+                  <div className="flex items-center justify-between mb-1.5">
+                    <label className="block text-xs font-semibold text-stone-300">
+                      Scan Kartu NPWP (Otomatis WebP)
+                    </label>
+                    <span className="text-[10px] text-emerald-400">Pilih dari HP / Laptop</span>
+                  </div>
+
+                  <div
+                    onDragOver={(e) => e.preventDefault()}
+                    onDrop={(e) => {
+                      e.preventDefault();
+                      if (e.dataTransfer.files?.[0]) handleNpwpFileProcess(e.dataTransfer.files[0]);
+                    }}
+                    onClick={() => !uploadingNpwpImage && npwpFileInputRef.current?.click()}
+                    className={`border-2 border-dashed rounded-xl p-3 text-center cursor-pointer transition-colors ${
+                      uploadingNpwpImage
+                        ? "border-emerald-500/50 bg-emerald-950/10 cursor-wait"
+                        : "border-stone-800 hover:border-emerald-500/50 bg-stone-950/60"
+                    }`}
+                  >
+                    <input
+                      ref={npwpFileInputRef}
+                      type="file"
+                      accept="image/*"
+                      onChange={(e) => e.target.files?.[0] && handleNpwpFileProcess(e.target.files[0])}
+                      className="hidden"
+                    />
+
+                    {uploadingNpwpImage ? (
+                      <div className="py-2 flex items-center justify-center gap-2">
+                        <Loader2 className="animate-spin text-emerald-400" size={18} />
+                        <span className="text-xs text-emerald-400">Mengonversi scan dokumen...</span>
+                      </div>
+                    ) : npwpForm.image ? (
+                      <div className="flex items-center gap-3">
+                        <div className="w-12 h-12 rounded-lg overflow-hidden border border-stone-800 shrink-0 bg-stone-900">
+                          <img src={npwpForm.image} alt="NPWP" className="w-full h-full object-cover" />
+                        </div>
+                        <div className="text-left flex-1 min-w-0">
+                          <p className="text-xs font-semibold text-white flex items-center gap-1">
+                            <CheckCircle2 size={13} className="text-emerald-400" />
+                            <span>Scan NPWP Terpasang</span>
+                          </p>
+                          <p className="text-[10px] text-stone-400">Klik untuk mengganti gambar dari galeri / file perangkat</p>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="py-2 flex items-center justify-center gap-2 text-stone-400">
+                        <UploadCloud size={18} className="text-emerald-400" />
+                        <span className="text-xs text-stone-300">Pilih / Seret Scan NPWP dari Perangkat</span>
+                      </div>
+                    )}
+                  </div>
                 </div>
 
                 <button
@@ -1010,6 +1273,115 @@ export default function AdminPage() {
                   <span>Simpan Perubahan NPWP</span>
                 </button>
               </form>
+            </div>
+
+            {/* Dokumen Legalitas Tambahan (NIB, SBU, Sertifikat, dll) */}
+            <div className="bg-stone-900 border border-stone-800 rounded-2xl p-6 space-y-4">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-b border-stone-800 pb-3">
+                <div>
+                  <h3 className="font-bold text-sm text-white flex items-center gap-2">
+                    <FileBadge2 size={16} className="text-emerald-400" />
+                    <span>Dokumen Legalitas Tambahan ({Object.entries(legality || {}).filter(([k]) => k !== "ahu" && k !== "npwp").length})</span>
+                  </h3>
+                  <p className="text-xs text-stone-400 mt-0.5">
+                    NIB Berbasis Risiko, SBU Jasa Konstruksi, SIUP, Sertifikasi K3/ISO, atau izin operasional lainnya.
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={handleOpenAddLegality}
+                  className="px-3.5 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs flex items-center gap-1.5 shadow transition-all self-start sm:self-auto"
+                >
+                  <Plus size={14} />
+                  <span>Tambah Dokumen Baru</span>
+                </button>
+              </div>
+
+              {Object.entries(legality || {}).filter(([k]) => k !== "ahu" && k !== "npwp").length === 0 ? (
+                <div className="text-center py-8 border border-dashed border-stone-800 rounded-xl bg-stone-950/40">
+                  <FileBadge2 size={32} className="mx-auto text-stone-600 mb-2" />
+                  <p className="text-xs text-stone-400 font-medium">Belum ada dokumen legalitas tambahan</p>
+                  <p className="text-[11px] text-stone-500 mt-1 max-w-md mx-auto">
+                    Klik tombol &quot;Tambah Dokumen Baru&quot; di atas untuk melengkapi dokumen legalitas seperti NIB, Sertifikat Standar, SBU, atau dokumen tender lainnya.
+                  </p>
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {Object.entries(legality || {})
+                    .filter(([k]) => k !== "ahu" && k !== "npwp")
+                    .map(([key, item]) => (
+                      <div
+                        key={key}
+                        className="bg-stone-950 border border-stone-800 rounded-xl p-4 flex flex-col justify-between hover:border-stone-700 transition-colors"
+                      >
+                        <div>
+                          <div className="flex items-start justify-between gap-2 mb-2">
+                            <div>
+                              <span className="text-[10px] font-semibold text-emerald-400 uppercase tracking-wider block">
+                                {item.institution || "Legalitas Resmi"}
+                              </span>
+                              <h4 className="font-bold text-sm text-white mt-0.5">
+                                {item.title}
+                              </h4>
+                            </div>
+                            {item.issuedDate && (
+                              <span className="text-[10px] bg-stone-900 border border-stone-800 text-stone-300 px-2 py-0.5 rounded shrink-0">
+                                {item.issuedDate}
+                              </span>
+                            )}
+                          </div>
+
+                          <div className="text-xs text-stone-400 space-y-1 mb-3">
+                            <p>
+                              <span className="text-stone-500">Nomor:</span>{" "}
+                              <span className="text-stone-200 font-mono">{item.number}</span>
+                            </p>
+                            {item.validUntil && (
+                              <p>
+                                <span className="text-stone-500">Masa Berlaku:</span>{" "}
+                                <span className="text-stone-300">{item.validUntil}</span>
+                              </p>
+                            )}
+                            {item.notes && (
+                              <p className="line-clamp-2 text-[11px] text-stone-400 italic mt-1">
+                                {item.notes}
+                              </p>
+                            )}
+                          </div>
+
+                          {item.image && (
+                            <div className="h-24 w-full rounded-lg overflow-hidden border border-stone-800 bg-stone-900 mb-3">
+                              <img
+                                src={item.image}
+                                alt={item.title}
+                                className="w-full h-full object-cover"
+                              />
+                            </div>
+                          )}
+                        </div>
+
+                        <div className="flex items-center justify-end gap-2 pt-2 border-t border-stone-800/80">
+                          <button
+                            type="button"
+                            onClick={() => handleOpenEditLegality(key, item)}
+                            className="px-2.5 py-1 rounded-lg bg-stone-800 hover:bg-stone-700 text-stone-200 text-xs flex items-center gap-1 transition-colors"
+                          >
+                            <Pencil size={12} />
+                            <span>Edit</span>
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => handleDeleteCustomLegality(key, item.title)}
+                            className="px-2.5 py-1 rounded-lg bg-rose-950/40 hover:bg-rose-900/60 text-rose-300 border border-rose-900/50 text-xs flex items-center gap-1 transition-colors"
+                          >
+                            <Trash2 size={12} />
+                            <span>Hapus</span>
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                </div>
+              )}
             </div>
           </div>
         )}
@@ -1590,6 +1962,239 @@ export default function AdminPage() {
                   className="px-5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold shadow-md"
                 >
                   Simpan Layanan
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* ============================================================== */}
+      {/* MODAL: TAMBAH / EDIT DOKUMEN LEGALITAS                         */}
+      {/* ============================================================== */}
+      {isLegalityModalOpen && (
+        <div className="fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-stone-900 border border-stone-800 w-full max-w-xl rounded-2xl p-6 shadow-2xl animate-in zoom-in-95 duration-150 max-h-[90vh] overflow-y-auto">
+            <div className="flex items-center justify-between border-b border-stone-800 pb-3 mb-4">
+              <div>
+                <h3 className="font-bold text-sm text-white">
+                  {editingLegalityKey ? "Edit Dokumen Legalitas" : "Tambah Dokumen Legalitas Baru"}
+                </h3>
+                <p className="text-[11px] text-stone-400 mt-0.5">
+                  Tambahkan izin usaha, sertifikat, atau dokumen legalitas resmi lainnya.
+                </p>
+              </div>
+              <button
+                onClick={() => setIsLegalityModalOpen(false)}
+                className="text-stone-400 hover:text-white"
+              >
+                <X size={18} />
+              </button>
+            </div>
+
+            <form onSubmit={handleSaveCustomLegality} className="space-y-4">
+              <div>
+                <label className="block text-xs font-semibold text-stone-300 mb-1">
+                  Judul Dokumen *
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={legalityForm.title}
+                  onChange={(e) => setLegalityForm({ ...legalityForm, title: e.target.value })}
+                  placeholder="Contoh: Nomor Induk Berusaha (NIB) / SBU Konstruksi"
+                  className="w-full bg-stone-950 border border-stone-800 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-emerald-500"
+                />
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-xs font-semibold text-stone-300 mb-1">
+                    Lembaga Penerbit
+                  </label>
+                  <input
+                    type="text"
+                    value={legalityForm.institution}
+                    onChange={(e) => setLegalityForm({ ...legalityForm, institution: e.target.value })}
+                    placeholder="Contoh: Kementerian Investasi / BKPM RI"
+                    className="w-full bg-stone-950 border border-stone-800 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-emerald-500"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold text-stone-300 mb-1">
+                    Nomor Dokumen / SK *
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={legalityForm.number}
+                    onChange={(e) => setLegalityForm({ ...legalityForm, number: e.target.value })}
+                    placeholder="Contoh: 0220101234567"
+                    className="w-full bg-stone-950 border border-stone-800 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-emerald-500"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-xs font-semibold text-stone-300 mb-1">
+                    Tanggal Terbit
+                  </label>
+                  <input
+                    type="text"
+                    value={legalityForm.issuedDate}
+                    onChange={(e) => setLegalityForm({ ...legalityForm, issuedDate: e.target.value })}
+                    placeholder="Contoh: 20 Januari 2024"
+                    className="w-full bg-stone-950 border border-stone-800 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-emerald-500"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold text-stone-300 mb-1">
+                    Masa Berlaku
+                  </label>
+                  <input
+                    type="text"
+                    value={legalityForm.validUntil}
+                    onChange={(e) => setLegalityForm({ ...legalityForm, validUntil: e.target.value })}
+                    placeholder="Contoh: Selama Perusahaan Beroperasi"
+                    className="w-full bg-stone-950 border border-stone-800 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-emerald-500"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold text-stone-300 mb-1">
+                  Keterangan Tambahan / Cakupan Bidang Usaha
+                </label>
+                <textarea
+                  rows={2}
+                  value={legalityForm.notes}
+                  onChange={(e) => setLegalityForm({ ...legalityForm, notes: e.target.value })}
+                  placeholder="Keterangan singkat, misalnya KBLI 81300 (Aktivitas Perawatan dan Pemeliharaan Taman)..."
+                  className="w-full bg-stone-950 border border-stone-800 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-emerald-500"
+                />
+              </div>
+
+              {/* UPLOAD SCAN DOKUMEN (WEBP) */}
+              <div>
+                <div className="flex items-center justify-between mb-1.5">
+                  <label className="block text-xs font-semibold text-stone-300">
+                    Scan Dokumen (Otomatis WebP)
+                  </label>
+                  <button
+                    type="button"
+                    onClick={() => setShowManualLegalityUrl(!showManualLegalityUrl)}
+                    className="text-[11px] text-emerald-400 hover:text-emerald-300 underline"
+                  >
+                    {showManualLegalityUrl ? "Sembunyikan URL manual" : "Gunakan URL manual"}
+                  </button>
+                </div>
+
+                {/* Upload Zone */}
+                <div
+                  onDragOver={(e) => e.preventDefault()}
+                  onDrop={(e) => {
+                    e.preventDefault();
+                    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+                      handleLegalityFileProcess(e.dataTransfer.files[0]);
+                    }
+                  }}
+                  onClick={() => !uploadingLegalityImage && legalityFileInputRef.current?.click()}
+                  className={`border-2 border-dashed rounded-xl p-4 text-center cursor-pointer transition-colors ${
+                    uploadingLegalityImage
+                      ? "border-emerald-500/50 bg-emerald-950/10 cursor-wait"
+                      : "border-stone-800 hover:border-emerald-500/50 bg-stone-950/60"
+                  }`}
+                >
+                  <input
+                    ref={legalityFileInputRef}
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => e.target.files?.[0] && handleLegalityFileProcess(e.target.files[0])}
+                    className="hidden"
+                  />
+
+                  {uploadingLegalityImage ? (
+                    <div className="py-2 flex flex-col items-center gap-2">
+                      <Loader2 className="animate-spin text-emerald-400" size={24} />
+                      <p className="text-xs text-emerald-400 font-medium">
+                        Mengonversi scan dokumen ke format WebP &amp; memproses...
+                      </p>
+                    </div>
+                  ) : legalityForm.image ? (
+                    <div className="flex items-center gap-3">
+                      <div className="w-14 h-14 rounded-lg overflow-hidden border border-stone-800 shrink-0 bg-stone-900">
+                        <img
+                          src={legalityForm.image}
+                          alt="Pratinjau"
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                      <div className="text-left flex-1 min-w-0">
+                        <p className="text-xs font-semibold text-white flex items-center gap-1.5">
+                          <CheckCircle2 size={13} className="text-emerald-400 shrink-0" />
+                          <span className="truncate">Scan dokumen siap digunakan</span>
+                        </p>
+                        <p className="text-[11px] text-stone-400 mt-0.5">
+                          Klik untuk mengganti dengan file scan lain
+                        </p>
+                        {uploadLegalityStats && (
+                          <p className="text-[10px] text-emerald-400 font-mono mt-0.5">
+                            {formatBytes(uploadLegalityStats.originalSize)} → {formatBytes(uploadLegalityStats.webpSize)} (Hemat {uploadLegalityStats.savings}%)
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="py-3 flex flex-col items-center gap-1.5 text-stone-400">
+                      <UploadCloud size={24} className="text-stone-500" />
+                      <p className="text-xs font-medium text-stone-300">
+                        Klik atau seret foto scan dokumen ke sini
+                      </p>
+                      <p className="text-[10px] text-stone-500">
+                        PNG, JPG, WebP otomatis dikompresi beresolusi tinggi tanpa lag
+                      </p>
+                    </div>
+                  )}
+                </div>
+
+                {uploadLegalityError && (
+                  <p className="text-xs text-rose-400 mt-1 flex items-center gap-1">
+                    <AlertCircle size={13} />
+                    <span>{uploadLegalityError}</span>
+                  </p>
+                )}
+
+                {showManualLegalityUrl && (
+                  <div className="mt-2">
+                    <input
+                      type="text"
+                      value={legalityForm.image}
+                      onChange={(e) => setLegalityForm({ ...legalityForm, image: e.target.value })}
+                      placeholder="https://... atau path gambar lokal"
+                      className="w-full bg-stone-950 border border-stone-800 rounded-xl px-3 py-2 text-xs text-white"
+                    />
+                  </div>
+                )}
+              </div>
+
+              <div className="flex items-center justify-end gap-2 pt-3 border-t border-stone-800">
+                <button
+                  type="button"
+                  onClick={() => setIsLegalityModalOpen(false)}
+                  className="px-4 py-2 rounded-xl bg-stone-800 hover:bg-stone-700 text-stone-300 text-xs font-semibold transition-colors"
+                >
+                  Batal
+                </button>
+                <button
+                  type="submit"
+                  disabled={uploadingLegalityImage}
+                  className="px-5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 disabled:opacity-50 text-white text-xs font-semibold flex items-center gap-1.5 shadow-lg shadow-emerald-950/40 transition-all"
+                >
+                  <Save size={14} />
+                  <span>{editingLegalityKey ? "Simpan Perubahan" : "Simpan Dokumen"}</span>
                 </button>
               </div>
             </form>
