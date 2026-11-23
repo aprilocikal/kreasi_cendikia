@@ -8,6 +8,7 @@
     "build": "vite build",
     "lint": "oxlint",
     "preview": "vite preview",
+    "generate:favicons": "node scripts/generate-favicons.js",
     "compress:images": "node scripts/compress-images.js"
   },
   "dependencies": {
