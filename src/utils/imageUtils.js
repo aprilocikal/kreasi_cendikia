@@ -1,9 +1,7 @@
 /**
  * Utility untuk konversi gambar ke format WebP di sisi klien (browser)
- * dan upload ke Firebase Storage / Firestore.
+ * secara instan dan langsung tersimpan ke database.
  */
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { storage } from "../services/firebase";
 
 /**
  * Format bytes ke ukuran yang mudah dibaca (KB / MB)
@@ -19,21 +17,20 @@ export function formatBytes(bytes, decimals = 1) {
 
 /**
  * Konversi File gambar apapun (JPG, PNG, WebP, dll.) menjadi format WebP
- * dengan kompresi dan resizing otomatis.
+ * secara instan di browser dengan ukuran sangat hemat dan tajam.
  *
  * @param {File} file
  * @param {Object} options
  * @param {number} options.maxWidth
  * @param {number} options.maxHeight
  * @param {number} options.quality (0.1 - 1.0)
- * @returns {Promise<{ dataUrl: string, blob: Blob, originalSize: number, webpSize: number, width: number, height: number, filename: string }>}
  */
 export function convertFileToWebP(
   file,
-  { maxWidth = 1600, maxHeight = 1600, quality = 0.82 } = {}
+  { maxWidth = 1200, maxHeight = 1200, quality = 0.8 } = {}
 ) {
   return new Promise((resolve, reject) => {
-    if (!file || !file.type.startsWith("image/")) {
+    if (!file || !file.type || !file.type.startsWith("image/")) {
       return reject(new Error("File yang dipilih bukan gambar yang valid."));
     }
 
@@ -46,7 +43,7 @@ export function convertFileToWebP(
         let width = img.naturalWidth || img.width;
         let height = img.naturalHeight || img.height;
 
-        // Resize proporsional jika melebihi batas maksimum
+        // Resize proporsional jika resolusi terlalu besar (agar hemat & cepat)
         if (width > maxWidth || height > maxHeight) {
           const ratio = Math.min(maxWidth / width, maxHeight / height);
           width = Math.round(width * ratio);
@@ -58,39 +55,36 @@ export function convertFileToWebP(
         canvas.height = height;
 
         const ctx = canvas.getContext("2d");
-        // Latar belakang putih halus jika ada transparansi PNG
+        // Background putih jika gambar sumber transparan
         ctx.fillStyle = "#ffffff";
+        ctx.fillRect(0, 0, width, height);
         ctx.drawImage(img, 0, 0, width, height);
 
-        // Konversi ke WebP Data URL
-        const webpDataUrl = canvas.toDataURL("image/webp", quality);
+        try {
+          // Konversi instan ke WebP Data URL (hemat, tajam, langsung siap masuk database)
+          const webpDataUrl = canvas.toDataURL("image/webp", quality);
 
-        // Buat Blob untuk keperluan upload ke Firebase Storage jika didukung
-        canvas.toBlob(
-          (blob) => {
-            if (!blob) {
-              return reject(new Error("Browser tidak mendukung konversi ke WebP."));
-            }
+          // Hitung perkiraan ukuran byte dari base64
+          const head = "data:image/webp;base64,";
+          const base64Len = webpDataUrl.length - head.length;
+          const approxWebpBytes = Math.round((base64Len * 3) / 4);
 
-            const cleanName = file.name
-              .replace(/\.[^/.]+$/, "")
-              .toLowerCase()
-              .replace(/[^a-z0-9_-]/g, "_");
-            const webpFilename = `${cleanName}.webp`;
+          const cleanName = file.name
+            .replace(/\.[^/.]+$/, "")
+            .toLowerCase()
+            .replace(/[^a-z0-9_-]/g, "_");
 
-            resolve({
-              dataUrl: webpDataUrl,
-              blob,
-              originalSize: file.size,
-              webpSize: blob.size,
-              width,
-              height,
-              filename: webpFilename,
-            });
-          },
-          "image/webp",
-          quality
-        );
+          resolve({
+            dataUrl: webpDataUrl,
+            originalSize: file.size,
+            webpSize: approxWebpBytes,
+            width,
+            height,
+            filename: `${cleanName}.webp`,
+          });
+        } catch (convErr) {
+          reject(new Error("Browser gagal mengonversi gambar ke WebP: " + convErr.message));
+        }
       };
       img.src = e.target.result;
     };
@@ -99,44 +93,13 @@ export function convertFileToWebP(
 }
 
 /**
- * Proses upload gambar:
- * 1. Konversi ke WebP
- * 2. Coba upload ke Firebase Storage
- * 3. Jika Firebase Storage tidak aktif / ada kendala aturan akses, fallback ke WebP DataURL
+ * Proses instan gambar:
+ * Konversi ke WebP dan langsung kirimkan data URL untuk disimpan ke database Firestore.
+ * Proses hanya membutuhkan ~0.1 - 0.3 detik (tanpa delay atau antrean storage).
  */
-export async function processAndUploadImage(file, folder = "portofolio") {
+export async function processAndUploadImage(file) {
   const converted = await convertFileToWebP(file);
 
-  try {
-    if (storage) {
-      const timestamp = Date.now();
-      const storagePath = `${folder}/${timestamp}_${converted.filename}`;
-      const storageRef = ref(storage, storagePath);
-
-      // Upload Blob WebP
-      const uploadResult = await uploadBytes(storageRef, converted.blob, {
-        contentType: "image/webp",
-      });
-
-      const downloadUrl = await getDownloadURL(uploadResult.ref);
-      return {
-        url: downloadUrl,
-        storageType: "firebase_storage",
-        originalSize: converted.originalSize,
-        webpSize: converted.webpSize,
-        width: converted.width,
-        height: converted.height,
-        filename: converted.filename,
-      };
-    }
-  } catch (err) {
-    console.warn(
-      "Firebase Storage tidak dapat diakses atau diblokir rule. Menggunakan WebP base64 langsung ke database:",
-      err
-    );
-  }
-
-  // Fallback: simpan langsung DataURL WebP (hemat & langsung masuk Firestore / state)
   return {
     url: converted.dataUrl,
     storageType: "data_url",
