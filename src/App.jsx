@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react'
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, useLocation } from 'react-router-dom'
 import TopBar from './components/TopBar'
 import ConversionFooter from './components/ConversionFooter'
 import ScrollToTop from './components/ScrollToTop'
@@ -13,8 +13,12 @@ import Model3DPage from './pages/Model3DPage'
 import PortfolioPage from './pages/PortfolioPage'
 import LegalityPage from './pages/LegalityPage'
 import ContactPage from './pages/ContactPage'
+import AdminPage from './pages/AdminPage'
 
 export default function App() {
+  const location = useLocation()
+  const isAdmin = location.pathname.startsWith('/admin')
+
   // Animasi splash tampil 1 kali per sesi kunjungan
   const [showSplash, setShowSplash] = useState(
     () => !sessionStorage.getItem('kci_splash_done')
@@ -27,9 +31,9 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-[var(--bg-canvas)] text-[var(--ink-primary)] selection:bg-[var(--accent-cta)] selection:text-white flex flex-col justify-between">
-      {showSplash && <SplashScreen onDone={handleSplashDone} />}
+      {!isAdmin && showSplash && <SplashScreen onDone={handleSplashDone} />}
       <ScrollToTop />
-      <TopBar />
+      {!isAdmin && <TopBar />}
 
       <main className="flex-grow">
         <Routes>
@@ -40,10 +44,11 @@ export default function App() {
           <Route path="/portofolio" element={<PortfolioPage />} />
           <Route path="/legalitas" element={<LegalityPage />} />
           <Route path="/kontak" element={<ContactPage />} />
+          <Route path="/admin" element={<AdminPage />} />
         </Routes>
       </main>
 
-      <ConversionFooter />
+      {!isAdmin && <ConversionFooter />}
     </div>
   )
 }

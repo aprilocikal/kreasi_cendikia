@@ -1,23 +1,24 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { ArrowUpRight, ChevronLeft, ChevronRight, Expand, X } from "lucide-react";
 import {
-  GALLERY_ITEMS,
   PORTFOLIO_CATEGORIES,
   PORTFOLIO_PROJECTS,
   buildWhatsAppUrl,
 } from "../data/kciData";
+import { useData } from "../context/DataContext";
 import { ResilientImage } from "./ResilientImage";
 
 export function PortfolioGallery() {
+  const { portfolio } = useData();
   const [activeCategory, setActiveCategory] = useState("Semua");
   const [lightboxIndex, setLightboxIndex] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
 
   const filteredGallery = useMemo(() => {
-    if (activeCategory === "Semua") return GALLERY_ITEMS;
-    return GALLERY_ITEMS.filter((item) => item.category === activeCategory);
-  }, [activeCategory]);
+    if (activeCategory === "Semua") return portfolio;
+    return portfolio.filter((item) => item.category === activeCategory);
+  }, [portfolio, activeCategory]);
 
   const filteredProjects = useMemo(() => {
     if (activeCategory === "Semua") return PORTFOLIO_PROJECTS;

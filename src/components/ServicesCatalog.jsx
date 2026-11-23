@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { ArrowUpRight, Check, X } from "lucide-react";
-import { SERVICES, buildWhatsAppUrl } from "../data/kciData";
+import { buildWhatsAppUrl } from "../data/kciData";
+import { useData } from "../context/DataContext";
 import { ResilientImage } from "./ResilientImage";
 
 export function ServicesCatalog() {
+  const { services } = useData();
   const [selectedService, setSelectedService] = useState(null);
 
   useEffect(() => {
@@ -48,7 +50,7 @@ export function ServicesCatalog() {
 
         {/* Asymmetric Bento Grid: 2-column on mobile, responsive on desktop */}
         <div className="mt-8 sm:mt-10 grid grid-cols-2 gap-3 sm:gap-6 md:grid-cols-2 lg:grid-cols-6">
-          {SERVICES.map((service) => {
+          {services.map((service) => {
             const isFeatured = Boolean(service.featured);
             return (
               <article

@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { ShieldCheck, Expand, X } from "lucide-react";
 import { LEGALITY_DATA } from "../data/kciData";
+import { useData } from "../context/DataContext";
 import { ResilientImage } from "./ResilientImage";
 
 export function LegalityTrustSection() {
+  const { legality } = useData();
+  const ahu = legality?.ahu || ahu;
+  const npwp = legality?.npwp || npwp;
   const [previewDoc, setPreviewDoc] = useState(null);
 
   useEffect(() => {
@@ -45,11 +49,11 @@ export function LegalityTrustSection() {
                     Kementerian Hukum &amp; HAM RI
                   </p>
                   <h3 className="mt-1 font-display text-base sm:text-lg lg:text-xl font-semibold leading-snug text-[var(--ink-primary)]">
-                    {LEGALITY_DATA.ahu.title}
+                    {ahu.title}
                   </h3>
                 </div>
                 <span className="self-start sm:self-auto text-[11px] sm:text-xs font-bold text-[var(--ink-secondary)] tabular-nums whitespace-nowrap bg-[var(--bg-sage)] px-2.5 py-1 rounded-md shrink-0">
-                  Terbit {LEGALITY_DATA.ahu.issuedDate}
+                  Terbit {ahu.issuedDate}
                 </span>
               </div>
 
@@ -57,25 +61,25 @@ export function LegalityTrustSection() {
                 <div className="flex flex-wrap justify-between gap-2 py-3">
                   <dt className="text-[var(--ink-muted)]">Nomor SK AHU</dt>
                   <dd className="font-semibold text-[var(--ink-primary)] tabular-nums">
-                    {LEGALITY_DATA.ahu.number}
+                    {ahu.number}
                   </dd>
                 </div>
                 <div className="flex flex-wrap justify-between gap-2 py-3">
                   <dt className="text-[var(--ink-muted)]">Akta Pendirian</dt>
                   <dd className="font-medium text-[var(--ink-primary)] tabular-nums">
-                    {LEGALITY_DATA.ahu.deedInfo}
+                    {ahu.deedInfo}
                   </dd>
                 </div>
                 <div className="flex flex-wrap justify-between gap-2 py-3">
                   <dt className="text-[var(--ink-muted)]">Notaris</dt>
                   <dd className="font-medium text-[var(--ink-primary)]">
-                    {LEGALITY_DATA.ahu.notary}
+                    {ahu.notary}
                   </dd>
                 </div>
                 <div className="flex flex-wrap justify-between gap-2 py-3">
                   <dt className="text-[var(--ink-muted)]">Kedudukan</dt>
                   <dd className="font-medium text-[var(--ink-primary)]">
-                    {LEGALITY_DATA.ahu.domicile}
+                    {ahu.domicile}
                   </dd>
                 </div>
               </dl>
@@ -85,9 +89,9 @@ export function LegalityTrustSection() {
               type="button"
               onClick={() =>
                 setPreviewDoc({
-                  title: LEGALITY_DATA.ahu.title,
-                  subtitle: LEGALITY_DATA.ahu.number,
-                  image: LEGALITY_DATA.ahu.image,
+                  title: ahu.title,
+                  subtitle: ahu.number,
+                  image: ahu.image,
                 })
               }
               className="group mt-6 flex w-full items-center justify-between gap-4 rounded-xl border border-[var(--border-hairline)] bg-[var(--bg-canvas)] p-3 text-left transition-colors hover:bg-[var(--bg-sage-soft)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent-cta)]"
@@ -95,7 +99,7 @@ export function LegalityTrustSection() {
               <div className="flex items-center gap-3.5">
                 <div className="h-14 w-16 shrink-0 overflow-hidden rounded-lg border border-[var(--border-warm)] bg-white">
                   <ResilientImage
-                    src={LEGALITY_DATA.ahu.image}
+                    src={ahu.image}
                     alt="Pratinjau Surat Keterangan Terdaftar Kemenkumham RI"
                     className="h-full w-full object-cover object-top"
                     containerClassName="h-full w-full"
@@ -124,11 +128,11 @@ export function LegalityTrustSection() {
                     Direktorat Jenderal Pajak RI
                   </p>
                   <h3 className="mt-1 font-display text-base sm:text-lg lg:text-xl font-semibold leading-snug text-[var(--ink-primary)]">
-                    {LEGALITY_DATA.npwp.title}
+                    {npwp.title}
                   </h3>
                 </div>
                 <span className="self-start sm:self-auto text-[11px] sm:text-xs font-bold text-[var(--ink-secondary)] tabular-nums whitespace-nowrap bg-[var(--bg-sage)] px-2.5 py-1 rounded-md shrink-0">
-                  Terdaftar {LEGALITY_DATA.npwp.registeredDate}
+                  Terdaftar {npwp.registeredDate}
                 </span>
               </div>
 
@@ -136,25 +140,25 @@ export function LegalityTrustSection() {
                 <div className="flex flex-wrap justify-between gap-2 py-3">
                   <dt className="text-[var(--ink-muted)]">Nomor NPWP</dt>
                   <dd className="font-semibold text-[var(--ink-primary)] tabular-nums">
-                    {LEGALITY_DATA.npwp.number}
+                    {npwp.number}
                   </dd>
                 </div>
                 <div className="flex flex-wrap justify-between gap-2 py-3">
                   <dt className="text-[var(--ink-muted)]">NPWP 16 Digit</dt>
                   <dd className="font-medium text-[var(--ink-primary)] tabular-nums">
-                    {LEGALITY_DATA.npwp.npwp16}
+                    {npwp.npwp16}
                   </dd>
                 </div>
                 <div className="flex flex-wrap justify-between gap-2 py-3">
                   <dt className="text-[var(--ink-muted)]">Kantor Pajak</dt>
                   <dd className="font-medium text-[var(--ink-primary)]">
-                    {LEGALITY_DATA.npwp.taxOffice}
+                    {npwp.taxOffice}
                   </dd>
                 </div>
                 <div className="flex flex-wrap justify-between gap-2 py-3">
                   <dt className="text-[var(--ink-muted)]">Alamat Terdaftar</dt>
                   <dd className="font-medium text-[var(--ink-primary)] sm:text-right">
-                    {LEGALITY_DATA.npwp.address}
+                    {npwp.address}
                   </dd>
                 </div>
               </dl>
@@ -164,9 +168,9 @@ export function LegalityTrustSection() {
               type="button"
               onClick={() =>
                 setPreviewDoc({
-                  title: LEGALITY_DATA.npwp.title,
-                  subtitle: LEGALITY_DATA.npwp.number,
-                  image: LEGALITY_DATA.npwp.image,
+                  title: npwp.title,
+                  subtitle: npwp.number,
+                  image: npwp.image,
                 })
               }
               className="group mt-6 flex w-full items-center justify-between gap-4 rounded-xl border border-[var(--border-hairline)] bg-[var(--bg-canvas)] p-3 text-left transition-colors hover:bg-[var(--bg-sage-soft)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent-cta)]"
@@ -174,7 +178,7 @@ export function LegalityTrustSection() {
               <div className="flex items-center gap-3.5">
                 <div className="h-14 w-16 shrink-0 overflow-hidden rounded-lg border border-[var(--border-warm)] bg-white">
                   <ResilientImage
-                    src={LEGALITY_DATA.npwp.image}
+                    src={npwp.image}
                     alt="Pratinjau Kartu NPWP CV. Kreasi Cendekia Indonesia"
                     className="h-full w-full object-cover"
                     containerClassName="h-full w-full"

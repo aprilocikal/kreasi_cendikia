@@ -13,11 +13,13 @@ import {
 } from "lucide-react";
 import Hero from "../components/Hero";
 import ResilientImage from "../components/ResilientImage";
-import { COMPANY_PROFILE, SERVICES, GALLERY_ITEMS, buildWhatsAppUrl } from "../data/kciData";
+import { COMPANY_PROFILE, buildWhatsAppUrl } from "../data/kciData";
+import { useData } from "../context/DataContext";
 
 export default function Home() {
-  const featuredServices = SERVICES.slice(0, 4);
-  const featuredProjects = GALLERY_ITEMS.slice(0, 4);
+  const { services, portfolio } = useData();
+  const featuredServices = (services || []).slice(0, 4);
+  const featuredProjects = (portfolio || []).slice(0, 4);
 
   return (
     <div className="home-portal-container bg-[var(--bg-canvas)]">
