@@ -49,7 +49,7 @@ export function KciLogo({
               light ? "text-[#75DC66]" : "text-[var(--brand-primary)]"
             }`}
           >
-            Landscape Consultant
+            Landscape Contractor
           </span>
         </div>
       )}

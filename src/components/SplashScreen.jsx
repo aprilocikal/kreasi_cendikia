@@ -57,7 +57,7 @@ export default function SplashScreen({ onDone }) {
         {/* Brand text — muncul bersamaan dengan menyatunya logo */}
         <div className="splash-brand-text">
           <span className="splash-brand-name">Kreasi Cendekia</span>
-          <span className="splash-brand-tagline">LANDSCAPE CONSULTANT</span>
+          <span className="splash-brand-tagline">LANDSCAPE CONTRACTOR</span>
           <span className="splash-brand-loc">Cigombong, Bogor · Jawa Barat</span>
         </div>
       </div>
