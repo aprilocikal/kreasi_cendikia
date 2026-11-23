@@ -491,21 +491,9 @@ export default function AdminPage() {
             <Link to="/" title="Buka Beranda Publik" className="flex items-center shrink-0">
               <KciLogo width={30} showText={false} />
             </Link>
-            <div className="min-w-0">
-              <div className="flex items-center gap-2">
-                <h1 className="text-xs sm:text-sm font-bold text-white tracking-tight whitespace-nowrap">
-                  Admin KCI
-                </h1>
-                <span className="inline-flex items-center gap-1 text-[9px] sm:text-[10px] font-semibold px-1.5 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 whitespace-nowrap">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                  Firebase
-                </span>
-              </div>
-              <p className="text-[10px] sm:text-[11px] text-stone-400 truncate">
-                <span className="hidden sm:inline">DB: </span>
-                <span className="text-stone-300 font-mono">projek-4-818d8</span>
-              </p>
-            </div>
+            <h1 className="text-sm sm:text-base font-bold text-white tracking-tight whitespace-nowrap">
+              Admin
+            </h1>
           </div>
 
           {/* Quick action buttons */}
